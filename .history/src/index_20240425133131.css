@@ -1,0 +1,474 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body{
+  font-family: Poppins ;
+}
+html{
+  font-family: Poppins;
+}
+
+.rules-popup {
+  position: fixed;
+  bottom: 0;
+
+  background-color: white;
+  width: 500px;
+  height: 450px;
+  border-radius: 15px;
+
+  padding: 20px;
+  animation: slide-up 0.4s ease-in-out;
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.filter {
+  filter: drop-shadow(0 25px 25px rgb(0 0 0 / 0.6));
+}
+
+/* loginscreen responsive */
+@media (max-width: 768px) {
+  .bg-height {
+    height: 600px;
+    width: 330px;
+  }
+  .input-css {
+    width: 300px;
+  }
+  .btn-btn {
+    width: 150px;
+  }
+}
+/* resgisterscreen responsive */
+@media (max-width: 768px) {
+  .register-input-css {
+    width: 300px;
+  }
+
+  .register-btn {
+    width: 140px;
+  }
+  .registerbg-height {
+    height: 680px;
+    width: 330px;
+  }
+}
+
+/* forgetpasssword responsiveness */
+@media (max-width: 768px) {
+  .forget-input-css {
+    width: 300px;
+  }
+  .forget-btn {
+    width: 140px;
+  }
+  .forgetbg-height {
+    height: 530px;
+    width: 330px;
+  }
+}
+
+/* footer responsiveness */
+@media (max-width: 768px) {
+  .footer-width {
+    width: 100vw;
+    gap: 2px;
+  }
+}
+
+/* home responsiveness */
+
+@media (max-width: 768px) {
+}
+
+@media (min-width: 100px) and (max-width: 390px) {
+  .games-card {
+    width: 175px;
+
+    height: 175px;
+  }
+  .games-image {
+    width: 85px;
+  }
+  .reward {
+    gap: 4rem;
+  }
+}
+@media (min-width: 390px) and (max-width: 496px) {
+  .games-card {
+    width: 200px;
+
+    height: 200px;
+  }
+  .games-image {
+    width: 85px;
+  }
+}
+
+/* wallet responsiveness */
+@media (max-width: 768px) {
+  .wallet-first {
+    width: 100vw;
+    height: 100%;
+  }
+  .recharge-btn {
+    width: 310px;
+  }
+}
+
+/* recharge responsiveness */
+@media (max-width: 768px) {
+  .recharge-main {
+    width: 100vw;
+  }
+}
+/* withdraw responsiveness */
+@media (min-width: 200px) and (max-width: 650px) {
+  .withdraw-header {
+    width: 100vw;
+  }
+  .withdraw-card{
+    width: 90vw;
+  }
+  .withdraw-btn{
+    width: 90vw;
+  }
+}
+
+/* task reward */
+@media (min-width: 200px) and (max-width: 500px) {
+  .reward-header{
+    width: 100vw;
+  }
+  .reward-card{
+    width: 85vw;
+  }
+ 
+}
+
+/* check in responsiveness */
+
+@media (max-width: 768px) {
+  .check-main-div {
+    width: 100vw;
+  }
+  .checkin-card {
+    width: 350px;
+    height: 420px;
+    margin: 10px;
+  }
+  .check-p {
+    width: 300px;
+  }
+  .check-header {
+    margin-left: 1rem;
+  }
+}
+
+/* profile responsiveness */
+@media (max-width: 768px) {
+  .profile-div-main {
+    height: 100%;
+    width: 100vw;
+  }
+  .profile-div {
+    width: 100%;
+    height: 120px;
+  }
+  .profile-menus {
+    margin-top: 6rem;
+  }
+  .profile-btn {
+    margin-bottom: 2rem;
+  }
+}
+
+/* orderrecord responsiveness */
+@media (max-width: 768px) {
+  .order-main {
+    /* width: 200px; */
+    margin-left: 1rem;
+  }
+  .order-div {
+    width: 100vw;
+    height: 100%;
+  }
+
+  .order-card {
+    width: 350px;
+  }
+
+  .order-games {
+    width: 100vw;
+    gap: 9px;
+    overflow-x: scroll;
+    padding-left: 3rem;
+  }
+}
+/* download responsiveness */
+@media (max-width: 768px) {
+  .download-div {
+    width: 100vw;
+    height: 100%;
+  }
+}
+
+/* finicaildetails responsiveness */
+
+@media (max-width: 768px) {
+  .finical-tran {
+    margin-left: 1rem;
+  }
+  .finical-main-div {
+    height: 100%;
+    width: 100vw;
+  }
+  .finical-card-main {
+    padding: 0.5rem;
+  }
+  .finical-card {
+    width: 330px;
+  }
+}
+
+/* followus responsiveness */
+@media (max-width: 768px) {
+  .followus-main {
+    width: 100vw;
+    height: 100%;
+  }
+
+  .follow-div {
+    margin-left: 2rem;
+    width: 200px;
+  }
+  .follow-btn {
+    width: 200px;
+  }
+}
+
+/* support responsiveness */
+
+@media (max-width: 768px) {
+  .support-main-div {
+    width: 200px;
+    margin-left: 2rem;
+  }
+  .support-main {
+    width: 100vw;
+    height: 100%;
+  }
+
+  .support-div {
+    width: 340px;
+  }
+}
+
+/* complaint responsiveness */
+
+@media (max-width: 768px) {
+  .compaint-div {
+    width: 220px;
+    margin-left: 2rem;
+  }
+  .complaint-main {
+    width: 100vw;
+    height: 100%;
+  }
+  .compaint-input {
+    width: 340px;
+  }
+  .complaint-btn {
+    width: 340px;
+  }
+  .complaint-header {
+    width: 90vw;
+  }
+  .complaint-text {
+    width: 90vw;
+    height: 83px;
+  }
+}
+/* help responsiveness */
+
+@media (max-width: 768px) {
+  .help-main {
+    /* width: 200px; */
+    margin-left: 1rem;
+  }
+  .help-div {
+    height: 100%;
+  }
+}
+
+/* inviteandearn responsiveness */
+
+@media (max-width: 768px) {
+  .first-div-main {
+    width: 100vw;
+    height: 100%;
+    background: none;
+  }
+  .agent-div-main {
+    gap: 2rem;
+    margin-top: -110px;
+  }
+  .agent-div {
+    width: 315px;
+    margin-left: 1rem;
+
+    margin-top: -28px;
+  }
+  .agent-background {
+    margin-top: -84px;
+  }
+  .agent-card {
+    width: 110px;
+    height: 110px;
+  }
+
+  .agent-banner {
+    margin-top: 9rem;
+  }
+  .agent-banner-img {
+    width: 348px;
+  }
+}
+
+/* circlegame responsiveness */
+
+@media (max-width: 768px) {
+  .circle-main-div {
+    height: 100%;
+  }
+  .cicle-div {
+    width: 100vw;
+  }
+  .cicle-color-div {
+    overflow-y: scroll;
+  }
+  .moving-circle {
+    width: 250px;
+  }
+
+  .circle-btn {
+    width: 120px;
+  }
+  .circle-tiger {
+    width: 70px;
+  }
+  .circle-small {
+    width: 50px;
+  }
+
+  .cicle-large {
+    width: 100px;
+  }
+  .cicle-confirm-btn {
+    width: 300px;
+  }
+  .cicle-menu {
+    width: 150px;
+  }
+  .cicle-rules-main {
+    width: 100vw;
+  }
+
+  .cicle-cont {
+    height: 100vh;
+  }
+  .circle-rule-btn {
+    width: 100px;
+  }
+}
+
+/* headandtail responsiveness */
+@media (max-width: 768px) {
+  .headtail-main {
+    width: 100vw;
+    height: 100%;
+  }
+  .headtail-mini-main {
+    width: 350px;
+  }
+  .headtail-mini {
+    width: 50px;
+    height: 50px;
+  }
+  .head-tail-btn {
+    width: 150px;
+  }
+  .head-tail-small {
+    width: 50px;
+  }
+  .head--tail-medium {
+    width: 100px;
+  }
+  .head-tail-confirm-btn {
+    width: 300px;
+  }
+  .headtail-rule {
+    width: 100vw;
+  }
+}
+/* agncy previlege */
+@media (max-width: 768px) {
+  .main-div {
+    width: 100vw;
+    height: 100%;
+  }
+  .main-img {
+    width: 300px;
+  }
+}
+/* mylink responsiveness */
+@media (max-width: 768px) {
+  .invitelink-main {
+    width: 100vw;
+    height: 100%;
+  }
+  .invitelink-div {
+    width: 300px;
+  }
+}
+
+/* ranking responsiveness */
+
+@media (max-width: 768px) {
+  .ranking-main-div {
+    width: 100vw;
+    height: 100%;
+  }
+}
+
+/* award plains */
+@media (min-width: 200px) and (max-width: 650px) {
+  .award-header {
+    width: 100vw;
+
+  }
+  .award-card{
+    width: 100vw;
+  }
+}
+
+/* today's income */
+@media (max-width: 768px) {
+  .income-card {
+    width: 330px;
+  }
+}
+
+.download-bg {
+  background-image: url(../src/Assets/downloadpicture.svg);
+  height: 100%;
+}
