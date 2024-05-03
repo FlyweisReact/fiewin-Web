@@ -24,11 +24,7 @@ const Headandtail = () => {
     setShowRulesPopup(!showRulesPopup);
   };
 
-  useEffect(() => {
-    getApi({
-      url: "/headTail/headTailRule",
-      setResponse: setRules,
-    });
+  const getOrders = () => {
     getApi({
       url: "/headTail/myOrderHeadTail",
       setResponse: setMyOrder,
@@ -37,6 +33,14 @@ const Headandtail = () => {
       url: "/headTail/everyoneOrderHeadTail",
       setResponse: setAllOrder,
     });
+  };
+
+  useEffect(() => {
+    getApi({
+      url: "/headTail/headTailRule",
+      setResponse: setRules,
+    });
+    getOrders();
   }, []);
 
   const payload = {
@@ -46,10 +50,12 @@ const Headandtail = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const additionalFunctions = [getOrders];
     postApi({
       url: "/headTail/flipcoin",
       payload,
       setLoading,
+      additionalFunctions,
     });
   };
 
@@ -145,7 +151,7 @@ const Headandtail = () => {
                   style={{ overflow: "hidden" }}
                 >
                   {myOrder?.map((i, index) => (
-                    <React.Fragment key={`history${index}`} >
+                    <React.Fragment key={`history${index}`}>
                       {i.Select === "head" ? (
                         <span className="w-[47px] headtail-mini h-[57px] bg-[#B49366] rounded flex justify-center items-center font-bold text-xl">
                           {" "}

@@ -1,23 +1,22 @@
-import React from "react";
+/** @format */
+
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import back from "../Assets/back.svg";
+
 const Invitelink = () => {
   return (
     <div className=" h-screen flex justify-center">
       <div className="grid place-items-center">
         <div className="lg:w-[500px] lg:h-full bg-[#9520FD] invitelink-main md:w-[400px] flex flex-col">
           <div className="relative  justify-between items-center  bg-[#FFB800] h-[80px] text-xl font-semibold text-white flex">
-           
-           <div>
-           <Link to="/Inviteandearn">
-              <img src={back} alt="" className="ml-2" />
-            </Link>
-            </div> 
-            <div> Invite Link
-
+            <div>
+              <Link to="/Inviteandearn">
+                <img src={back} alt="" className="ml-2" />
+              </Link>
             </div>
+            <div> Invite Link</div>
             <div></div>
-           
           </div>
           <div className="flex justify-center items-center flex-col gap-5 mt-10">
             <div className="text-center text-white">

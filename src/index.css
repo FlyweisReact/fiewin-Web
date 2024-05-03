@@ -490,6 +490,7 @@ html {
 .order-table tbody{
   width: 100%;
 }
+
 .order-table tbody tr td{
   text-align: center;
   font-weight: 600;

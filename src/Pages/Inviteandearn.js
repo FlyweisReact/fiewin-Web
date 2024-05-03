@@ -1,3 +1,5 @@
+/** @format */
+
 import React from "react";
 import Footer from "../Components/Footer";
 import invitebg from "../Assets/invitebg.svg";
@@ -6,9 +8,22 @@ import ranking from "../Assets/ranking.svg";
 import mylink from "../Assets/mylink.svg";
 import banner from "../Assets/banner.svg";
 import { IoChevronForward } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { postApi } from "../Repository/Repository";
 
 const Inviteandearn = () => {
+  const navigate = useNavigate();
+
+  const createInviteLink = () => {
+    const additionalFunctions = [() => navigate("/Invitelink")];
+    postApi({
+      url: "/refer/createMyLinkAndCode",
+      payload: {},
+      showMsg: false,
+      additionalFunctions,
+    });
+  };
+
   return (
     <div className=" flex justify-center">
       <div className="grid place-items-center ">
@@ -54,14 +69,13 @@ const Inviteandearn = () => {
                       </div>
                     </div>
                   </Link>
-                  <Link to="/Invitelink">
-                    <div className="bg-[#38C56D] agent-card { w-[150px] h-[126px] rounded-lg flex flex-col justify-center items-center">
-                      <img src={mylink} alt="" />
-                      <div className="text-white font-bold text-xl">
-                        My Link
-                      </div>
-                    </div>
-                  </Link>
+                  <div
+                    className="bg-[#38C56D] agent-card { w-[150px] h-[126px] rounded-lg flex flex-col justify-center items-center cursor-pointer"
+                    onClick={() => createInviteLink()}
+                  >
+                    <img src={mylink} alt="" />
+                    <div className="text-white font-bold text-xl">My Link</div>
+                  </div>
                 </div>
               </div>
             </div>

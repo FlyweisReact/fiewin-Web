@@ -1,13 +1,50 @@
 /** @format */
-
+import { useState } from "react";
 import logo from "../Assets/FieWinlogo.svg";
 import key from "../Assets/key.svg";
 import { IoPhonePortraitOutline } from "react-icons/io5";
 import { CiLock } from "react-icons/ci";
 import { FaFileCode } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { postApi } from "../Repository/Repository";
 
 const Signup = () => {
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [otp, setOtp] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirm_password, setConfirmPassword] = useState("");
+  const [referenceCode, setRefrenceCode] = useState("");
+  const navigate = useNavigate();
+
+  const sendOtp = () => {
+    const payload = {
+      phoneNumber,
+    };
+    postApi({
+      url: "/user/sendOtp",
+      payload,
+      successMsg: "OTP sent successfully",
+    });
+  };
+
+  const payload = {
+    phoneNumber,
+    otp,
+    password,
+    confirm_password,
+    referenceCode,
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const additionalFunctions = [() => navigate("/")];
+    postApi({
+      url: "/user/verifyOtpAndRegisterUser",
+      payload,
+      additionalFunctions,
+    });
+  };
+
   return (
     <div className="bg-slate-100 h-[100vh] flex justify-center">
       <div className="grid place-items-center">
@@ -20,7 +57,7 @@ const Signup = () => {
             <img src={logo} alt="logo" />
           </div>
 
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="flex flex-col gap-5 items-center mt-10">
               <div className="relative rounded">
                 <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
@@ -32,6 +69,9 @@ const Signup = () => {
                 <input
                   type="tel"
                   className=" placeholder: ml-2 block register-input-css   w-[430px] h-[48px] rounded-xl border-0 py-1.5 pl-10 pr-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2   sm:text-sm sm:leading-6"
+                  required
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
                   placeholder="Mobile Number"
                 />
               </div>
@@ -45,6 +85,9 @@ const Signup = () => {
                 <input
                   type="tel"
                   className=" placeholder: ml-2 block register-input-css   w-[430px] h-[48px] rounded-xl border-0 py-1.5 pl-10 pr-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2   sm:text-sm sm:leading-6"
+                  value={password}
+                  required
+                  onChange={(e) => setPassword(e.target.value)}
                   placeholder="Password"
                 />
               </div>
@@ -58,6 +101,9 @@ const Signup = () => {
                 <input
                   type="tel"
                   className=" placeholder: ml-2 block register-input-css    w-[430px] h-[48px] rounded-xl border-0 py-1.5 pl-10 pr-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2   sm:text-sm sm:leading-6"
+                  value={confirm_password}
+                  required
+                  onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="Confirm Password"
                 />
               </div>
@@ -71,6 +117,8 @@ const Signup = () => {
                 <input
                   type="tel"
                   className=" placeholder: ml-2 block register-input-css w-[430px] h-[48px] rounded-xl border-0 py-1.5 pl-10 pr-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2   sm:text-sm sm:leading-6"
+                  value={referenceCode}
+                  onChange={(e) => setRefrenceCode(e.target.value)}
                   placeholder="Reedem code"
                 />
               </div>
@@ -85,15 +133,24 @@ const Signup = () => {
                   <input
                     type="tel"
                     className=" placeholder: ml-2 block register-btn w-[230px] h-[48px] rounded-xl border-0 py-1.5 pl-10 pr-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2   sm:text-sm sm:leading-6"
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value)}
                     placeholder="OTP"
                   />
                 </div>
-                <button className="bg-[#FFB800] register-btn rounded w-[174px] h-[48px] text-white font-semibold">
+                <button
+                  type="button"
+                  className="bg-[#FFB800] register-btn rounded w-[174px] h-[48px] text-white font-semibold"
+                  onClick={() => sendOtp()}
+                >
                   OTP
                 </button>
               </div>
               <div className="mt-10">
-                <button className="bg-[#FFB800] register-input-css  rounded w-[430px] h-[48px] text-white font-semibold">
+                <button
+                  className="bg-[#FFB800] register-input-css  rounded w-[430px] h-[48px] text-white font-semibold"
+                  type="submit"
+                >
                   Register
                 </button>
               </div>

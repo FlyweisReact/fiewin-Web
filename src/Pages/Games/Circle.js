@@ -1,6 +1,6 @@
 /** @format */
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import back from "../../Assets/back.svg";
 import pin from "../../Assets/Games/pin.svg";
@@ -10,15 +10,24 @@ import tiger from "../../Assets/Games/tiger.svg";
 import camel from "../../Assets/Games/camel.svg";
 import elephant from "../../Assets/Games/elephant.svg";
 import king from "../../Assets/Games/king.svg";
-
 import { useState } from "react";
 import { IoMdClose } from "react-icons/io";
-import { TbCoinRupee } from "react-icons/tb";
+import { getApi, postApi_withresponse } from "../../Repository/Repository";
+import { ClipLoader } from "react-spinners";
+import { SpinResModal, SpinRulesModal } from "../../Components/Modal/Modals";
 
 const Circle = () => {
   const [showcircleRules, setShowcircleRules] = useState(false);
   const [showhistory, setShowhistory] = useState(false);
-  const [popupwinner, setpopupwinner] = useState(true);
+  const [popupwinner, setpopupwinner] = useState(false);
+  const [color, setColor] = useState("");
+  const [amount, setAmount] = useState(20);
+  const [animal, setAnimal] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [spinData, setSpinData] = useState({});
+  const [type, setType] = useState("all-order");
+  const [allOrder, setAllOrder] = useState([]);
+  const [myOrder, setMyOrder] = useState([]);
 
   const togglecircleRules = () => {
     setShowcircleRules(!showcircleRules);
@@ -27,62 +36,43 @@ const Circle = () => {
     setShowhistory(!showhistory);
   };
 
+  const payload = {
+    color,
+    amount,
+    animal,
+  };
+
+  const handleSubmit = () => {
+    const additionalFunctions = [
+      () => setpopupwinner(true),
+      (res) => setSpinData(res),
+    ];
+    postApi_withresponse({
+      url: "/headTail/spin",
+      payload,
+      setLoading,
+      additionalFunctions,
+    });
+  };
+
+  useEffect(() => {
+    getApi({
+      url: "/headTail/everyoneOrderSpin",
+      setResponse: setAllOrder,
+    });
+    getApi({
+      url: "/headTail/myOrderSpin",
+      setResponse: setMyOrder,
+    });
+  }, []);
+
   return (
     <>
-      {popupwinner ? (
-        <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
-          <div className="w-[300px] h-[350px] bg-white  rounded-lg relative ">
-            <div className="bg-[red] w-full h-[50px] rounded-t text-white font-bold text-xl flex justify-center items-center">
-              Win
-            </div>
-            <div className="absolute top-0 right-0 mr-2 mt-[-1rem]">
-              <TbCoinRupee style={{ color: "gold" }} size={35} />
-            </div>
-            <div className="absolute top-0 left-0 ml-[-1rem] mt-2">
-              <TbCoinRupee style={{ color: "gold" }} size={40} />
-            </div>
-            <div className="flex justify-center mt-2">
-              <div className="bg-[red] w-[70px] h-[70px] rounded-full flex justify-center items-center text-3xl text-white font-bold">
-                6
-              </div>
-            </div>
-            <div className="">
-              <div className="flex justify-between mt-2 mr-5 ml-5">
-                <div>Period</div>
-                <div>202032321</div>
-              </div>
-              <div className="flex justify-between mt-2 mr-5 ml-5">
-                <div>Price</div>
-                <div>₹202042</div>
-              </div>
-            </div>
-            <div className="flex justify-center mt-2 mb-2">
-              <div className="bg-gray-100 w-[250px] h-[90px] p-2 ">
-                <div className="flex justify-between">
-                  <span>Select</span>
-                  <span>RED</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Point</span>
-                  <span>200</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Amount</span>
-                  <span className="text-[green] text-xl">+₹200.00</span>
-                </div>
-              </div>
-            </div>
-            <div className="flex justify-center">
-              <button
-                onClick={() => setpopupwinner(false)}
-                className="w-[200px] h-[40px] bg-[#87CEEB] text-white font-bold rounded-lg"
-              >
-                Ok
-              </button>
-            </div>
-          </div>
-        </div>
-      ) : null}
+      <SpinResModal
+        data={spinData}
+        show={popupwinner}
+        handleClose={() => setpopupwinner(false)}
+      />
       <div className="bg-slate-100 h-screen flex justify-center circle-main-div">
         <div className="grid place-items-center">
           <div className="lg:w-[500px] lg:h-full cicle-div bg-white md:w-[400px] flex flex-col ">
@@ -103,93 +93,10 @@ const Circle = () => {
             </div>
 
             <div className="overflow-y-auto overflow-x-hidden h-[700px] cicle-cont">
-              {showcircleRules && (
-                <div className="rules-popup z-50 overflow-y-auto h-full cicle-rules-main">
-                  <div className="flex justify-center m-2">
-                    <div className="bg-[#FFB800] rounded-2xl w-[200px] h-[38px] flex justify-center items-center font-bold">
-                      Circle Rules
-                    </div>
-                  </div>
-                  <div className="font-bold">How to play?</div>
-                  <div>
-                    The Circle game is played every 15 seconds, and one of the
-                    54 grids is randomly selected in each draw. The 58 squares
-                    correspond to 3 colors (yellow, red, green), three animals
-                    (lion, elephant, camel) & one crown. If you choose the right
-                    one, you will win the prize.
-                  </div>
-
-                  <div className="border-2 rounded-2xl ">
-                    <div className="flex justify-center gap-2 mt-3">
-                      <div className="flex flex-col gap-2 items-center">
-                        <button className="bg-[#FFD958] w-[120px] h-[60px] circle-rule-btn text-white font-bold rounded-lg text-xl">
-                          Yellow
-                        </button>
-                        <span>1.2</span>
-                      </div>
-                      <div className="flex flex-col gap-2 items-center">
-                        <button className="bg-[#FF000B] w-[120px] h-[60px] circle-rule-btn text-white font-bold rounded-lg text-xl">
-                          Red
-                        </button>
-                        <span>1.2</span>
-                      </div>
-                      <div className="flex flex-col gap-2 items-center">
-                        <button className="bg-[#1D9377] w-[120px] h-[60px] circle-rule-btn text-white font-bold rounded-lg text-xl">
-                          green
-                        </button>
-                        <span>1.2</span>
-                      </div>
-                    </div>
-                    <div className="flex justify-around mt-3">
-                      <div className="flex flex-col gap-2 items-center">
-                        <div className="bg-[#BEEBFF]  flex justify-center items-end  border circle-tiger w-[100px] h-[50px] text-white font-bold rounded-lg ">
-                          <img src={camel} alt="" className="w-10" />
-                        </div>
-                        <span>1.2</span>
-                      </div>
-                      <div className="flex flex-col gap-2 items-center">
-                        <div className="bg-[#BEEBFF]  flex justify-center items-end  border circle-tiger w-[100px] h-[50px] text-white font-bold rounded-lg ">
-                          <img src={tiger} alt="" className="w-10" />
-                        </div>
-                        <span>1.2</span>
-                      </div>
-                      <div className="flex flex-col gap-2 items-center">
-                        <div className="bg-[#BEEBFF]  flex justify-center items-end  border circle-tiger w-[100px] h-[50px] text-white font-bold rounded-lg ">
-                          <img src={elephant} alt="" className="w-10" />
-                        </div>
-                        <span>1.2</span>
-                      </div>
-                      <div className="flex flex-col gap-2 items-center">
-                        <div className="bg-[#BEEBFF]  flex justify-center items-end  border circle-tiger w-[100px] h-[50px] text-white font-bold rounded-lg ">
-                          <img src={king} alt="" className="w-10" />
-                        </div>
-                        <span>1.2</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="text-center">
-                    Choose any one to place an order
-                  </div>
-                  <div className="font-bold mt-2">
-                    How is the amount calculated?
-                  </div>
-                  <div className="mt-2">
-                    If you spend Rs.100 to trade, after deducting 6 rupees
-                    service fee, your amount is 94 rupees.
-                  </div>
-                  <div className="mt-3">
-                    18X: You will get (94 * 18) = 1692 rupees
-                  </div>
-                  <div className="flex justify-center mt-2">
-                    <button
-                      className="w-[430px] h-[50px] bg-[#F2A60C] text-white font-bold rounded-lg"
-                      onClick={() => togglecircleRules(false)}
-                    >
-                      I Got it
-                    </button>
-                  </div>
-                </div>
-              )}
+              <SpinRulesModal
+                show={showcircleRules}
+                handleClose={() => setShowcircleRules(false)}
+              />
               {showhistory ? (
                 <>
                   <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none ">
@@ -347,19 +254,28 @@ const Circle = () => {
               </div>
               <div className="flex justify-center gap-2 mt-3">
                 <div className="flex flex-col gap-2 items-center">
-                  <button className="bg-[#FFD958] circle-btn w-[150px] h-[60px] text-white font-bold rounded-lg text-xl">
+                  <button
+                    className="bg-[#FFD958] circle-btn w-[150px] h-[60px] text-white font-bold rounded-lg text-xl"
+                    onClick={() => setColor("yellow")}
+                  >
                     Yellow
                   </button>
                   <span>1.2</span>
                 </div>
                 <div className="flex flex-col gap-2 items-center">
-                  <button className="bg-[#FF000B] circle-btn w-[150px] h-[60px] text-white font-bold rounded-lg text-xl">
+                  <button
+                    className="bg-[#FF000B] circle-btn w-[150px] h-[60px] text-white font-bold rounded-lg text-xl"
+                    onClick={() => setColor("red")}
+                  >
                     Red
                   </button>
                   <span>1.8</span>
                 </div>
                 <div className="flex flex-col gap-2 items-center">
-                  <button className="bg-[#1D9377] circle-btn w-[150px] h-[60px] text-white font-bold rounded-lg text-xl">
+                  <button
+                    className="bg-[#1D9377] circle-btn w-[150px] h-[60px] text-white font-bold rounded-lg text-xl"
+                    onClick={() => setColor("green")}
+                  >
                     green
                   </button>
                   <span>1.2</span>
@@ -368,25 +284,45 @@ const Circle = () => {
               <div className="flex justify-around mt-3">
                 <div className="flex flex-col gap-2 items-center">
                   <div className="bg-[#BEEBFF]  flex justify-center items-end  border circle-tiger w-[100px] h-[50px] text-white font-bold rounded-lg ">
-                    <img src={camel} alt="" className="w-10" />
+                    <img
+                      src={camel}
+                      onClick={() => setAnimal("camel")}
+                      alt=""
+                      className="w-10 cursor-pointer"
+                    />
                   </div>
                   <span>1.2</span>
                 </div>
                 <div className="flex flex-col gap-2 items-center">
                   <div className="bg-[#BEEBFF]  flex justify-center items-end  border circle-tiger w-[100px] h-[50px] text-white font-bold rounded-lg ">
-                    <img src={tiger} alt="" className="w-10" />
+                    <img
+                      src={tiger}
+                      onClick={() => setAnimal("tiger")}
+                      alt=""
+                      className="w-10 cursor-pointer"
+                    />
                   </div>
                   <span>1.2</span>
                 </div>
                 <div className="flex flex-col gap-2 items-center">
                   <div className="bg-[#BEEBFF]  flex justify-center items-end  border circle-tiger w-[100px] h-[50px] text-white font-bold rounded-lg ">
-                    <img src={elephant} alt="" className="w-10" />
+                    <img
+                      src={elephant}
+                      alt=""
+                      onClick={() => setAnimal("elephant")}
+                      className="w-10 cursor-pointer"
+                    />
                   </div>
                   <span>1.2</span>
                 </div>
                 <div className="flex flex-col gap-2 items-center">
                   <div className="bg-[#BEEBFF]  flex justify-center items-end  border circle-tiger w-[100px] h-[50px] text-white font-bold rounded-lg ">
-                    <img src={king} alt="" className="w-10" />
+                    <img
+                      src={king}
+                      onClick={() => setAnimal("king")}
+                      alt=""
+                      className="w-10 cursor-pointer"
+                    />
                   </div>
                   <span>1.2</span>
                 </div>
@@ -395,29 +331,51 @@ const Circle = () => {
                 <div className="border-2 border-slate-200 p-2 m-3 rounded-2xl">
                   <div className="flex justify-around items-center mt-3">
                     <div className="w-[130px] flex flex-wrap gap-1">
-                      <div className="w-[60px] circle-small  h-[40px] bg-[#BEEBFF] flex justify-center items-center rounded-lg">
+                      <div
+                        className="w-[60px] circle-small  h-[40px] bg-[#BEEBFF] flex justify-center items-center rounded-lg cursor-pointer"
+                        onClick={() => setAmount(20)}
+                      >
                         20
                       </div>
-                      <div className="w-[60px] circle-small h-[40px] bg-[#BEEBFF] flex justify-center items-center rounded-lg">
+                      <div
+                        className="w-[60px] circle-small h-[40px] bg-[#BEEBFF] flex justify-center items-center rounded-lg cursor-pointer"
+                        onClick={() => setAmount(50)}
+                      >
                         50
                       </div>
-                      <div className="w-[60px] circle-small h-[40px] bg-[#BEEBFF] flex justify-center items-center rounded-lg">
+                      <div
+                        className="w-[60px] circle-small h-[40px] bg-[#BEEBFF] flex justify-center items-center rounded-lg cursor-pointer"
+                        onClick={() => setAmount(100)}
+                      >
                         100
                       </div>
-                      <div className="w-[60px] circle-small  h-[40px] bg-[#BEEBFF] flex justify-center items-center rounded-lg">
+                      <div
+                        className="w-[60px] circle-small  h-[40px] bg-[#BEEBFF] flex justify-center items-center rounded-lg cursor-pointer"
+                        onClick={() => setAmount(200)}
+                      >
                         200
                       </div>
                     </div>
                     <div>
-                      <div className="w-[170px] cicle-large h-[80px] text-2xl bg-[#BEEBFF] underline flex justify-center items-center rounded-lg">
-                        ₹20
-                      </div>
+                      <input
+                        type="number"
+                        min={0}
+                        className="w-[170px] cicle-large h-[80px] text-2xl bg-[#BEEBFF] underline flex justify-center items-center rounded-lg outline-none text-center"
+                        value={amount}
+                        onChange={(e) => setAmount(e.target.value)}
+                      />
                     </div>
                     <div className="flex flex-col gap-1">
-                      <div className="w-[88px] h-[40px] bg-[#BEEBFF] flex justify-center items-center rounded-lg">
+                      <div
+                        className="w-[88px] h-[40px] bg-[#BEEBFF] flex justify-center items-center rounded-lg cursor-pointer"
+                        onClick={() => setAmount(500)}
+                      >
                         500
                       </div>
-                      <div className="w-[88px] h-[40px] bg-[#BEEBFF] flex justify-center items-center rounded-lg">
+                      <div
+                        className="w-[88px] h-[40px] bg-[#BEEBFF] flex justify-center items-center rounded-lg cursor-pointer"
+                        onClick={() => setAmount(1000)}
+                      >
                         1000
                       </div>
                     </div>
@@ -425,50 +383,67 @@ const Circle = () => {
                 </div>
 
                 <div className="mt-2 flex justify-center">
-                  <button className="bg-[#ED1B24] cicle-confirm-btn w-[450px] h-[50px] rounded-lg font-bold text-white  ">
-                    Confirm
+                  <button
+                    className="bg-[#ED1B24] cicle-confirm-btn w-[450px] h-[50px] rounded-lg font-bold text-white"
+                    onClick={() => handleSubmit()}
+                  >
+                    {loading ? <ClipLoader color="#fff" /> : "Confirm"}
                   </button>
                 </div>
               </div>
 
-              <div className="border-2 pb-2  rounded-t-xl shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
+              <div className="border-2 pb-2 mt-2 rounded-t-xl shadow-[0_3px_10px_rgb(0,0,0,0.2)] h-[300px]">
                 <div className="flex mt-2 justify-center">
-                  <div className="w-[250px] cicle-menu h-[50px] flex justify-center items-center border-b border-black">
+                  <div
+                    className={`w-[250px] h-[50px] flex justify-center items-center border-b cursor-pointer ${
+                      type === "all-order" && "border-black"
+                    }`}
+                    onClick={() => setType("all-order")}
+                  >
                     Everyone's Order
                   </div>
-                  <div className="w-[250px] cicle-menu h-[50px] flex justify-center items-center border-b">
+                  <div
+                    className={`w-[250px] h-[50px] flex justify-center items-center border-b cursor-pointer ${
+                      type === "my-order" && "border-black"
+                    }`}
+                    onClick={() => setType("my-order")}
+                  >
                     My Order
                   </div>
                 </div>
-                <div>
-                  <div className="flex justify-around mt-2">
-                    <div className="flex flex-col gap-1 items-center">
-                      <span className="font-bold">Period</span>
-                      <span className="w-[100px] h-[20px] flex justify-center items-center rounded ">
-                        487348783
-                      </span>
-                    </div>
-                    <div className="flex flex-col gap-1 items-center">
-                      <span className="font-bold">Select</span>
-                      <span className="bg-[gray] w-[30px] h-[20px] flex justify-center items-center rounded text-white">
-                        2x
-                      </span>
-                    </div>
-                    <div className="flex flex-col gap-1 items-center">
-                      <span className="font-bold">Point</span>
-                      <span className="">10.00</span>
-                    </div>
-                    <div className="flex flex-col gap-1 items-center">
-                      <span className="font-bold">Result</span>
-                      <span className="bg-[#FA4359] w-[30px] h-[20px] flex justify-center items-center rounded text-white">
-                        2x
-                      </span>
-                    </div>
-                    <div className="flex flex-col gap-1 items-center">
-                      <span className="font-bold">Amount</span>
-                      <span className=" text-[#FF0000]">-9.80</span>
-                    </div>
-                  </div>
+                <div className="overflow-table-order">
+                  <table className="order-table">
+                    <thead>
+                      <tr>
+                        <th>Period</th>
+                        <th> Select</th>
+                        <th>Result</th>
+                        <th>Money</th>
+                        <th>Amount</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {type === "my-order"
+                        ? myOrder?.map((i, index) => (
+                            <tr key={`order${index}`}>
+                              <td> {i.PeriodNumber} </td>
+                              <td>{i.Select}</td>
+                              <td>{i.result}</td>
+                              <td> ₹{i.money} </td>
+                              <td className=" text-[#FF0000]"> ₹{i.Amount} </td>
+                            </tr>
+                          ))
+                        : allOrder?.map((i, index) => (
+                            <tr key={`order${index}`}>
+                              <td> {i.PeriodNumber} </td>
+                              <td>{i.Select}</td>
+                              <td>{i.result}</td>
+                              <td> ₹{i.money} </td>
+                              <td className=" text-[#FF0000]"> ₹{i.Amount} </td>
+                            </tr>
+                          ))}
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>

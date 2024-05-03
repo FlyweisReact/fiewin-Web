@@ -18,7 +18,7 @@ const Wallet = () => {
     e.preventDefault();
     const additionalFunctions = [ () => navigate('/Recharge')]
     edit_module({
-      url: "/addWallet",
+      url: "/user/addWallet",
       payload,
       successMsg: "Wallet balance updated successfully",
       additionalFunctions

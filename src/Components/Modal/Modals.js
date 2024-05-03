@@ -1,0 +1,271 @@
+/** @format */
+
+import React, { useState, useEffect } from "react";
+import { IoCloseCircle } from "react-icons/io5";
+import { edit_module, getApi } from "../../Repository/Repository";
+import tiger from "../../Assets/Games/tiger.svg";
+import camel from "../../Assets/Games/camel.svg";
+import elephant from "../../Assets/Games/elephant.svg";
+import king from "../../Assets/Games/king.svg";
+
+export const SpinResModal = ({ show, handleClose, data }) => {
+  return (
+    show && (
+      <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
+        <div className="w-[300px] h-[350px] bg-white  rounded-lg relative ">
+          <div className="bg-[red] w-full h-[50px] rounded-t text-white font-bold text-xl flex justify-center items-center">
+            {data?.message}
+          </div>
+          <div
+            className="absolute top-0 right-0 mr-[-.5rem] mt-[-1rem] cursor-pointer"
+            onClick={() => handleClose()}
+          >
+            <IoCloseCircle color="gold" size={35} />
+          </div>
+          <div className="flex justify-center mt-2">
+            <div className="bg-[red] w-[70px] h-[70px] rounded-full flex justify-center items-center text-3xl text-white font-bold">
+              {data?.Point}
+            </div>
+          </div>
+          <div className="">
+            <div className="flex justify-between mt-2 mr-5 ml-5">
+              <div>Period</div>
+              <div> {data?.periodNumber} </div>
+            </div>
+            <div className="flex justify-between mt-2 mr-5 ml-5">
+              <div>Price</div>
+              <div>₹{data?.Point} </div>
+            </div>
+          </div>
+          <div className="flex justify-center mt-2 mb-2">
+            <div className="bg-gray-100 w-[250px] h-[90px] p-2 ">
+              <div className="flex justify-between">
+                <span>Select</span>
+                <span> {data?.select} </span>
+              </div>
+              <div className="flex justify-between">
+                <span>Point</span>
+                <span> {data?.Point} </span>
+              </div>
+              <div className="flex justify-between">
+                <span>Amount</span>
+                <span className="text-[green] text-xl"> ₹{data?.Amount} </span>
+              </div>
+            </div>
+          </div>
+          <div className="flex justify-center">
+            <button
+              onClick={() => handleClose()}
+              className="w-[200px] h-[40px] bg-[#87CEEB] text-white font-bold rounded-lg"
+            >
+              Ok
+            </button>
+          </div>
+        </div>
+      </div>
+    )
+  );
+};
+
+export const SpinRulesModal = ({ show, handleClose }) => {
+  const [res, setRes] = useState({});
+
+  useEffect(() => {
+    if (show) {
+      getApi({
+        url: "/headTail/spinRule",
+        setResponse: setRes,
+      });
+    }
+  }, [show]);
+
+  return (
+    show && (
+      <div className="rules-popup z-50 overflow-y-auto h-full cicle-rules-main">
+        <div className="flex justify-center m-2">
+          <div className="bg-[#FFB800] rounded-2xl w-[200px] h-[38px] flex justify-center items-center font-bold">
+            {res?.gameName} Rules
+          </div>
+        </div>
+        <div className="font-bold">How to play?</div>
+        <div>{res?.description}</div>
+        <div>{res?.rule}</div>
+
+        <div className="border-2 rounded-2xl ">
+          <div className="flex justify-center gap-2 mt-3">
+            <div className="flex flex-col gap-2 items-center">
+              <button className="bg-[#FFD958] w-[120px] h-[60px] circle-rule-btn text-white font-bold rounded-lg text-xl">
+                Yellow
+              </button>
+              <span>1.2</span>
+            </div>
+            <div className="flex flex-col gap-2 items-center">
+              <button className="bg-[#FF000B] w-[120px] h-[60px] circle-rule-btn text-white font-bold rounded-lg text-xl">
+                Red
+              </button>
+              <span>1.2</span>
+            </div>
+            <div className="flex flex-col gap-2 items-center">
+              <button className="bg-[#1D9377] w-[120px] h-[60px] circle-rule-btn text-white font-bold rounded-lg text-xl">
+                green
+              </button>
+              <span>1.2</span>
+            </div>
+          </div>
+          <div className="flex justify-around mt-3">
+            <div className="flex flex-col gap-2 items-center">
+              <div className="bg-[#BEEBFF]  flex justify-center items-end  border circle-tiger w-[100px] h-[50px] text-white font-bold rounded-lg ">
+                <img src={camel} alt="" className="w-10" />
+              </div>
+              <span>1.2</span>
+            </div>
+            <div className="flex flex-col gap-2 items-center">
+              <div className="bg-[#BEEBFF]  flex justify-center items-end  border circle-tiger w-[100px] h-[50px] text-white font-bold rounded-lg ">
+                <img src={tiger} alt="" className="w-10" />
+              </div>
+              <span>1.2</span>
+            </div>
+            <div className="flex flex-col gap-2 items-center">
+              <div className="bg-[#BEEBFF]  flex justify-center items-end  border circle-tiger w-[100px] h-[50px] text-white font-bold rounded-lg ">
+                <img src={elephant} alt="" className="w-10" />
+              </div>
+              <span>1.2</span>
+            </div>
+            <div className="flex flex-col gap-2 items-center">
+              <div className="bg-[#BEEBFF]  flex justify-center items-end  border circle-tiger w-[100px] h-[50px] text-white font-bold rounded-lg ">
+                <img src={king} alt="" className="w-10" />
+              </div>
+              <span>1.2</span>
+            </div>
+          </div>
+        </div>
+        <div className="text-center">Choose any one to place an order</div>
+        <div className="font-bold mt-2">How is the amount calculated?</div>
+        <div className="mt-2">{res?.amountCalculation}</div>
+        <div className="mt-3">{res?.calculationExample}</div>
+        <div className="flex justify-center mt-2">
+          <button
+            className="w-[430px] h-[50px] bg-[#F2A60C] text-white font-bold rounded-lg"
+            onClick={() => handleClose()}
+          >
+            I Got it
+          </button>
+        </div>
+      </div>
+    )
+  );
+};
+
+export const UpdateProfileModal = ({
+  show,
+  handleClose,
+  fetchApi,
+  PreviouseData,
+}) => {
+  const [name, setName] = useState("");
+
+  const payload = {
+    name,
+  };
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    const additionalFunctions = [handleClose, fetchApi];
+    edit_module({
+      url: "/user/updateName",
+      payload,
+      successMsg: "Profile has been updated !",
+      additionalFunctions,
+    });
+  };
+
+  useEffect(() => {
+    if (PreviouseData) {
+      setName(PreviouseData?.Name);
+    }
+  }, [PreviouseData]);
+
+  return (
+    show && (
+      <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
+        <div className="w-[400px] h-[170px] bg-white  rounded-lg relative p-5">
+          <div className="font-semibold text-xl ">Change Nick Name</div>
+
+          <form onSubmit={submitHandler}>
+            <div className="flex justify-center flex-col items-center  gap-3">
+              <div className="">
+                <br />
+                <input
+                  type="text"
+                  className="w-[350px] border-black border-b outline-none"
+                  placeholder="Enter Nick Name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-center gap-2 mt-5">
+              <button
+                onClick={() => handleClose()}
+                type="button"
+                className="w-[150px] h-[40px] border font-bold rounded-lg"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="w-[150px] h-[40px] bg-[#FFB800] text-white font-bold rounded-lg"
+              >
+                Confirm
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    )
+  );
+};
+
+export const UpdatePasswordModal = ({ show, handleClose }) => {
+  return (
+    show && (
+      <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
+        <div className="w-[400px] h-[200px] bg-white  rounded-lg relative p-5">
+          <div className="font-semibold text-xl ">Set New Password</div>
+
+          <form>
+            <div className="flex justify-center flex-col items-center mt-2  gap-5">
+              <div className="">
+                <input
+                  type="text"
+                  className="w-[350px] border-black border-b"
+                  placeholder="Old Password"
+                />
+              </div>
+              <div className="">
+                <input
+                  type="text"
+                  className="w-[350px] border-black border-b"
+                  placeholder="New Password"
+                />
+              </div>
+            </div>
+          </form>
+
+          <div className="flex justify-center gap-2 mt-5">
+            <button
+              onClick={() => handleClose()}
+              className="w-[150px] h-[40px] border font-bold rounded-lg"
+            >
+              Cancel
+            </button>
+            <button className="w-[150px] h-[40px] bg-[#FFB800] text-white font-bold rounded-lg">
+              Confirm
+            </button>
+          </div>
+        </div>
+      </div>
+    )
+  );
+};

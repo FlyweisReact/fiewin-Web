@@ -57,6 +57,7 @@ export const postApi = async ({
   additionalFunctions = [],
   successMsg,
   errorMsg,
+  showMsg = false,
 }) => {
   if (setLoading) {
     setLoading(true);
@@ -72,10 +73,13 @@ export const postApi = async ({
       }
     );
     if (res) {
-      const message = res?.data?.message ; 
-      if (successMsg || message) {
-        showNotification({ message: successMsg ||message });
+      const message = res?.data?.message;
+      if (showMsg) {
+        if (successMsg || message) {
+          showNotification({ message: successMsg || message });
+        }
       }
+
       additionalFunctions.forEach((func) => {
         if (typeof func === "function") {
           func();
@@ -178,6 +182,57 @@ export const user_login = ({
       }
     }
   };
+};
+
+// post api with response
+export const postApi_withresponse = async ({
+  url,
+  payload,
+  setLoading,
+  additionalFunctions = [],
+  successMsg,
+  errorMsg,
+  showMsg,
+}) => {
+  if (setLoading) {
+    setLoading(true);
+  }
+  try {
+    const res = await axios.post(
+      `${process.env.React_App_Baseurl}${url}`,
+      payload,
+      {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      }
+    );
+    if (res) {
+      const data = res?.data;
+      const message = res?.data?.message;
+      if (showMsg) {
+        if (successMsg || message) {
+          showNotification({ message: successMsg || message });
+        }
+      }
+      additionalFunctions.forEach((func) => {
+        if (typeof func === "function") {
+          func(data);
+        }
+      });
+    }
+  } catch (e) {
+    const msg = e?.response?.data?.message || "Something went worng !";
+    if (errorMsg && e?.response?.data?.message === undefined) {
+      showNotification({ message: errorMsg, type: "danger" });
+    } else {
+      showNotification({ message: msg, type: "danger" });
+    }
+  } finally {
+    if (setLoading) {
+      setLoading(false);
+    }
+  }
 };
 
 // redux modules

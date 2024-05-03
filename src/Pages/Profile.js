@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+/** @format */
+
+import React, { useEffect, useState } from "react";
 import Footer from "../Components/Footer";
 import orderrecord from "../Assets/Profile/orderrecord.svg";
 import arrow from "../Assets/Profile/arrow.svg";
@@ -9,88 +11,51 @@ import support from "../Assets/Profile/support.svg";
 import complaint from "../Assets/Profile/complaint.svg";
 import logout from "../Assets/Profile/logout.svg";
 import profilecircle from "../Assets/profilecirlce.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { getApi } from "../Repository/Repository";
+import {
+  UpdatePasswordModal,
+  UpdateProfileModal,
+} from "../Components/Modal/Modals";
+import { useDispatch } from "react-redux";
+import { signOut } from "../utils/utils";
+
 const Profile = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [profile, setProfile] = useState({});
   const [chnagenicknamepopup, setChnagenicknamepopup] = useState(false);
   const [changepassowrdpopup, setChangepassowrdpopup] = useState(false);
+
+  const fetchHandler = () => {
+    getApi({
+      url: "/user/headProfile",
+      setResponse: setProfile,
+    });
+  };
+
+  useEffect(() => {
+    fetchHandler();
+  }, []);
+
+  const log_out = () => {
+    dispatch(signOut(navigate));
+  };
+
   return (
     <>
-      {chnagenicknamepopup ? (
-        <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
-          <div className="w-[400px] h-[170px] bg-white  rounded-lg relative p-5">
-            <div className="font-semibold text-xl ">Change Nick Name</div>
+      <UpdateProfileModal
+        show={chnagenicknamepopup}
+        handleClose={() => setChnagenicknamepopup(false)}
+        fetchApi={fetchHandler}
+        PreviouseData={profile}
+      />
 
-            <form>
-              <div className="flex justify-center flex-col items-center  gap-3">
-                <div className="">
-                  <br />
-                  <input
-                    type="text"
-                    className="w-[350px] border-black border-b"
-                    placeholder="Enter Nick Name"
-                  />
-                </div>
-              </div>
-            </form>
+      <UpdatePasswordModal
+        show={changepassowrdpopup}
+        handleClose={() => setChangepassowrdpopup(false)}
+      />
 
-            <div className="flex justify-center gap-2 mt-5">
-              <button
-                onClick={() => setChnagenicknamepopup(false)}
-                className="w-[150px] h-[40px] border font-bold rounded-lg"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={() => setChnagenicknamepopup(false)}
-                className="w-[150px] h-[40px] bg-[#FFB800] text-white font-bold rounded-lg"
-              >
-                Confirm
-              </button>
-            </div>
-          </div>
-        </div>
-      ) : null}
-      {changepassowrdpopup ? (
-        <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
-          <div className="w-[400px] h-[200px] bg-white  rounded-lg relative p-5">
-            <div className="font-semibold text-xl ">Set New Password</div>
-
-            <form>
-              <div className="flex justify-center flex-col items-center mt-2  gap-5">
-                <div className="">
-                  <input
-                    type="text"
-                    className="w-[350px] border-black border-b"
-                    placeholder="Old Password"
-                  />
-                </div>
-                <div className="">
-                  <input
-                    type="text"
-                    className="w-[350px] border-black border-b"
-                    placeholder="New Password"
-                  />
-                </div>
-              </div>
-            </form>
-
-            <div className="flex justify-center gap-2 mt-5">
-              <button
-                onClick={() => setChangepassowrdpopup(false)}
-                className="w-[150px] h-[40px] border font-bold rounded-lg"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={() => setChangepassowrdpopup(false)}
-                className="w-[150px] h-[40px] bg-[#FFB800] text-white font-bold rounded-lg"
-              >
-                Confirm
-              </button>
-            </div>
-          </div>
-        </div>
-      ) : null}
       <div className=" h-screen flex justify-center">
         <div className="grid place-items-center">
           <div className="lg:w-[500px] lg:h-full bg-white md:w-[400px] profile-div-main">
@@ -103,8 +68,10 @@ const Profile = () => {
                     <img src={profilecircle} alt="" />
                   </div>
                   <div>
-                    <div className="">+91 1234567890</div>
-                    <div>Mob: 1234567890, ID: 6324853</div>
+                    <div className=""> {profile?.Name} </div>
+                    <div>
+                      Mob: {profile?.PhoneNumber}, ID: {profile?.UserID}{" "}
+                    </div>
                   </div>
                 </div>
 
@@ -212,11 +179,12 @@ const Profile = () => {
                 <hr className="m-3" />
               </div>
               <div className=" flex justify-center profile-btn mt-10">
-                <Link to="/">
-                  <button className="border-2 bg-[#ECECEC] w-[152px] h-[39px] text-[#4C8CD6] font-semibold  rounded-lg flex justify-center items-center gap-2">
-                    <img src={logout} alt="" /> Sign-out
-                  </button>
-                </Link>
+                <button
+                  className="border-2 bg-[#ECECEC] w-[152px] h-[39px] text-[#4C8CD6] font-semibold  rounded-lg flex justify-center items-center gap-2"
+                  onClick={() => log_out()}
+                >
+                  <img src={logout} alt="" /> Sign-out
+                </button>
               </div>
             </div>
             <Footer />

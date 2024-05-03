@@ -1,9 +1,21 @@
-import React from "react";
+/** @format */
+
+import React, { useEffect, useState } from "react";
 import rupee from "../Assets/rupee.svg";
 import back from "../Assets/back.svg";
 import { Link } from "react-router-dom";
+import { getApi } from "../Repository/Repository";
 
-const finicialdetail = () => {
+const Finicialdetail = () => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    getApi({
+      url: "/user/transactionWalletGame",
+      setResponse: setData,
+    });
+  }, []);
+
   return (
     <div className=" h-screen flex justify-center">
       <div className="grid place-items-center">
@@ -20,46 +32,24 @@ const finicialdetail = () => {
             </div>
           </div>
           <div className="flex flex-col gap-2 items-center justify-center mt-5 finical-card-main">
-            <div className="bg-[#FFF3D5] finical-card w-[450px] h-[68px] rounded-lg flex items-center justify-between ">
-              <div className="flex gap-2 ml-2">
-                <img src={rupee} alt="" className="w-8" />
-                <div className="flex flex-col ">
-                  <div>Wheelocity order expense</div>
-                  <div>12-03 04:45</div>
+            {data?.map((i, index) => (
+              <div
+                key={index}
+                className="bg-[#FFF3D5] finical-card w-[450px] h-[68px] rounded-lg flex items-center justify-between "
+              >
+                <div className="flex gap-2 ml-2">
+                  <img src={rupee} alt="" className="w-8" />
+                  <div className="flex flex-col ">
+                    <div> {i.gameType} </div>
+                    <div>
+                      {i.timing?.slice(0, 10)}{" "}
+                      {i.timing?.split("T")?.[1]?.slice(0, 5)}{" "}
+                    </div>
+                  </div>
                 </div>
+                <div className="font-bold mr-2">₹{i.money} </div>
               </div>
-              <div className="font-bold mr-2">₹20</div>
-            </div>
-            <div className="bg-[#FFF3D5] finical-card w-[450px] h-[68px] rounded-lg flex items-center justify-between ">
-              <div className="flex gap-2 ml-2">
-                <img src={rupee} alt="" className="w-8" />
-                <div className="flex flex-col ">
-                  <div>Wheelocity order expense</div>
-                  <div>12-03 04:45</div>
-                </div>
-              </div>
-              <div className="font-bold mr-2">₹20</div>
-            </div>
-            <div className="bg-[#FFF3D5] finical-card w-[450px] h-[68px] rounded-lg flex items-center justify-between ">
-              <div className="flex gap-2 ml-2">
-                <img src={rupee} alt="" className="w-8" />
-                <div className="flex flex-col ">
-                  <div>Wheelocity order expense</div>
-                  <div>12-03 04:45</div>
-                </div>
-              </div>
-              <div className="font-bold mr-2">₹20</div>
-            </div>
-            <div className="bg-[#FFF3D5] finical-card w-[450px] h-[68px] rounded-lg flex items-center justify-between ">
-              <div className="flex gap-2 ml-2">
-                <img src={rupee} alt="" className="w-8" />
-                <div className="flex flex-col ">
-                  <div>Wheelocity order expense</div>
-                  <div>12-03 04:45</div>
-                </div>
-              </div>
-              <div className="font-bold mr-2">₹20</div>
-            </div>
+            ))}
           </div>
         </div>
       </div>
@@ -67,4 +57,4 @@ const finicialdetail = () => {
   );
 };
 
-export default finicialdetail;
+export default Finicialdetail;

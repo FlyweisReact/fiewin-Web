@@ -4,10 +4,11 @@ import logo from "../Assets/FieWinlogo.svg";
 import { IoPhonePortraitOutline } from "react-icons/io5";
 import { CiLock } from "react-icons/ci";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { user_login } from "../Repository/Repository";
 import ClipLoader from "react-spinners/ClipLoader";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { isAuthenticated } from "../store/authSlice";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -15,17 +16,18 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const isLoggedIn = useSelector(isAuthenticated);
 
   const payload = {
     password,
-    phoneNumber : `+${phoneNumber}`,
+    phoneNumber: `+${phoneNumber}`,
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(
       user_login({
-        url: "/signIn",
+        url: "/user/signIn",
         payload,
         setLoading,
         successMsg: "Login Successfully !",
@@ -33,6 +35,12 @@ const Login = () => {
       })
     );
   };
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/home");
+    }
+  }, [isLoggedIn]);
 
   return (
     <div className="bg-slate-100 h-[100vh] flex justify-center ">
