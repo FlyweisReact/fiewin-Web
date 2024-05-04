@@ -11,18 +11,57 @@ import camel from "../../Assets/Games/camel.svg";
 import elephant from "../../Assets/Games/elephant.svg";
 import king from "../../Assets/Games/king.svg";
 import { useState } from "react";
-import { IoMdClose } from "react-icons/io";
 import { getApi, postApi_withresponse } from "../../Repository/Repository";
 import { ClipLoader } from "react-spinners";
-import { SpinResModal, SpinRulesModal } from "../../Components/Modal/Modals";
+import { ShowHistory, SpinResModal, SpinRulesModal } from "../../Components/Modal/Modals";
+
+const giveColor = (color) => {
+  if (color === "yellow") {
+    return <span className="w-[47px] h-[27px] bg-[#FFD958] rounded"></span>;
+  } else if (color === "green") {
+    return <span className="w-[47px] h-[27px] bg-[#1D9377] rounded"></span>;
+  } else if (color === "red") {
+    return <span className="w-[47px] h-[27px] bg-[#FF000B] rounded"></span>;
+  } else {
+    return <span className="w-[47px] h-[27px] bg-[#fff] rounded"></span>;
+  }
+};
+
+const giveAnimal = (animal) => {
+  if (animal === "tiger") {
+    return (
+      <span className="w-[47px] h-[27px] bg-[#D9D9D9] flex justify-center rounded">
+        <img src={tiger} alt="" />
+      </span>
+    );
+  } else if (animal === "elephant") {
+    return (
+      <span className="w-[47px] h-[27px] bg-[#D9D9D9] flex justify-center rounded">
+        <img src={elephant} alt="" />
+      </span>
+    );
+  } else if (animal === "king") {
+    return (
+      <span className="w-[47px] h-[27px] bg-[#D9D9D9] flex justify-center rounded">
+        <img src={king} alt="" />
+      </span>
+    );
+  } else if (animal === "camel") {
+    return (
+      <span className="w-[47px] h-[27px] bg-[#D9D9D9] flex justify-center rounded">
+        <img src={camel} alt="" />
+      </span>
+    );
+  }
+};
 
 const Circle = () => {
   const [showcircleRules, setShowcircleRules] = useState(false);
   const [showhistory, setShowhistory] = useState(false);
   const [popupwinner, setpopupwinner] = useState(false);
-  const [color, setColor] = useState("");
+  const [color, setColor] = useState("red");
   const [amount, setAmount] = useState(20);
-  const [animal, setAnimal] = useState("");
+  const [animal, setAnimal] = useState("lion");
   const [loading, setLoading] = useState(false);
   const [spinData, setSpinData] = useState({});
   const [type, setType] = useState("all-order");
@@ -32,30 +71,8 @@ const Circle = () => {
   const togglecircleRules = () => {
     setShowcircleRules(!showcircleRules);
   };
-  const togglehistory = () => {
-    setShowhistory(!showhistory);
-  };
 
-  const payload = {
-    color,
-    amount,
-    animal,
-  };
-
-  const handleSubmit = () => {
-    const additionalFunctions = [
-      () => setpopupwinner(true),
-      (res) => setSpinData(res),
-    ];
-    postApi_withresponse({
-      url: "/headTail/spin",
-      payload,
-      setLoading,
-      additionalFunctions,
-    });
-  };
-
-  useEffect(() => {
+  const fetchAll = () => {
     getApi({
       url: "/headTail/everyoneOrderSpin",
       setResponse: setAllOrder,
@@ -64,6 +81,30 @@ const Circle = () => {
       url: "/headTail/myOrderSpin",
       setResponse: setMyOrder,
     });
+  };
+
+  const payload = {
+    color,
+    amount,
+    animal,
+  };
+
+  const handleSubmit = async () => {
+    const additionalFunctions = [
+      () => setpopupwinner(true),
+      (res) => setSpinData(res),
+    ];
+    await postApi_withresponse({
+      url: "/headTail/spin",
+      payload,
+      setLoading,
+      additionalFunctions,
+    });
+    fetchAll();
+  };
+
+  useEffect(() => {
+    fetchAll();
   }, []);
 
   return (
@@ -97,140 +138,18 @@ const Circle = () => {
                 show={showcircleRules}
                 handleClose={() => setShowcircleRules(false)}
               />
-              {showhistory ? (
-                <>
-                  <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none ">
-                    <div className="relative w-auto my-6 mx-auto max-w-5xl">
-                      <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-[350px] h-[400px] bg-white outline-none focus:outline-none">
-                        <div className="flex justify-between m-3">
-                          <div></div>
-                          <div className="text-xl font-semibold">History</div>
-                          <div className="bg-[#FFB800] w-[25px] h-[25px] rounded-lg flex justify-center items-center shadow-2xl">
-                            <IoMdClose
-                              size={25}
-                              style={{ color: "white", cursor: "pointer" }}
-                              onClick={() => setShowhistory(false)}
-                            />
-                          </div>
-                        </div>
-                        <hr />
-                        <div className="flex justify-between ml-2 mr-2">
-                          <div>Periods</div>
-                          <div>Results</div>
-                        </div>
-                        <hr />
-                        <div className="flex justify-between m-2">
-                          <div>2403152334</div>
-                          <div className="flex gap-1">
-                            <div className="bg-[#FF000B] w-[27px] h-[26px] rounded-lg"></div>
-                            <div className="bg-[#D9D9D9] flex justify-center items-center w-[27px] h-[26px] rounded-lg">
-                              <img src={tiger} alt="" className="w-5" />
-                            </div>
-                          </div>
-                        </div>
-                        <div className="flex justify-between m-2">
-                          <div>2403152334</div>
-                          <div className="flex gap-1">
-                            <div className="bg-[#1D9377] w-[27px] h-[26px] rounded-lg"></div>
-                            <div className="bg-[#D9D9D9] flex justify-center items-center w-[27px] h-[26px] rounded-lg">
-                              <img src={camel} alt="" className="w-5" />
-                            </div>
-                          </div>
-                        </div>
-                        <div className="flex justify-between m-2">
-                          <div>2403152334</div>
-                          <div className="flex gap-1">
-                            <div className="bg-[#1D9377] w-[27px] h-[26px] rounded-lg"></div>
-                            <div className="bg-[#D9D9D9] flex justify-center items-center w-[27px] h-[26px] rounded-lg">
-                              <img src={elephant} alt="" className="w-5" />
-                            </div>
-                          </div>
-                        </div>
-                        <div className="flex justify-between m-2">
-                          <div>2403152334</div>
-                          <div className="flex gap-1">
-                            <div className="bg-[#FFB800] w-[27px] h-[26px] rounded-lg"></div>
-                            <div className="bg-[#D9D9D9] flex justify-center items-center w-[27px] h-[26px] rounded-lg">
-                              <img src={tiger} alt="" className="w-5" />
-                            </div>
-                          </div>
-                        </div>
-                        <div className="flex justify-between m-2">
-                          <div>2403152334</div>
-                          <div className="flex gap-1">
-                            <div className="bg-[#1D9377] w-[27px] h-[26px] rounded-lg"></div>
-                            <div className="bg-[#D9D9D9] flex justify-center items-center w-[27px] h-[26px] rounded-lg">
-                              <img src={camel} alt="" className="w-5" />
-                            </div>
-                          </div>
-                        </div>
-                        <div className="flex justify-between m-2">
-                          <div>2403152334</div>
-                          <div className="flex gap-1">
-                            <div className="bg-[#FFB800] w-[27px] h-[26px] rounded-lg"></div>
-                            <div className="bg-[#D9D9D9] flex justify-center items-center w-[27px] h-[26px] rounded-lg">
-                              <img src={elephant} alt="" className="w-5" />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </>
-              ) : null}
+              <ShowHistory
+                show={showhistory}
+                handleClose={() => setShowhistory(false)}
+                data={myOrder}
+              />
               <div className="flex mt-2 gap-1 cicle-color-div">
                 <div className="flex flex-col gap-1">
                   <div className="flex gap-1 w-[450px]">
-                    <span className="w-[47px] h-[27px] bg-[#FFD958] rounded"></span>
-                    <span className="w-[47px] h-[27px] bg-[#FFD958] rounded"></span>
-                    <span className="w-[47px] h-[27px] bg-[#FFD958] rounded"></span>
-                    <span className="w-[47px] h-[27px] bg-[#FF000B] rounded"></span>
-                    <span className="w-[47px] h-[27px] bg-[#FFD958] rounded"></span>
-                    <span className="w-[47px] h-[27px] bg-[#1D9377] rounded"></span>
-                    <span className="w-[47px] h-[27px] bg-[#FFD958] rounded"></span>
-                    <span className="w-[47px] h-[27px] bg-[#FF000B] rounded"></span>
-                    <span className="w-[47px] h-[27px] bg-[#FFD958] rounded"></span>
-                    <span className="w-[47px] h-[27px] bg-[#1D9377] rounded"></span>
+                    {myOrder?.map((i) => giveColor(i?.selectedOption?.color))}
                   </div>
                   <div className="flex gap-1 w-[450px]">
-                    <span className="w-[47px] h-[27px] bg-[#D9D9D9] flex justify-center rounded">
-                      <img src={tiger} alt="" />
-                    </span>
-                    <span className="w-[47px] h-[27px] bg-[#D9D9D9] flex justify-center rounded">
-                      <img src={camel} alt="" />
-                    </span>
-
-                    <span className="w-[47px] h-[27px] bg-[#D9D9D9] flex justify-center rounded">
-                      <img src={elephant} alt="" />
-                    </span>
-
-                    <span className="w-[47px] h-[27px] bg-[#D9D9D9] flex justify-center rounded">
-                      <img src={camel} alt="" />
-                    </span>
-
-                    <span className="w-[47px] h-[27px] bg-[#D9D9D9] flex justify-center rounded">
-                      <img src={tiger} alt="" />
-                    </span>
-
-                    <span className="w-[47px] h-[27px] bg-[#D9D9D9] flex justify-center rounded">
-                      <img src={camel} alt="" />
-                    </span>
-
-                    <span className="w-[47px] h-[27px] bg-[#D9D9D9] flex justify-center rounded">
-                      <img src={elephant} alt="" />
-                    </span>
-
-                    <span className="w-[47px] h-[27px] bg-[#D9D9D9] flex justify-center rounded">
-                      <img src={tiger} alt="" />
-                    </span>
-
-                    <span className="w-[47px] h-[27px] bg-[#D9D9D9] flex justify-center rounded">
-                      <img src={camel} alt="" />
-                    </span>
-
-                    <span className="w-[47px] h-[27px] bg-[#D9D9D9] flex justify-center rounded">
-                      <img src={tiger} alt="" />
-                    </span>
+                    {myOrder?.map((i) => giveAnimal(i?.selectedOption?.animal))}
                   </div>
                 </div>
                 <div
@@ -297,7 +216,7 @@ const Circle = () => {
                   <div className="bg-[#BEEBFF]  flex justify-center items-end  border circle-tiger w-[100px] h-[50px] text-white font-bold rounded-lg ">
                     <img
                       src={tiger}
-                      onClick={() => setAnimal("tiger")}
+                      onClick={() => setAnimal("lion")}
                       alt=""
                       className="w-10 cursor-pointer"
                     />
@@ -427,19 +346,29 @@ const Circle = () => {
                         ? myOrder?.map((i, index) => (
                             <tr key={`order${index}`}>
                               <td> {i.PeriodNumber} </td>
-                              <td>{i.Select}</td>
-                              <td>{i.result}</td>
+                              <td>
+                                {i.selectedOption?.animal}{" "}
+                                {i.selectedOption?.color}
+                              </td>
+                              <td>
+                                {i.result?.animal} {i.result?.color}
+                              </td>
                               <td> ₹{i.money} </td>
-                              <td className=" text-[#FF0000]"> ₹{i.Amount} </td>
+                              <td className=" text-[#FF0000]"> ₹{i.amount} </td>
                             </tr>
                           ))
                         : allOrder?.map((i, index) => (
                             <tr key={`order${index}`}>
                               <td> {i.PeriodNumber} </td>
-                              <td>{i.Select}</td>
-                              <td>{i.result}</td>
+                              <td>
+                                {i.selectedOption?.animal}{" "}
+                                {i.selectedOption?.color}
+                              </td>
+                              <td>
+                                {i.result?.animal} {i.result?.color}{" "}
+                              </td>
                               <td> ₹{i.money} </td>
-                              <td className=" text-[#FF0000]"> ₹{i.Amount} </td>
+                              <td className=" text-[#FF0000]"> ₹{i.amount} </td>
                             </tr>
                           ))}
                     </tbody>

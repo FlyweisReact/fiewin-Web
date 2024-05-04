@@ -1,7 +1,17 @@
+/** @format */
+
 import React from "react";
 import { Link } from "react-router-dom";
 import back from "../Assets/back.svg";
+import { getApi } from "../Repository/Repository";
+
 const Reward = () => {
+  const takeWelcomeReward = () => {
+    getApi({
+      url: "/home/welcomeReward",
+    });
+  };
+
   return (
     <div className="flex justify-center ">
       <div className="flex justify-center flex-col reward-header ">
@@ -32,7 +42,10 @@ const Reward = () => {
                 We will reward you with ₹20
               </div>
               <div className="flex justify-center">
-                <button className="w-[150px] h-[40px] bg-[#D9D9D9] text-white rounded-xl  font-semibold text-xl">
+                <button
+                  className="w-[150px] h-[40px] bg-[#D9D9D9] text-white rounded-xl  font-semibold text-xl"
+                  onClick={() => takeWelcomeReward()}
+                >
                   Collet
                 </button>
               </div>

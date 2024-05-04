@@ -7,6 +7,7 @@ import tiger from "../../Assets/Games/tiger.svg";
 import camel from "../../Assets/Games/camel.svg";
 import elephant from "../../Assets/Games/elephant.svg";
 import king from "../../Assets/Games/king.svg";
+import { IoMdClose } from "react-icons/io";
 
 export const SpinResModal = ({ show, handleClose, data }) => {
   return (
@@ -263,6 +264,84 @@ export const UpdatePasswordModal = ({ show, handleClose }) => {
             <button className="w-[150px] h-[40px] bg-[#FFB800] text-white font-bold rounded-lg">
               Confirm
             </button>
+          </div>
+        </div>
+      </div>
+    )
+  );
+};
+
+export const ShowHistory = ({ show, handleClose, data }) => {
+  const giveColor = (color) => {
+    if (color === "yellow") {
+      return <div className="bg-[#FFD958] w-[27px] h-[26px] rounded-lg"></div>;
+    } else if (color === "green") {
+      return <div className="bg-[#1D9377] w-[27px] h-[26px] rounded-lg"></div>;
+    } else if (color === "red") {
+      return <div className="bg-[#FF000B] w-[27px] h-[26px] rounded-lg"></div>;
+    } else {
+      return <div className="bg-[#fff] w-[27px] h-[26px] rounded-lg"></div>;
+    }
+  };
+
+  const giveAnimal = (animal) => {
+    if (animal === "lion") {
+      return (
+        <div className="bg-[#D9D9D9] flex justify-center items-center w-[27px] h-[26px] rounded-lg">
+          <img src={tiger} alt="" className="w-5" />
+        </div>
+      );
+    } else if (animal === "elephant") {
+      return (
+        <div className="bg-[#D9D9D9] flex justify-center items-center w-[27px] h-[26px] rounded-lg">
+          <img src={elephant} alt="" className="w-5" />
+        </div>
+      );
+    } else if (animal === "king") {
+      return (
+        <div className="bg-[#D9D9D9] flex justify-center items-center w-[27px] h-[26px] rounded-lg">
+          <img src={king} alt="" className="w-5" />
+        </div>
+      );
+    } else if (animal === "camel") {
+      return (
+        <div className="bg-[#D9D9D9] flex justify-center items-center w-[27px] h-[26px] rounded-lg">
+          <img src={camel} alt="" className="w-5" />
+        </div>
+      );
+    }
+  };
+  return (
+    show && (
+      <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none ">
+        <div className="relative w-auto my-6 mx-auto max-w-5xl">
+          <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-[350px] h-[400px] bg-white outline-none focus:outline-none">
+            <div className="flex justify-between m-3">
+              <div></div>
+              <div className="text-xl font-semibold">History</div>
+              <div className="bg-[#FFB800] w-[25px] h-[25px] rounded-lg flex justify-center items-center shadow-2xl">
+                <IoMdClose
+                  size={25}
+                  style={{ color: "white", cursor: "pointer" }}
+                  onClick={() => handleClose()}
+                />
+              </div>
+            </div>
+            <hr />
+            <div className="flex justify-between ml-2 mr-2">
+              <div>Periods</div>
+              <div>Results</div>
+            </div>
+            <hr />
+            {data?.map((i, index) => (
+              <div className="flex justify-between m-2" key={index}>
+                <div> {i.PeriodNumber} </div>
+                <div className="flex gap-1">
+                  {giveColor(i?.result?.color)}
+                  {giveAnimal(i?.result?.animal)}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
