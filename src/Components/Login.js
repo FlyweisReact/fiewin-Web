@@ -30,7 +30,6 @@ const Login = () => {
         url: "/user/signIn",
         payload,
         setLoading,
-        successMsg: "Login Successfully !",
         navigate,
       })
     );
@@ -40,7 +39,7 @@ const Login = () => {
     if (isLoggedIn) {
       navigate("/home");
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, navigate]);
 
   return (
     <div className="bg-slate-100 h-[100vh] flex justify-center ">
@@ -66,6 +65,7 @@ const Login = () => {
                   type="tel"
                   className=" placeholder: ml-2 block input-css  lg:w-[430px] h-[48px] rounded-xl border-0 py-1.5 pl-10 pr-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2   sm:text-sm sm:leading-6"
                   placeholder="Mobile Number"
+                  required
                   onChange={(e) => setPhoneNumber(e.target.value)}
                 />
               </div>
@@ -78,8 +78,9 @@ const Login = () => {
 
                 <input
                   type="tel"
-                  className=" placeholder: ml-2 block input-css lg:w-[430px] h-[48px] rounded-xl border-0 py-1.5 pl-10 pr-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2   sm:text-sm sm:leading-6"
+                  className="placeholder: ml-2 block input-css lg:w-[430px] h-[48px] rounded-xl border-0 py-1.5 pl-10 pr-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2   sm:text-sm sm:leading-6"
                   placeholder="Password"
+                  required
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>

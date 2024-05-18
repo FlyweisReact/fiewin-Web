@@ -17,13 +17,13 @@ const Orderrecord = () => {
   const [response, setResponse] = useState({});
 
   useEffect(() => {
-    if (type) {
-      getApi({
-        url: `/user/orderRecord?gametype=${type}`,
-        setResponse,
-      });
-    }
-  }, [type]);
+    getApi({
+      url: `/user/order/by/token`,
+      setResponse,
+    });
+  }, []);
+
+  console.log(response?.orders);
 
   return (
     <div className=" h-screen flex justify-center">
@@ -205,6 +205,68 @@ const Orderrecord = () => {
               ))}
             </div>
           )}
+
+          <div className="flex justify-center flex-col items-center gap-2 mt-5 ">
+            {response?.orders?.map((i, index) => (
+              <div
+                className="w-[450px] order-card  h-[110px] border-2 rounded-lg"
+                key={`games${index}`}
+              >
+                <div className="flex justify-between ml-5 mr-5">
+                  <div> {i?.headTailGame?.gameId} </div>
+                  <div>
+                    {" "}
+                    {i?.headTailGame?.createdAt?.slice(0, 10)}{" "}
+                    {i?.headTailGame?.createdAt?.split("T")?.[1]?.slice(0, 8)}{" "}
+                  </div>
+                </div>
+                <div className="flex justify-between ml-5 mr-5">
+                  <div className="flex flex-col gap-1 items-center">
+                    <span className="font-bold">Select</span>
+                    <span
+                      className={`w-[30px] h-[20px] flex justify-center items-center rounded text-white ${
+                        i.userGuess === "head" ? "bg-[#a5814f]" : "bg-[#ffb800]"
+                      }  `}
+                    >
+                      {i.userGuess === "head" ? "H" : "T"}
+                    </span>
+                  </div>
+                  <div className="flex flex-col gap-1 items-center">
+                    <span className="font-bold">Money</span>
+                    <span className=""> ₹{i.money} </span>
+                  </div>
+                  <div className="flex flex-col gap-1 items-center">
+                    <span className="font-bold">Result</span>
+                    <span
+                      className={`w-[30px] h-[20px] flex justify-center items-center rounded text-white ${
+                        i.result === "head" ? "bg-[#a5814f]" : "bg-[#ffb800]"
+                      }  `}
+                    >
+                      {i.result === "head" ? "H" : "T"}
+                    </span>
+                  </div>
+                  <div className="flex flex-col gap-1 items-center">
+                    <span className="font-bold">Status</span>
+                    <span
+                      className="text-right font-bold"
+                      style={{ textTransform: "uppercase" }}
+                    >
+                      {" "}
+                      {i.message}{" "}
+                    </span>
+                  </div>
+                  <div className="flex flex-col gap-1  w-[100px] text-right">
+                    <span className="font-bold">Amount</span>
+                    <span className="text-right "> ₹{i.updatedMoney} </span>
+                  </div>
+                </div>
+                <hr />
+                <div className="flex justify-between ml-5 mr-5">
+                  <div>Delivery: ₹{i.delivery} </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

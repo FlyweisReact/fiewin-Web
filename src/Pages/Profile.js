@@ -29,7 +29,7 @@ const Profile = () => {
 
   const fetchHandler = () => {
     getApi({
-      url: "/user/headProfile",
+      url: "/user/profile",
       setResponse: setProfile,
     });
   };
@@ -68,9 +68,10 @@ const Profile = () => {
                     <img src={profilecircle} alt="" />
                   </div>
                   <div>
-                    <div className=""> {profile?.Name} </div>
+                    <div className=""> {profile?.data?.user?.name} </div>
                     <div>
-                      Mob: {profile?.PhoneNumber}, ID: {profile?.UserID}{" "}
+                      Mob: {profile?.data?.user?.phoneNumber}, ID:{" "}
+                      {profile?.data?.user?._id?.slice(0, 5)}{" "}
                     </div>
                   </div>
                 </div>

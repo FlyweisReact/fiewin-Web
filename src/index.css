@@ -476,7 +476,7 @@ html {
   height: 100%;
 }
 
-.overflow-table-order{
+.overflow-table-order {
   width: 100%;
   overflow: auto;
   height: 200px;
@@ -484,20 +484,19 @@ html {
 .order-table {
   width: 100%;
   margin-top: 20px;
-  height: 300px;
 }
 
-.order-table tbody{
+.order-table tbody {
   width: 100%;
 }
 
-.order-table tbody tr td{
+.order-table tbody tr td {
   text-align: center;
   font-weight: 600;
 }
-.order-table tbody tr td .headandTail{
-  width: 40px ;
-  height: 40px ;
+.order-table tbody tr td .headandTail {
+  width: 40px;
+  height: 40px;
   border-radius: 5px;
   color: #000;
   font-weight: 900;
@@ -506,9 +505,35 @@ html {
   display: block;
   margin: auto;
 }
-.order-table tbody tr td .headandTail.H{
+.order-table tbody tr td .headandTail.H {
   background-color: rgb(165 129 79);
 }
-.order-table tbody tr td .headandTail.T{
+.order-table tbody tr td .headandTail.T {
   background-color: rgb(255 184 0);
+}
+
+
+.disable_btn {
+  background-color: #e5e5e5;
+  color: #ababab;
+  width: 450px;
+  height: 50px;
+  font-weight: 700;
+  border-radius: 0.5rem;
+}
+
+@keyframes flip {
+  0% {
+    transform: rotateY(0deg);
+  }
+  50% {
+    transform: rotateY(180deg);
+  }
+  100% {
+    transform: rotateY(0deg);
+  }
+}
+
+.flip {
+  animation: flip 2s infinite;
 }

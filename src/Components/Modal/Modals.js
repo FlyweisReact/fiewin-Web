@@ -8,6 +8,7 @@ import camel from "../../Assets/Games/camel.svg";
 import elephant from "../../Assets/Games/elephant.svg";
 import king from "../../Assets/Games/king.svg";
 import { IoMdClose } from "react-icons/io";
+import { ClipLoader } from "react-spinners";
 
 export const SpinResModal = ({ show, handleClose, data }) => {
   return (
@@ -164,6 +165,7 @@ export const UpdateProfileModal = ({
   PreviouseData,
 }) => {
   const [name, setName] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const payload = {
     name,
@@ -175,14 +177,14 @@ export const UpdateProfileModal = ({
     edit_module({
       url: "/user/updateName",
       payload,
-      successMsg: "Profile has been updated !",
       additionalFunctions,
+      setLoading,
     });
   };
 
   useEffect(() => {
     if (PreviouseData) {
-      setName(PreviouseData?.Name);
+      setName(PreviouseData?.data?.user?.name);
     }
   }, [PreviouseData]);
 
@@ -200,6 +202,7 @@ export const UpdateProfileModal = ({
                   type="text"
                   className="w-[350px] border-black border-b outline-none"
                   placeholder="Enter Nick Name"
+                  required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
@@ -218,7 +221,7 @@ export const UpdateProfileModal = ({
                 type="submit"
                 className="w-[150px] h-[40px] bg-[#FFB800] text-white font-bold rounded-lg"
               >
-                Confirm
+                {loading ? <ClipLoader color="#fff" /> : "Confirm"}
               </button>
             </div>
           </form>
@@ -343,6 +346,82 @@ export const ShowHistory = ({ show, handleClose, data }) => {
               </div>
             ))}
           </div>
+        </div>
+      </div>
+    )
+  );
+};
+
+export const HeadTailRulesPopup = ({ show, handleClose }) => {
+  const [rules, setRules] = useState({});
+
+  useEffect(() => {
+    getApi({
+      url: "/headTail/headTailRule",
+      setResponse: setRules,
+    });
+  }, []);
+
+  return (
+    show && (
+      <div className="rules-popup overflow-y-auto  headtail-rule z-50">
+        <div className="flex justify-center m-2">
+          <div className="bg-[#FFB800] rounded-2xl w-[200px] h-[38px] flex justify-center items-center font-bold">
+            HeadTail Rules
+          </div>
+        </div>
+        <div>{rules?.statement}</div>
+
+        <div className="m-2">
+          <ul>
+            {rules?.points?.map((i, index) => (
+              <li className="font-bold list-decimal" key={`options${index}`}>
+                {" "}
+                {i?.description}{" "}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <table className="table-fixed border-slate-950 border">
+            <thead>
+              <tr>
+                <th className="w-[150px] bg-[#FFE7A9] border-slate-950 border">
+                  Song
+                </th>
+                <th className="w-[200px] bg-[#FFE7A9] border-slate-950 border">
+                  {" "}
+                  Artist
+                </th>
+                <th className="w-[150px] bg-[#FFE7A9] border-slate-950 border">
+                  Year
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {rules?.options?.map((i, index) => (
+                <tr key={`Index${index}`}>
+                  <td className="w-[150px] text-center text-[#F57C00] bg-[#D9D9D9] border-slate-950 border">
+                    {i.Select}
+                  </td>
+                  <td className="w-[150px] text-center bg-[#D9D9D9] border-slate-950 border">
+                    {i.Result}
+                  </td>
+                  <td className="w-[150px] text-center bg-[#D9D9D9] border-slate-950 border">
+                    {i.Multiplier}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div className="flex justify-center mt-2">
+          <button
+            className="w-[430px] h-[50px] bg-[#F2A60C] text-white font-bold rounded-lg"
+            onClick={() => handleClose()}
+          >
+            I Got it
+          </button>
         </div>
       </div>
     )

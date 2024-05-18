@@ -14,7 +14,7 @@ export const showNotification = ({ type = "success", message }) => {
     animationIn: ["animate__animated", "animate__fadeIn"],
     animationOut: ["animate__animated", "animate__fadeOut"],
     dismiss: {
-      duration: 5000,
+      duration: 3000,
       onScreen: true,
     },
   });
@@ -32,7 +32,7 @@ export const getApi = async ({
   try {
     const res = await axios.get(`${process.env.React_App_Baseurl}${url}`, {
       headers: {
-        Authorization: localStorage.getItem("token"),
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
     setResponse(res.data);
@@ -56,8 +56,6 @@ export const postApi = async ({
   setLoading,
   additionalFunctions = [],
   successMsg,
-  errorMsg,
-  showMsg = false,
 }) => {
   if (setLoading) {
     setLoading(true);
@@ -68,31 +66,24 @@ export const postApi = async ({
       payload,
       {
         headers: {
-          Authorization: localStorage.getItem("token"),
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }
     );
     if (res) {
-      const message = res?.data?.message;
-      if (showMsg) {
-        if (successMsg || message) {
-          showNotification({ message: successMsg || message });
-        }
+      if (successMsg) {
+        showNotification({ message: successMsg });
       }
 
       additionalFunctions.forEach((func) => {
         if (typeof func === "function") {
-          func();
+          func(res?.data);
         }
       });
     }
   } catch (e) {
     const msg = e?.response?.data?.message || "Something went worng !";
-    if (errorMsg && e?.response?.data?.message === undefined) {
-      showNotification({ message: errorMsg, type: "danger" });
-    } else {
-      showNotification({ message: msg, type: "danger" });
-    }
+    showNotification({ message: msg, type: "danger" });
   } finally {
     if (setLoading) {
       setLoading(false);
@@ -117,7 +108,7 @@ export const edit_module = async ({
       payload,
       {
         headers: {
-          Authorization: localStorage.getItem("token"),
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }
     );
@@ -203,7 +194,7 @@ export const postApi_withresponse = async ({
       payload,
       {
         headers: {
-          Authorization: localStorage.getItem("token"),
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }
     );

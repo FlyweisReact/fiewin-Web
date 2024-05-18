@@ -1,15 +1,45 @@
 /** @format */
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import back from "../Assets/back.svg";
-import { getApi } from "../Repository/Repository";
+import { getApi, postApi } from "../Repository/Repository";
 
 const Reward = () => {
-  const takeWelcomeReward = () => {
+  const [response, setResponse] = useState({});
+  const [profile, setProfile] = useState({});
+
+  useEffect(() => {
     getApi({
-      url: "/home/welcomeReward",
+      url: "/user/profile",
+      setResponse: setProfile,
     });
+    getApi({
+      url: "/user/rewards",
+      setResponse,
+    });
+  }, []);
+
+
+  const claimReward = (id) => {
+    postApi({
+      url: `/user/rewards/claim/${id}`,
+      payload: {},
+    });
+  };
+
+  console.log(profile?.data?.user)
+  const isRewardClaimable = (condition, conditionValue) => {
+    switch (condition) {
+      case "welcome":
+        return true; // Logic for welcome reward
+      case "firstRecharge":
+        return profile?.data?.firstRecharge; // Example condition
+      case "firstInvite":
+        return profile?.data?.firstInvite; // Example condition
+      default:
+        return false;
+    }
   };
 
   return (
@@ -26,6 +56,40 @@ const Reward = () => {
         </div>
         <div className="w-[500px] bg-[white] reward-header pb-10 ">
           <div className="flex justify-center flex-col items-center gap-y-2 mt-5">
+            {response?.rewards?.map((i, index) => (
+              <div
+                className="bg-[#FFF3D5] reward-card w-[450px] h-[200px] flex flex-col p-5 gap-4 rounded-lg"
+                key={index}
+              >
+                <div className="flex justify-between">
+                  <span className="font-bold"> {i?.title} </span>
+                  <span className="font-bold">₹{i?.amount} </span>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-4 dark:bg-gray-700">
+                  <div
+                    className="bg-[#FFB800] h-4 rounded-full"
+                    style={{ width: "100%" }}
+                  ></div>
+                </div>
+                <div className="text-center text-[12px] font-bold">
+                  {i?.description}
+                </div>
+                <div className="flex justify-center">
+                <button
+                    className={`w-[150px] h-[40px] text-white rounded-xl font-semibold text-xl ${
+                      isRewardClaimable(i.condition, i.conditionValue)
+                        ? "bg-[#FFB800]"
+                        : "bg-[#D9D9D9]"
+                    }`}
+                    onClick={() => claimReward(i._id)}
+                    disabled={!isRewardClaimable(i.condition, i.conditionValue)}
+                  >
+                    Collect
+                  </button>
+                </div>
+              </div>
+            ))}
+
             <div className="bg-[#FFF3D5] reward-card w-[450px] h-[200px] flex flex-col p-5 gap-4 rounded-lg ">
               <div className="flex justify-between">
                 <span className="font-bold">welcome</span>
@@ -42,14 +106,12 @@ const Reward = () => {
                 We will reward you with ₹20
               </div>
               <div className="flex justify-center">
-                <button
-                  className="w-[150px] h-[40px] bg-[#D9D9D9] text-white rounded-xl  font-semibold text-xl"
-                  onClick={() => takeWelcomeReward()}
-                >
+                <button className="w-[150px] h-[40px] bg-[#D9D9D9] text-white rounded-xl  font-semibold text-xl">
                   Collet
                 </button>
               </div>
             </div>
+
             <div className="bg-[#FFF3D5] reward-card w-[450px] h-[200px] flex flex-col p-5 gap-4 rounded-lg ">
               <div className="flex justify-between">
                 <span className="font-bold">First Recharge</span>

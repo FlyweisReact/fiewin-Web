@@ -1,6 +1,6 @@
 /** @format */
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Footer from "../Components/Footer";
 import invitebg from "../Assets/invitebg.svg";
 import diamond from "../Assets/daimond.svg";
@@ -9,10 +9,24 @@ import mylink from "../Assets/mylink.svg";
 import banner from "../Assets/banner.svg";
 import { IoChevronForward } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
-import { postApi } from "../Repository/Repository";
+import { getApi, postApi } from "../Repository/Repository";
 
 const Inviteandearn = () => {
   const navigate = useNavigate();
+  const [profile, setProfile] = useState({});
+
+  const getProfile = () => {
+    getApi({
+      url: "/user/profile",
+      setResponse: setProfile,
+    });
+  };
+
+  useEffect(() => {
+    getProfile();
+  }, []);
+
+  console.log(profile?.data?.user?.agentWallet);
 
   const createInviteLink = () => {
     const additionalFunctions = [() => navigate("/Invitelink")];
@@ -38,8 +52,10 @@ const Inviteandearn = () => {
                 <div className="flex justify-between items-center agent-div bg-white w-[470px] h-[120px]  rounded-lg">
                   <div className="flex flex-col ml-5">
                     Agent amount
-                    <span>
-                      ₹ <span className="text-3xl">0</span>
+                    <span className="text-3xl" >
+                      ₹{profile?.data?.user?.agentWallet
+                        ? profile?.data?.user?.agentWallet
+                        : 0}
                     </span>
                   </div>
                   <div className="mr-5">

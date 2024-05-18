@@ -9,16 +9,36 @@ import { LuHistory } from "react-icons/lu";
 import React, { useEffect, useState } from "react";
 import { getApi, postApi } from "../../Repository/Repository";
 import { ClipLoader } from "react-spinners";
+import { countDown_func, formatCountDown } from "../../utils/utils";
+import TableLayout from "../../Components/TableLayout";
+import { HeadTailRulesPopup } from "../../Components/Modal/Modals";
 
 const Headandtail = () => {
-  const [rules, setRules] = useState({});
   const [showRulesPopup, setShowRulesPopup] = useState(false);
   const [amount, setAmount] = useState(10);
   const [guess, setGuess] = useState("head");
   const [loading, setLoading] = useState(false);
-  const [myOrder, setMyOrder] = useState([]);
-  const [allOrder, setAllOrder] = useState([]);
+  const [myOrder, setMyOrder] = useState({});
+  const [allOrder, setAllOrder] = useState({});
   const [type, setType] = useState("all-order");
+  const [countdown, setCountdown] = useState(20);
+  const [isActivated, setIsActivate] = useState(true);
+  const [isCoinHead, setIsCoinHead] = useState(false);
+
+  useEffect(() => {
+    const flipInterval = setInterval(() => {
+      setIsCoinHead((prevState) => !prevState);
+    }, 500);
+    return () => clearInterval(flipInterval);
+  }, []);
+
+  useEffect(() => {
+    const clearTimer = countDown_func({
+      setValue: setCountdown,
+      setIsActive: setIsActivate,
+    });
+    return () => clearTimer();
+  }, []);
 
   const toggleRulesPopup = () => {
     setShowRulesPopup(!showRulesPopup);
@@ -26,38 +46,64 @@ const Headandtail = () => {
 
   const getOrders = () => {
     getApi({
-      url: "/headTail/myOrderHeadTail",
+      url: "/user/game/users",
       setResponse: setMyOrder,
-    });
-    getApi({
-      url: "/headTail/everyoneOrderHeadTail",
-      setResponse: setAllOrder,
     });
   };
 
   useEffect(() => {
-    getApi({
-      url: "/headTail/headTailRule",
-      setResponse: setRules,
-    });
     getOrders();
   }, []);
 
+  useEffect(() => {
+    getApi({
+      url: "/user/game/all/users?page=1&limit=100",
+      setResponse: setAllOrder,
+    });
+  }, [countdown]);
+
   const payload = {
-    guess,
-    wallet: amount,
+    choice: guess,
+    amount,
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const additionalFunctions = [getOrders];
     postApi({
-      url: "/headTail/flipcoin",
+      url: "/user/join/game",
       payload,
       setLoading,
       additionalFunctions,
     });
   };
+
+  const allOrderData = allOrder?.games?.flatMap((item) =>
+    item?.participants?.map((i) => [
+      item?.gameId,
+      i?.user?.name ? i?.user?.name : i?.user?.phoneNumber,
+      <div className={`headandTail  ${i?.choice === "head" ? "H" : "T"} `}>
+        {i?.choice === "head" ? "H" : "T"}
+      </div>,
+    ])
+  );
+  const userOrderDate = myOrder?.games
+    ?.slice()
+    ?.reverse()
+    ?.map((item) => [
+      item?.gameId,
+      <div
+        className={`headandTail  ${
+          item?.participants?.[0]?.choice === "head" ? "H" : "T"
+        } `}
+      >
+        {item?.participants?.[0]?.choice === "head" ? "H" : "T"}
+      </div>,
+      <div className={`headandTail  ${item?.result === "head" ? "H" : "T"} `}>
+        {item?.result === "head" ? "H" : "T"}
+      </div>,
+      <span>₹{item?.participants?.[0]?.amount}</span>,
+    ]);
 
   return (
     <div className="h-screen flex justify-center ">
@@ -79,78 +125,18 @@ const Headandtail = () => {
             </div>
           </div>
           <div className="h-[400px] bg-gradient-to-t  from-[#001829] to-[#00538F]">
-            {showRulesPopup && (
-              <div className="rules-popup overflow-y-auto  headtail-rule z-50">
-                <div className="flex justify-center m-2">
-                  <div className="bg-[#FFB800] rounded-2xl w-[200px] h-[38px] flex justify-center items-center font-bold">
-                    HeadTail Rules
-                  </div>
-                </div>
-                <div>{rules?.statement}</div>
+            <HeadTailRulesPopup
+              show={showRulesPopup}
+              handleClose={() => setShowRulesPopup(false)}
+            />
 
-                <div className="m-2">
-                  <ul>
-                    {rules?.points?.map((i, index) => (
-                      <li
-                        className="font-bold list-decimal"
-                        key={`options${index}`}
-                      >
-                        {" "}
-                        {i?.description}{" "}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <table className="table-fixed border-slate-950 border">
-                    <thead>
-                      <tr>
-                        <th className="w-[150px] bg-[#FFE7A9] border-slate-950 border">
-                          Song
-                        </th>
-                        <th className="w-[200px] bg-[#FFE7A9] border-slate-950 border">
-                          {" "}
-                          Artist
-                        </th>
-                        <th className="w-[150px] bg-[#FFE7A9] border-slate-950 border">
-                          Year
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {rules?.options?.map((i, index) => (
-                        <tr key={`Index${index}`}>
-                          <td className="w-[150px] text-center text-[#F57C00] bg-[#D9D9D9] border-slate-950 border">
-                            {i.Select}
-                          </td>
-                          <td className="w-[150px] text-center bg-[#D9D9D9] border-slate-950 border">
-                            {i.Result}
-                          </td>
-                          <td className="w-[150px] text-center bg-[#D9D9D9] border-slate-950 border">
-                            {i.Multiplier}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-                <div className="flex justify-center mt-2">
-                  <button
-                    className="w-[430px] h-[50px] bg-[#F2A60C] text-white font-bold rounded-lg"
-                    onClick={() => toggleRulesPopup(false)}
-                  >
-                    I Got it
-                  </button>
-                </div>
-              </div>
-            )}
             <div className="flex mt-2 gap-1 ">
               <div className="flex flex-col gap-1">
                 <div
                   className="flex gap-1 w-[450px] headtail-mini-main "
                   style={{ overflow: "hidden" }}
                 >
-                  {myOrder?.map((i, index) => (
+                  {/* {myOrder?.map((i, index) => (
                     <React.Fragment key={`history${index}`}>
                       {i.Select === "head" ? (
                         <span className="w-[47px] headtail-mini h-[57px] bg-[#B49366] rounded flex justify-center items-center font-bold text-xl">
@@ -163,7 +149,7 @@ const Headandtail = () => {
                         </span>
                       )}
                     </React.Fragment>
-                  ))}
+                  ))} */}
                 </div>
               </div>
               <div className="bg-[#646464]  w-[40px] h-[50px] flex justify-center items-center rounded">
@@ -171,27 +157,51 @@ const Headandtail = () => {
               </div>
             </div>
 
-            <div className="flex justify-center mt-10 relative">
-              <img
-                src={coinbg}
-                alt=""
-                className="absolute inset-0 w-full h-full"
-              />
+            {isActivated ? (
+              <div className="flex justify-center mt-10 relative">
+                <img
+                  src={coinbg}
+                  alt=""
+                  className="absolute inset-0 w-full h-full"
+                />
 
-              {guess === "head" ? (
+                {guess === "head" ? (
+                  <img
+                    src={coinhead}
+                    alt=""
+                    className="w-28 h-auto transform transition-transform duration-500 rotate-180 hover:rotate-y-180"
+                  />
+                ) : (
+                  <img
+                    src={cointail}
+                    alt=""
+                    className="w-28 h-auto transform transition-transform duration-500 rotate-0 hover:rotate-y-180"
+                  />
+                )}
+              </div>
+            ) : (
+              <div className="flex justify-center mt-10 relative">
                 <img
-                  src={coinhead}
+                  src={coinbg}
                   alt=""
-                  className="w-28 h-auto transform transition-transform duration-500 rotate-180 hover:rotate-y-180"
+                  className="absolute inset-0 w-full h-full"
                 />
-              ) : (
-                <img
-                  src={cointail}
-                  alt=""
-                  className="w-28 h-auto transform transition-transform duration-500 rotate-0 hover:rotate-y-180"
-                />
-              )}
-            </div>
+
+                {isCoinHead ? (
+                  <img
+                    src={coinhead}
+                    alt=""
+                    className="w-28 h-auto transform transition-transform duration-500 rotate-180 hover:rotate-y-180"
+                  />
+                ) : (
+                  <img
+                    src={cointail}
+                    alt=""
+                    className="w-28 h-auto transform transition-transform duration-500 rotate-0 hover:rotate-y-180"
+                  />
+                )}
+              </div>
+            )}
 
             <div className="flex justify-center gap-2 mt-10">
               <div className="flex flex-col gap-2 items-center">
@@ -220,8 +230,7 @@ const Headandtail = () => {
                 <div className="absolute top-[-10px] left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col gap-1 items-center">
                   <span className="text-white text-[12px] ">CountDown</span>
                   <div className="bg-[#9EBFFF] w-[82px] h-[30px] rounded-3xl flex justify-center items-center text-xl font-semibold ">
-                    {" "}
-                    15:00
+                    {formatCountDown(countdown)}
                   </div>
                 </div>
                 <div className="flex justify-center">
@@ -258,8 +267,8 @@ const Headandtail = () => {
                         className="w-[170px] head--tail-medium h-[80px] text-2xl bg-[#BEEBFF] underline flex justify-center items-center rounded-lg"
                         onChange={(e) => setAmount(e.target.value)}
                         value={amount}
+                        min={0}
                         style={{ outline: "none", textAlign: "center" }}
-                        placeholder="₹10"
                       />
                     </div>
                     <div className="flex flex-col gap-1">
@@ -279,13 +288,20 @@ const Headandtail = () => {
                   </div>
                 </div>
                 <div className="mt-2 flex justify-center">
-                  <button
-                    type="submit"
-                    className="bg-[#ED1B24] head-tail-confirm-btn w-[450px] h-[50px] rounded-lg font-bold text-white  "
-                  >
-                    {loading ? <ClipLoader color="#fff" /> : "Confirm"}
-                  </button>
+                  {isActivated ? (
+                    <button
+                      type="submit"
+                      className="bg-[#ED1B24] head-tail-confirm-btn w-[450px] h-[50px] rounded-lg font-bold text-white  "
+                    >
+                      {loading ? <ClipLoader color="#fff" /> : "Confirm"}
+                    </button>
+                  ) : (
+                    <button type="submit" className="disable_btn" disabled>
+                      Confirm
+                    </button>
+                  )}
                 </div>
+
                 <div className="border-2 pb-2 mt-2 rounded-t-xl shadow-[0_3px_10px_rgb(0,0,0,0.2)] h-[300px]">
                   <div className="flex mt-2 justify-center">
                     <div
@@ -305,89 +321,18 @@ const Headandtail = () => {
                       My Order
                     </div>
                   </div>
-                  <div className="overflow-table-order">
-                    {type === "my-order" ? (
-                      <table className="order-table">
-                        <thead>
-                          <tr>
-                            <th>Period</th>
-                            <th> Select</th>
-                            <th>Result</th>
-                            <th>Money</th>
-                            <th>Amount</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {myOrder?.map((i, index) => (
-                            <tr key={`order${index}`}>
-                              <td> {i.PeriodNumber} </td>
-                              <td>
-                                {" "}
-                                <div
-                                  className={`headandTail  ${
-                                    i.Select === "head" ? "H" : "T"
-                                  } `}
-                                >
-                                  {i.Select === "head" ? "H" : "T"}
-                                </div>{" "}
-                              </td>
-                              <td>
-                                <div
-                                  className={`headandTail  ${
-                                    i.result === "head" ? "H" : "T"
-                                  } `}
-                                >
-                                  {i.result === "head" ? "H" : "T"}
-                                </div>
-                              </td>
-                              <td> ₹{i.money} </td>
-                              <td> ₹{i.Amount} </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    ) : (
-                      <table className="order-table">
-                        <thead>
-                          <tr>
-                            <th>Period</th>
-                            <th> Select</th>
-                            <th>Result</th>
-                            <th>Money</th>
-                            <th>Amount</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {allOrder?.map((i, index) => (
-                            <tr key={`order${index}`}>
-                              <td> {i.PeriodNumber} </td>
-                              <td>
-                                {" "}
-                                <div
-                                  className={`headandTail  ${
-                                    i.Select === "head" ? "H" : "T"
-                                  } `}
-                                >
-                                  {i.Select === "head" ? "H" : "T"}
-                                </div>{" "}
-                              </td>
-                              <td>
-                                <div
-                                  className={`headandTail  ${
-                                    i.result === "head" ? "H" : "T"
-                                  } `}
-                                >
-                                  {i.result === "head" ? "H" : "T"}
-                                </div>
-                              </td>
-                              <td> ₹{i.money} </td>
-                              <td> ₹{i.Amount} </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    )}
-                  </div>
+
+                  {type === "my-order" ? (
+                    <TableLayout
+                      thead={["Period", "Select", "Result", "Money"]}
+                      tbody={userOrderDate}
+                    />
+                  ) : (
+                    <TableLayout
+                      thead={["Period", "User", "Select"]}
+                      tbody={allOrderData}
+                    />
+                  )}
                 </div>
               </div>
             </form>

@@ -1,3 +1,5 @@
+/** @format */
+
 import logo from "../Assets/FieWinlogo.svg";
 import wheel from "../Assets/wheel.svg";
 import coin from "../Assets/coin.svg";
@@ -13,25 +15,25 @@ import Footer from "../Components/Footer";
 import { CiGift } from "react-icons/ci";
 import { FaClipboardCheck } from "react-icons/fa6";
 import { Link } from "react-router-dom";
-import { useState } from "react";
-import congopopup from "../Assets/congopopup.svg";
-import { IoMdClose } from "react-icons/io";
+import { useState, useEffect } from "react";
+import { getApi } from "../Repository/Repository";
+
 const Home = () => {
-  const [popupimage, setpopupimage] = useState(true);
+  const [profile, setProfile] = useState({});
+
+  const getProfile = () => {
+    getApi({
+      url: "/user/profile",
+      setResponse: setProfile,
+    });
+  };
+
+  useEffect(() => {
+    getProfile();
+  }, []);
+
   return (
     <>
-      {popupimage ? (
-        <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
-          <div className="w-[300px] h-[300px]  rounded-lg flex flex-col items-center justify-center">
-            <IoMdClose
-              onClick={() => setpopupimage(false)}
-              className="ml-[15rem] bg-[#F2A60C] w-[33px] h-[35px] cursor-pointer text-white rounded"
-            />
-            <img src={congopopup} alt="" />
-          </div>
-        </div>
-      ) : null}
-
       <div className=" background-main flex justify-center">
         <div className="grid place-items-center w-[500px] ">
           <div className="bg-[#FFDC82] w-[500px] p-5 flex justify-center items-center text-xl font-semibold top-0 fixed z-50">
@@ -43,9 +45,16 @@ const Home = () => {
                 <div className="flex flex-col gap-2">
                   <div>Balance</div>
                   <div className="flex items-center gap-2 font-bold">
-                    ₹ 40.00 <SlRefresh />
+                    ₹
+                    {profile?.data?.user?.wallet
+                      ? profile?.data?.user?.wallet
+                      : 0}{" "}
+                    <SlRefresh
+                      onClick={() => getProfile()}
+                      className="cursor-pointer"
+                    />
                   </div>
-                  <div>ID:12312321</div>
+                  <div>ID:{profile?.data?.user?._id?.slice(0, 5)}</div>
                 </div>
                 <div className="flex flex-col gap-2 mr-2">
                   <Link to="/wallet">
@@ -79,129 +88,120 @@ const Home = () => {
                 </Link>
               </div>
 
-                <div className="flex flex-wrap justify-between gap-y-2  mt-5   ">
-                  <Link to="/Circle">
-                    <div className="bg-[#4EC6DF] games-card w-[245px] h-[250px] rounded flex flex-col items-center justify-center">
-                      <div>
-                        <img
-                          src={wheel}
-                          alt=""
-                          className="w-[150px] games-image"
-                        />
-                      </div>
-                      <div className="w-[60px] mt-2 h-[22px] bg-[#399AAB] flex justify-center items-center text-white text-[12px] rounded-xl">
-                        15 Secs
-                      </div>
-                      <div className="text-center text-white text-2xl font-bold">
-                        circle
-                      </div>
-                    </div>
-                  </Link>
-                  <Link to="/Headandtail">
-                    <div className="bg-gradient-to-t  from-[#001829] to-[#00538F] games-card w-[245px] h-[250px] rounded flex flex-col items-center justify-center">
-                      <div>
-                        <img src={coin} alt="" className="" />
-                      </div>
-                      <div className="w-[60px] mt-2 h-[22px] bg-[#0A436E] flex justify-center items-center text-white text-[12px] rounded-xl">
-                        15 Secs
-                      </div>
-                      <div className="text-center text-2xl text-white font-bold">
-                        HEAD & TAIL
-                      </div>
-                    </div>
-                  </Link>
-                  <div className="bg-[#1D9EA7] relative games-card w-[245px] h-[250px] rounded flex flex-col items-center justify-center">
-                    <div class="absolute top-0 right-0 w-28 h-6 flex justify-center rounded bg-[#D9D9D9]">
-                      Coming soon
-                    </div>
+              <div className="flex flex-wrap justify-between gap-y-2  mt-5   ">
+                <Link to="/Circle">
+                  <div className="bg-[#4EC6DF] games-card w-[245px] h-[250px] rounded flex flex-col items-center justify-center">
                     <div>
                       <img
-                        src={rocket}
+                        src={wheel}
                         alt=""
-                        className="w-[141px] games-image"
+                        className="w-[150px] games-image"
                       />
+                    </div>
+                    <div className="w-[60px] mt-2 h-[22px] bg-[#399AAB] flex justify-center items-center text-white text-[12px] rounded-xl">
+                      15 Secs
                     </div>
                     <div className="text-center text-white text-2xl font-bold">
-                      CRASH
+                      circle
                     </div>
                   </div>
-                  <div className="bg-[#FAAA00] relative games-card w-[245px] h-[250px] rounded flex flex-col items-center justify-center">
-                    <div class="absolute top-0 right-0 w-28 h-6 flex justify-center rounded bg-[#D9D9D9]">
-                      Coming soon
-                    </div>
+                </Link>
+                <Link to="/Headandtail">
+                  <div className="bg-gradient-to-t  from-[#001829] to-[#00538F] games-card w-[245px] h-[250px] rounded flex flex-col items-center justify-center">
                     <div>
-                      <img
-                        src={andarbahar}
-                        alt=""
-                        className="w-[170px] games-image"
-                      />
+                      <img src={coin} alt="" className="" />
                     </div>
                     <div className="w-[60px] mt-2 h-[22px] bg-[#0A436E] flex justify-center items-center text-white text-[12px] rounded-xl">
                       15 Secs
                     </div>
                     <div className="text-center text-2xl text-white font-bold">
-                      ANDAR BAHAR
+                      HEAD & TAIL
                     </div>
                   </div>
-                  <div className="bg-[#4DDEB3] relative games-card w-[245px] h-[250px] rounded flex flex-col items-center justify-center">
-                    <div class="absolute top-0 right-0 w-28 h-6 flex justify-center rounded bg-[#D9D9D9]">
-                      Coming soon
-                    </div>
-                    <div className="flex flex-col items-center">
-                      <img src={rockit} alt="" className="w-[50px]" />
-                      <img
-                        src={fivetwo}
-                        alt=""
-                        className="w-[150px] games-image"
-                      />
-                    </div>
-                    <div className="text-center text-2xl text-white font-bold">
-                      FAST-PARITY
-                    </div>
+                </Link>
+                <div className="bg-[#1D9EA7] relative games-card w-[245px] h-[250px] rounded flex flex-col items-center justify-center">
+                  <div class="absolute top-0 right-0 w-28 h-6 flex justify-center rounded bg-[#D9D9D9]">
+                    Coming soon
                   </div>
-                  <div className="bg-[#58B3FB] relative games-card w-[245px] h-[250px] rounded flex flex-col items-center justify-center">
-                    <div class="absolute top-0 right-0 w-28 h-6 flex justify-center rounded bg-[#D9D9D9]">
-                      Coming soon
-                    </div>
-                    <div>
-                      <img src={fiterjet} alt="" />
-                    </div>
-                    <div className="text-center text-white text-2xl font-bold">
-                      LIMBO
-                    </div>
+                  <div>
+                    <img
+                      src={rocket}
+                      alt=""
+                      className="w-[141px] games-image"
+                    />
                   </div>
-                  <div className="bg-[#517FE0] relative games-card w-[245px] h-[250px] rounded flex flex-col items-center justify-center">
-                    <div class="absolute top-0 right-0 w-28 h-6 flex justify-center rounded bg-[#D9D9D9]">
-                      Coming soon
-                    </div>
-                    <div>
-                      <img
-                        src={mine}
-                        alt=""
-                        className="w-[150px] games-image"
-                      />
-                    </div>
-                    <div className="text-center text-white  text-2xl font-bold">
-                      MINE SWEEPER
-                    </div>
-                  </div>
-                  <div className="bg-[#EDFA39]  relative  games-card w-[245px] h-[250px] rounded flex flex-col items-center justify-center">
-                    <div class="absolute top-0 right-0 w-28 h-6 flex justify-center rounded bg-[#D9D9D9]">
-                      Coming soon
-                    </div>
-                    <div>
-                      <img
-                        src={ludo}
-                        alt=""
-                        className="w-[170px] games-image"
-                      />
-                    </div>
-                    <div className="text-center text-[#889110] text-2xl font-bold">
-                      LUDO
-                    </div>
+                  <div className="text-center text-white text-2xl font-bold">
+                    CRASH
                   </div>
                 </div>
-   
+                <div className="bg-[#FAAA00] relative games-card w-[245px] h-[250px] rounded flex flex-col items-center justify-center">
+                  <div class="absolute top-0 right-0 w-28 h-6 flex justify-center rounded bg-[#D9D9D9]">
+                    Coming soon
+                  </div>
+                  <div>
+                    <img
+                      src={andarbahar}
+                      alt=""
+                      className="w-[170px] games-image"
+                    />
+                  </div>
+                  <div className="w-[60px] mt-2 h-[22px] bg-[#0A436E] flex justify-center items-center text-white text-[12px] rounded-xl">
+                    15 Secs
+                  </div>
+                  <div className="text-center text-2xl text-white font-bold">
+                    ANDAR BAHAR
+                  </div>
+                </div>
+                <div className="bg-[#4DDEB3] relative games-card w-[245px] h-[250px] rounded flex flex-col items-center justify-center">
+                  <div class="absolute top-0 right-0 w-28 h-6 flex justify-center rounded bg-[#D9D9D9]">
+                    Coming soon
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <img src={rockit} alt="" className="w-[50px]" />
+                    <img
+                      src={fivetwo}
+                      alt=""
+                      className="w-[150px] games-image"
+                    />
+                  </div>
+                  <div className="text-center text-2xl text-white font-bold">
+                    FAST-PARITY
+                  </div>
+                </div>
+                <div className="bg-[#58B3FB] relative games-card w-[245px] h-[250px] rounded flex flex-col items-center justify-center">
+                  <div class="absolute top-0 right-0 w-28 h-6 flex justify-center rounded bg-[#D9D9D9]">
+                    Coming soon
+                  </div>
+                  <div>
+                    <img src={fiterjet} alt="" />
+                  </div>
+                  <div className="text-center text-white text-2xl font-bold">
+                    LIMBO
+                  </div>
+                </div>
+                <div className="bg-[#517FE0] relative games-card w-[245px] h-[250px] rounded flex flex-col items-center justify-center">
+                  <div class="absolute top-0 right-0 w-28 h-6 flex justify-center rounded bg-[#D9D9D9]">
+                    Coming soon
+                  </div>
+                  <div>
+                    <img src={mine} alt="" className="w-[150px] games-image" />
+                  </div>
+                  <div className="text-center text-white  text-2xl font-bold">
+                    MINE SWEEPER
+                  </div>
+                </div>
+                <div className="bg-[#EDFA39]  relative  games-card w-[245px] h-[250px] rounded flex flex-col items-center justify-center">
+                  <div class="absolute top-0 right-0 w-28 h-6 flex justify-center rounded bg-[#D9D9D9]">
+                    Coming soon
+                  </div>
+                  <div>
+                    <img src={ludo} alt="" className="w-[170px] games-image" />
+                  </div>
+                  <div className="text-center text-[#889110] text-2xl font-bold">
+                    LUDO
+                  </div>
+                </div>
+              </div>
             </div>
 
             <Footer />

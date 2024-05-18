@@ -7,6 +7,7 @@ import { CiLock } from "react-icons/ci";
 import { FaFileCode } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
 import { postApi } from "../Repository/Repository";
+import { ClipLoader } from "react-spinners";
 
 const Signup = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -14,21 +15,25 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [confirm_password, setConfirmPassword] = useState("");
   const [referenceCode, setRefrenceCode] = useState("");
+  const [otpLoading, setOtpLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const sendOtp = () => {
     const payload = {
-      phoneNumber,
+      phoneNumber: `+${phoneNumber}`,
     };
     postApi({
       url: "/user/sendOtp",
       payload,
-      successMsg: "OTP sent successfully",
+      showMsg: true,
+      successMsg: "OTP sent to your number",
+      setLoading: setOtpLoading,
     });
   };
 
   const payload = {
-    phoneNumber,
+    phoneNumber: `+${phoneNumber}`,
     otp,
     password,
     confirm_password,
@@ -41,6 +46,7 @@ const Signup = () => {
     postApi({
       url: "/user/verifyOtpAndRegisterUser",
       payload,
+      setLoading,
       additionalFunctions,
     });
   };
@@ -134,6 +140,7 @@ const Signup = () => {
                     type="tel"
                     className=" placeholder: ml-2 block register-btn w-[230px] h-[48px] rounded-xl border-0 py-1.5 pl-10 pr-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2   sm:text-sm sm:leading-6"
                     value={otp}
+                    required
                     onChange={(e) => setOtp(e.target.value)}
                     placeholder="OTP"
                   />
@@ -143,7 +150,8 @@ const Signup = () => {
                   className="bg-[#FFB800] register-btn rounded w-[174px] h-[48px] text-white font-semibold"
                   onClick={() => sendOtp()}
                 >
-                  OTP
+                  {" "}
+                  {otpLoading ? "Sending..." : "OTP"}
                 </button>
               </div>
               <div className="mt-10">
@@ -151,7 +159,7 @@ const Signup = () => {
                   className="bg-[#FFB800] register-input-css  rounded w-[430px] h-[48px] text-white font-semibold"
                   type="submit"
                 >
-                  Register
+                  {loading ? <ClipLoader color="#fff" /> : "Register"}
                 </button>
               </div>
             </div>
@@ -159,7 +167,7 @@ const Signup = () => {
           <div className="text-center mt-5">
             Already have an account?
             <Link to={"/"}>
-              <span className="text-[#FFB800] font-semibold">Login</span>
+              <span className="text-[#FFB800] font-semibold"> Login</span>
             </Link>
           </div>
         </div>

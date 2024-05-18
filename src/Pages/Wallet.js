@@ -1,36 +1,38 @@
 /** @format */
 
-import React, { useState , useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Footer from "../Components/Footer";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { edit_module, getApi } from "../Repository/Repository";
 
 const Wallet = () => {
-  const navigate = useNavigate()
   const [selectedAmount, setSelectedAmount] = useState();
-  const [ res , setRes ] =useState({})
+  const [res, setRes] = useState({});
 
   const payload = {
-    wallet: selectedAmount,
+    wallet: parseInt(selectedAmount),
+  };
+
+  const getProfile = () => {
+    getApi({
+      url: "/user/profile",
+      setResponse: setRes,
+    });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const additionalFunctions = [ () => navigate('/Recharge')]
+    const additionalFunctions = [getProfile];
     edit_module({
       url: "/user/addWallet",
       payload,
-      successMsg: "Wallet balance updated successfully",
-      additionalFunctions
+      additionalFunctions,
     });
   };
 
   useEffect(() => {
-    getApi({
-      url : "/home/walletUserID",
-      setResponse : setRes
-    })
-  },[])
+    getProfile();
+  }, []);
 
   return (
     <div className="bg-slate-100 h-screen flex justify-center">
@@ -48,7 +50,9 @@ const Wallet = () => {
           <form onSubmit={handleSubmit}>
             <div className="mt-16">
               <div className="text-center font-bold">Balance</div>
-              <div className="text-center font-bold text-3xl">₹{res?.Wallet} </div>
+              <div className="text-center font-bold text-3xl">
+                ₹{res?.data?.user?.wallet ? res?.data?.user?.wallet : 0}{" "}
+              </div>
               <div className="ml-3 mr-3">
                 <div className="text-2xl font-bold">Amount</div>
                 <div className="text-3xl">
@@ -137,7 +141,7 @@ const Wallet = () => {
                 >
                   Recharge
                 </button>
-             </div>
+              </div>
             </div>
           </form>
 
