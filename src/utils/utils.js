@@ -13,7 +13,7 @@ export const countDown_func = ({ setValue, setIsActive }) => {
     setValue((prevCountdown) => {
       if (prevCountdown <= 1) {
         setIsActive(true); 
-        return 20;
+        return 30;
       }
       if (prevCountdown <= 8) {
         setIsActive(false);

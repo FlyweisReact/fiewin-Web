@@ -71,7 +71,7 @@ const Profile = () => {
                     <div className=""> {profile?.data?.user?.name} </div>
                     <div>
                       Mob: {profile?.data?.user?.phoneNumber}, ID:{" "}
-                      {profile?.data?.user?._id?.slice(0, 5)}{" "}
+                      {profile?.data?.user?.userId}{" "}
                     </div>
                   </div>
                 </div>

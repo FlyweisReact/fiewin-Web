@@ -54,7 +54,7 @@ const Home = () => {
                       className="cursor-pointer"
                     />
                   </div>
-                  <div>ID:{profile?.data?.user?._id?.slice(0, 5)}</div>
+                  <div>ID:{profile?.data?.user?.userId}</div>
                 </div>
                 <div className="flex flex-col gap-2 mr-2">
                   <Link to="/wallet">

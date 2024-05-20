@@ -512,7 +512,6 @@ html {
   background-color: rgb(255 184 0);
 }
 
-
 .disable_btn {
   background-color: #e5e5e5;
   color: #ababab;
@@ -536,4 +535,33 @@ html {
 
 .flip {
   animation: flip 2s infinite;
+}
+
+.reward-claimed-modal {
+  background-color: #ffac33;
+}
+
+.reward-claimed-modal .close_btn {
+  display: flex;
+  justify-content: flex-end;
+  color: #fff;
+}
+.reward-claimed-modal .close_btn svg {
+  font-size: 25px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.reward-claimed-modal .title{
+  font-size: 25px;
+  text-align: center;
+  color: #fff;
+  font-weight: 700;
+}
+
+.reward-claimed-modal .treasure-img{
+  width: 200px;
+  display: block;
+  margin: auto;
+  padding: 0;
 }

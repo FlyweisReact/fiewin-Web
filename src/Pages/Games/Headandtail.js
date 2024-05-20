@@ -19,25 +19,34 @@ const Headandtail = () => {
   const [guess, setGuess] = useState("head");
   const [loading, setLoading] = useState(false);
   const [myOrder, setMyOrder] = useState({});
-  const [allOrder, setAllOrder] = useState({});
   const [type, setType] = useState("all-order");
-  const [countdown, setCountdown] = useState(20);
   const [isActivated, setIsActivate] = useState(true);
   const [isCoinHead, setIsCoinHead] = useState(false);
+  const [currentGame, setCurrentGame] = useState({});
+  const [countDownTime, setCountDownTime] = useState(0);
+  const [lastTenOrder, setLastTenOrder] = useState({});
+  const [currentOrder, setCurrentOrder] = useState({});
+
+  useEffect(() => {
+    if (currentGame?.game?.currentCount !== undefined) {
+      setCountDownTime(currentGame.game.currentCount);
+    }
+  }, [currentGame]);
+
+  useEffect(() => {
+    if (currentGame?.game?.currentCount > 0) {
+      countDown_func({
+        setIsActive: setIsActivate,
+        setValue: setCountDownTime,
+      });
+    }
+  }, [currentGame]);
 
   useEffect(() => {
     const flipInterval = setInterval(() => {
       setIsCoinHead((prevState) => !prevState);
     }, 500);
     return () => clearInterval(flipInterval);
-  }, []);
-
-  useEffect(() => {
-    const clearTimer = countDown_func({
-      setValue: setCountdown,
-      setIsActive: setIsActivate,
-    });
-    return () => clearTimer();
   }, []);
 
   const toggleRulesPopup = () => {
@@ -57,10 +66,26 @@ const Headandtail = () => {
 
   useEffect(() => {
     getApi({
-      url: "/user/game/all/users?page=1&limit=100",
-      setResponse: setAllOrder,
+      url: "/user/current-game/head-tail",
+      setResponse: setCurrentGame,
     });
-  }, [countdown]);
+    getApi({
+      url: "/user/last-ten-games/head-tail",
+      setResponse: setLastTenOrder,
+    });
+  }, []);
+
+  useEffect(() => {
+    const flipInterval = setInterval(() => {
+      getApi({
+        url: "/user/current-game/head-tail",
+        setResponse: setCurrentOrder,
+      });
+    }, 2000);
+    return () => clearInterval(flipInterval);
+  }, []);
+
+  console.log(currentOrder?.game);
 
   const payload = {
     choice: guess,
@@ -69,24 +94,13 @@ const Headandtail = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const additionalFunctions = [getOrders];
     postApi({
       url: "/user/join/game",
       payload,
       setLoading,
-      additionalFunctions,
     });
   };
 
-  const allOrderData = allOrder?.games?.flatMap((item) =>
-    item?.participants?.map((i) => [
-      item?.gameId,
-      i?.user?.name ? i?.user?.name : i?.user?.phoneNumber,
-      <div className={`headandTail  ${i?.choice === "head" ? "H" : "T"} `}>
-        {i?.choice === "head" ? "H" : "T"}
-      </div>,
-    ])
-  );
   const userOrderDate = myOrder?.games
     ?.slice()
     ?.reverse()
@@ -104,6 +118,14 @@ const Headandtail = () => {
       </div>,
       <span>₹{item?.participants?.[0]?.amount}</span>,
     ]);
+
+  const currentOrderData = currentOrder?.game?.participants?.map((item) => [
+    currentOrder?.game?.gameId,
+    <div className={`headandTail  ${item?.choice === "head" ? "H" : "T"} `}>
+      {item?.choice === "head" ? "H" : "T"}
+    </div>,
+    <span>₹{item?.amount}</span>,
+  ]);
 
   return (
     <div className="h-screen flex justify-center ">
@@ -136,9 +158,9 @@ const Headandtail = () => {
                   className="flex gap-1 w-[450px] headtail-mini-main "
                   style={{ overflow: "hidden" }}
                 >
-                  {/* {myOrder?.map((i, index) => (
+                  {lastTenOrder?.games?.map((i, index) => (
                     <React.Fragment key={`history${index}`}>
-                      {i.Select === "head" ? (
+                      {i.result === "head" ? (
                         <span className="w-[47px] headtail-mini h-[57px] bg-[#B49366] rounded flex justify-center items-center font-bold text-xl">
                           {" "}
                           H
@@ -149,7 +171,7 @@ const Headandtail = () => {
                         </span>
                       )}
                     </React.Fragment>
-                  ))} */}
+                  ))}
                 </div>
               </div>
               <div className="bg-[#646464]  w-[40px] h-[50px] flex justify-center items-center rounded">
@@ -230,7 +252,7 @@ const Headandtail = () => {
                 <div className="absolute top-[-10px] left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col gap-1 items-center">
                   <span className="text-white text-[12px] ">CountDown</span>
                   <div className="bg-[#9EBFFF] w-[82px] h-[30px] rounded-3xl flex justify-center items-center text-xl font-semibold ">
-                    {formatCountDown(countdown)}
+                    {formatCountDown(countDownTime)}
                   </div>
                 </div>
                 <div className="flex justify-center">
@@ -330,7 +352,7 @@ const Headandtail = () => {
                   ) : (
                     <TableLayout
                       thead={["Period", "User", "Select"]}
-                      tbody={allOrderData}
+                      tbody={currentOrderData}
                     />
                   )}
                 </div>

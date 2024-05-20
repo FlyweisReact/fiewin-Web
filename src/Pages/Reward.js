@@ -76,11 +76,7 @@ const Reward = () => {
                 </div>
                 <div className="flex justify-center">
                 <button
-                    className={`w-[150px] h-[40px] text-white rounded-xl font-semibold text-xl ${
-                      isRewardClaimable(i.condition, i.conditionValue)
-                        ? "bg-[#FFB800]"
-                        : "bg-[#D9D9D9]"
-                    }`}
+                    className={`w-[150px] h-[40px] text-white rounded-xl font-semibold text-xl`}
                     onClick={() => claimReward(i._id)}
                     disabled={!isRewardClaimable(i.condition, i.conditionValue)}
                   >
