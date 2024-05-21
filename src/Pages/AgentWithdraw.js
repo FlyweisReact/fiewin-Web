@@ -1,4 +1,5 @@
 /** @format */
+
 import React, { useState, useEffect } from "react";
 import { LiaLessThanSolid } from "react-icons/lia";
 import { useNavigate } from "react-router-dom";
@@ -6,11 +7,10 @@ import { ClipLoader } from "react-spinners";
 import ComponentHead from "../Components/ComponentHead";
 import { getApi, postApi } from "../Repository/Repository";
 
-const Withdraw = () => {
-  const [addupi, setaddupi] = useState(false);
+const AgentWithdraw = () => {
   const [profile, setProfile] = useState({});
   const [amount, setAmount] = useState(0);
-  const [ loading , setLoading ] = useState(false)
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const navigationHandler = (res) => {
@@ -20,7 +20,7 @@ const Withdraw = () => {
 
   const payload = {
     amount,
-    transType: "account",
+    transType: "agentWallet",
   };
 
   const submitHandler = (e) => {
@@ -30,7 +30,7 @@ const Withdraw = () => {
       url: "/payment/withdrawRequest",
       payload,
       additionalFunctions,
-      setLoading
+      setLoading,
     });
   };
 
@@ -47,53 +47,6 @@ const Withdraw = () => {
 
   return (
     <>
-      {addupi ? (
-        <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
-          <div className="w-[400px] h-[270px] bg-white  rounded-lg relative  gap-5 p-3">
-            <form>
-              <div className="flex justify-center flex-col items-center mt-2 gap-3">
-                <div className="">
-                  <label>First Name</label>
-                  <br />
-                  <input
-                    type="text"
-                    className=" w-[350px] border-black border-b "
-                    placeholder="Enter Your Full Name"
-                  />
-                </div>
-
-                <div className="">
-                  <label>Email</label>
-                  <br />
-                  <input
-                    type="text"
-                    className="w-[350px] border-black border-b"
-                    placeholder="Enter Email"
-                  />
-                </div>
-                <div className="">
-                  <label>UPI ID</label>
-                  <br />
-                  <input
-                    type="text"
-                    className="w-[350px] border-black border-b"
-                    placeholder="Enter UPI ID"
-                  />
-                </div>
-              </div>
-            </form>
-
-            <div className="flex justify-center mt-5">
-              <button
-                onClick={() => setaddupi(false)}
-                className="w-[200px] h-[40px] bg-[#FFB800] text-white font-bold rounded-lg"
-              >
-                Submit
-              </button>
-            </div>
-          </div>
-        </div>
-      ) : null}
       <div className="h-screen flex justify-center">
         <div className="grid place-items-center ">
           <div className="lg:w-[500px] lg:h-full bg-white flex flex-col ">
@@ -104,8 +57,8 @@ const Withdraw = () => {
                 <div className="text-center font-bold">Balance</div>
                 <div className="font-bold text-center text-xl">
                   ₹
-                  {profile?.data?.user?.wallet
-                    ? profile?.data?.user?.wallet
+                  {profile?.data?.user?.agentWallet
+                    ? profile?.data?.user?.agentWallet
                     : 0}
                 </div>
                 <div className="flex justify-center flex-col items-center gap-y-2 mt-5  ">
@@ -116,10 +69,7 @@ const Withdraw = () => {
                     <div className="card-font">
                       with your UPID , you can withdraw money quickly
                     </div>
-                    <div
-                      className="underline cursor-pointer"
-                      onClick={() => setaddupi(true)}
-                    >
+                    <div className="underline cursor-pointer">
                       Click here to add
                     </div>
                   </div>
@@ -143,7 +93,7 @@ const Withdraw = () => {
                     <div className="text-2xl">
                       <input
                         type="number"
-                        min={50}
+                        min={10}
                         max={50000}
                         required
                         onChange={(e) => setAmount(e.target.value)}
@@ -167,7 +117,7 @@ const Withdraw = () => {
                         Amount <LiaLessThanSolid /> = 10000, fee 3%{" "}
                       </div>
                       <div className="amount-font">
-                        Manimum : <span className="font-bold"> ₹50</span>
+                        Minimum : <span className="font-bold"> ₹50</span>
                       </div>
                     </div>
                   </div>
@@ -177,7 +127,7 @@ const Withdraw = () => {
                       className="bg-[#ffb800] rounded-xl withdraw-btn w-[450px] h-[48px] text-white text-xl font-bold"
                       type="submit"
                     >
-                      { loading ? <ClipLoader color="#fff" /> : "Withdrawal"}
+                      {loading ? <ClipLoader color="#fff" /> : "Withdrawal"}
                     </button>
                   </div>
                 </form>
@@ -190,4 +140,4 @@ const Withdraw = () => {
   );
 };
 
-export default Withdraw;
+export default AgentWithdraw;

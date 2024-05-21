@@ -123,12 +123,8 @@ export const edit_module = async ({
       });
     }
   } catch (e) {
-    const msg = e?.response?.data || "Something went worng !";
-    if (errorMsg && e?.response?.data === undefined) {
-      showNotification({ message: errorMsg, type: "danger" });
-    } else {
-      showNotification({ message: msg, type: "danger" });
-    }
+    const msg = e?.response?.data?.message || "Something went worng !";
+    showNotification({ message: msg, type: "danger" });
   } finally {
     if (setLoading) {
       setLoading(false);

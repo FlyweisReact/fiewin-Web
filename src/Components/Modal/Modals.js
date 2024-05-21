@@ -10,15 +10,19 @@ import king from "../../Assets/Games/king.svg";
 import { IoMdClose } from "react-icons/io";
 import { ClipLoader } from "react-spinners";
 import teasureanimation from "../../Assets/teasureanimation.svg";
+import { getVelocityAnimal, getVelocityColor } from "../../utils/utils";
 
 export const SpinResModal = ({ show, handleClose, data }) => {
   return (
     show && (
-      <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
+      <div
+        className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50"
+        style={{
+          boxShadow: "(99, 99, 99, 0.2) 0px 2px 8px 0px",
+        }}
+      >
         <div className="w-[300px] h-[350px] bg-white  rounded-lg relative ">
-          <div className="bg-[red] w-full h-[50px] rounded-t text-white font-bold text-xl flex justify-center items-center">
-            {data?.message}
-          </div>
+          <div className="bg-[red] w-full h-[50px] rounded-t text-white font-bold text-xl flex justify-center items-center"></div>
           <div
             className="absolute top-0 right-0 mr-[-.5rem] mt-[-1rem] cursor-pointer"
             onClick={() => handleClose()}
@@ -26,33 +30,45 @@ export const SpinResModal = ({ show, handleClose, data }) => {
             <IoCloseCircle color="gold" size={35} />
           </div>
           <div className="flex justify-center mt-2">
-            <div className="bg-[red] w-[70px] h-[70px] rounded-full flex justify-center items-center text-3xl text-white font-bold">
-              {data?.Point}
-            </div>
+            {data?.game?.winners?.[0]?.prize ? (
+              <div className="bg-[#1D9377] w-[70px] h-[70px] rounded-full flex justify-center items-center text-3xl text-white font-bold">
+                Win
+              </div>
+            ) : (
+              <div className="bg-[red] w-[70px] h-[70px] rounded-full flex justify-center items-center text-3xl text-white font-bold">
+                Loss
+              </div>
+            )}
           </div>
           <div className="">
             <div className="flex justify-between mt-2 mr-5 ml-5">
               <div>Period</div>
-              <div> {data?.periodNumber} </div>
+              <div> {data?.game?.gameId} </div>
             </div>
-            <div className="flex justify-between mt-2 mr-5 ml-5">
-              <div>Price</div>
-              <div>₹{data?.Point} </div>
-            </div>
+            {data?.game?.winners?.[0]?.prize && (
+              <div className="flex justify-between mt-2 mr-5 ml-5">
+                <div>Prize</div>
+                <div>₹{data?.game?.winners?.[0]?.prize} </div>
+              </div>
+            )}
           </div>
           <div className="flex justify-center mt-2 mb-2">
-            <div className="bg-gray-100 w-[250px] h-[90px] p-2 ">
+            <div className="bg-gray-100 w-[250px] h-[auto] p-2 ">
               <div className="flex justify-between">
-                <span>Select</span>
-                <span> {data?.select} </span>
+                <span>Selected Animal</span>
+                {getVelocityAnimal(data?.game?.participants?.[0]?.animalChoice)}
               </div>
               <div className="flex justify-between">
-                <span>Point</span>
-                <span> {data?.Point} </span>
+                <span>Selected Color</span>
+                {getVelocityColor(data?.game?.participants?.[0]?.colourResult)}
               </div>
+
               <div className="flex justify-between">
                 <span>Amount</span>
-                <span className="text-[green] text-xl"> ₹{data?.Amount} </span>
+                <span className="text-[green] text-xl">
+                  {" "}
+                  ₹{data?.game?.participants?.[0]?.amount}{" "}
+                </span>
               </div>
             </div>
           </div>

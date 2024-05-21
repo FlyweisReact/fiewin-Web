@@ -85,7 +85,6 @@ const Headandtail = () => {
     return () => clearInterval(flipInterval);
   }, []);
 
-  console.log(currentOrder?.game);
 
   const payload = {
     choice: guess,

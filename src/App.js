@@ -1,3 +1,5 @@
+/** @format */
+
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Login from "./Components/Login";
 import Signup from "./Components/Signup";
@@ -25,7 +27,9 @@ import Invitetoday from "./Pages/Invitetoday";
 import Todaysincome from "./Pages/Todaysincome";
 import Recharge from "./Pages/Recharge";
 import Awardplains from "./Pages/Awardplains";
-import { ReactNotifications } from 'react-notifications-component'
+import { ReactNotifications } from "react-notifications-component";
+import Thanks from "./Pages/Thanks";
+import AgentWithdraw from "./Pages/AgentWithdraw";
 
 const router = createBrowserRouter([
   {
@@ -36,7 +40,7 @@ const router = createBrowserRouter([
     path: "/signup",
     element: <Signup />,
   },
-  
+
   {
     path: "/Forgotpassword",
     element: <Forgotpassword />,
@@ -121,7 +125,7 @@ const router = createBrowserRouter([
     path: "/Help",
     element: <Help />,
   },
-  
+
   {
     path: "/Withdraw",
     element: <Withdraw />,
@@ -134,12 +138,20 @@ const router = createBrowserRouter([
     path: "/Headandtail",
     element: <Headandtail />,
   },
+  {
+    path: "/thanks/:id",
+    element: <Thanks />,
+  },
+  {
+    path: "/agent-withdraw",
+    element: <AgentWithdraw />,
+  },
 ]);
 
 function App() {
   return (
     <div>
-    <ReactNotifications  />
+      <ReactNotifications />
       <RouterProvider router={router} />
     </div>
   );

@@ -26,17 +26,8 @@ const Inviteandearn = () => {
     getProfile();
   }, []);
 
-  console.log(profile?.data?.user?.agentWallet);
 
-  const createInviteLink = () => {
-    const additionalFunctions = [() => navigate("/Invitelink")];
-    postApi({
-      url: "/refer/createMyLinkAndCode",
-      payload: {},
-      showMsg: false,
-      additionalFunctions,
-    });
-  };
+
 
   return (
     <div className=" flex justify-center">
@@ -59,7 +50,7 @@ const Inviteandearn = () => {
                     </span>
                   </div>
                   <div className="mr-5">
-                    <Link to="/Withdraw">
+                    <Link to="/agent-withdraw">
                       <button className="bg-[#FFB800] rounded-3xl w-[100px] h-[48px] text-white font-semibold">
                         Withdraw
                       </button>
@@ -87,7 +78,7 @@ const Inviteandearn = () => {
                   </Link>
                   <div
                     className="bg-[#38C56D] agent-card { w-[150px] h-[126px] rounded-lg flex flex-col justify-center items-center cursor-pointer"
-                    onClick={() => createInviteLink()}
+                    onClick={() => navigate('/Invitelink')}
                   >
                     <img src={mylink} alt="" />
                     <div className="text-white font-bold text-xl">My Link</div>

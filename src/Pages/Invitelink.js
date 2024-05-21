@@ -1,10 +1,22 @@
 /** @format */
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import back from "../Assets/back.svg";
+import { getApi } from "../Repository/Repository";
+import { copyText } from "../utils/utils";
 
 const Invitelink = () => {
+  const [profile, setProfile] = useState({});
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    getApi({
+      url: "/user/profile",
+      setResponse: setProfile,
+    });
+  }, []);
+
   return (
     <div className=" h-screen flex justify-center">
       <div className="grid place-items-center">
@@ -28,11 +40,21 @@ const Invitelink = () => {
                 type="text"
                 className=" placeholder: ml-2 block w-[430px] invitelink-div h-[30px] rounded-xl border-0 py-1.5 pl-1 pr-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2   sm:text-sm sm:leading-6"
                 placeholder="Link"
+                value={profile?.data?.user?.referralCode}
               />
             </div>
             <div className="">
-              <button className="w-[430px]  invitelink-div h-[40px] bg-[#FFB800] text-white rounded-xl">
-                Copy link and share
+              <button
+                className="w-[430px] invitelink-div h-[40px] bg-[#FFB800] text-white rounded-xl"
+                type="button"
+                onClick={() =>
+                  copyText({
+                    textToCopy: profile?.data?.user?.referralCode,
+                    setCopied,
+                  })
+                }
+              >
+                {copied ? "Code copied" : " Copy link and share"}
               </button>
             </div>
             <div className=" w-[430px] invitelink-div text-white ">

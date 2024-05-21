@@ -7,14 +7,15 @@ import { Link } from "react-router-dom";
 import { getApi } from "../Repository/Repository";
 
 const Finicialdetail = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState({});
 
   useEffect(() => {
     getApi({
-      url: "/user/transactionWalletGame",
+      url: "/payment/recordAllUser",
       setResponse: setData,
     });
   }, []);
+
 
   return (
     <div className=" h-screen flex justify-center">
@@ -32,7 +33,7 @@ const Finicialdetail = () => {
             </div>
           </div>
           <div className="flex flex-col gap-2 items-center justify-center mt-5 finical-card-main">
-            {data?.map((i, index) => (
+            {data?.transactions?.map((i, index) => (
               <div
                 key={index}
                 className="bg-[#FFF3D5] finical-card w-[450px] h-[68px] rounded-lg flex items-center justify-between "
@@ -40,14 +41,14 @@ const Finicialdetail = () => {
                 <div className="flex gap-2 ml-2">
                   <img src={rupee} alt="" className="w-8" />
                   <div className="flex flex-col ">
-                    <div> {i.gameType} </div>
+                    <div> {i.product?.description} </div>
                     <div>
-                      {i.timing?.slice(0, 10)}{" "}
-                      {i.timing?.split("T")?.[1]?.slice(0, 5)}{" "}
+                      {i.timestamp}{" "}
+
                     </div>
                   </div>
                 </div>
-                <div className="font-bold mr-2">₹{i.money} </div>
+                <div className="font-bold mr-2">₹{i.amount} </div>
               </div>
             ))}
           </div>
