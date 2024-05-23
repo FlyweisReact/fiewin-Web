@@ -6,6 +6,7 @@
 
 body {
   font-family: Quicksand;
+  background-color: #f1f5f9;
 }
 html {
   font-family: Quicksand;
@@ -641,4 +642,75 @@ html {
   color: #000;
   font-weight: 600;
   margin: 0;
+}
+.user-balance {
+  font-size: 20px;
+}
+
+.footer-nav {
+  display: flex;
+  flex-direction: column;
+  color: #818181;
+  align-items: center;
+  cursor: pointer;
+}
+.footer-nav i {
+  font-size: 25px;
+}
+.footer-nav img {
+  width: 25px;
+}
+.footer-nav.active {
+  color: rgb(255 184 0) !important;
+}
+.footer-nav p {
+  margin: 0;
+  font-size: 17px;
+}
+
+.activeBtn {
+  border: 2px solid #000;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px !important;
+}
+
+.cicle-cont {
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.show-period-number {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+}
+.show-period-number p.desc {
+  font-size: 16px;
+  color: #fff;
+}
+.show-period-number p.title {
+  font-size: 22px;
+  color: #fff;
+}
+
+.check-in-days {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+.check-in-days .fa-check {
+  width: 36px;
+  height: 36px;
+  text-align: center;
+  line-height: 36px;
+  background-color: #ffac33;
+  border-radius: 100%;
+  color: #fff;
+  font-size: 14px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.check-in-days.disabled .fa-check {
+  background-color: #e5e5e5;
 }

@@ -22,11 +22,11 @@ import {
 } from "../../utils/utils";
 import TableLayout from "../../Components/TableLayout";
 
-const GetColorBox = ({ color, setValue, colorCode, probab }) => {
+const GetColorBox = ({ color, setValue, colorCode, probab, className }) => {
   return (
     <div className="flex flex-col gap-2 items-center">
       <button
-        className={`bg-[${colorCode}] circle-btn w-[150px] h-[60px] text-white font-bold rounded-lg text-xl`}
+        className={`bg-[${colorCode}] circle-btn w-[150px] h-[60px] text-white font-bold rounded-lg text-xl ${className} `}
         style={{ textTransform: "capitalize" }}
         onClick={() => setValue(color)}
       >
@@ -37,10 +37,15 @@ const GetColorBox = ({ color, setValue, colorCode, probab }) => {
   );
 };
 
-const GetAnimalBox = ({ setValue, value, img }) => {
+const GetAnimalBox = ({ setValue, value, img, className }) => {
   return (
     <div className="flex flex-col gap-2 items-center">
-      <div className="bg-[#BEEBFF]  flex justify-center items-end  border circle-tiger w-[100px] h-[50px] text-white font-bold rounded-lg ">
+      <div
+        className={`
+      bg-[#BEEBFF]  flex justify-center items-end  border circle-tiger w-[100px] h-[50px] text-white font-bold rounded-lg 
+      ${className}
+      `}
+      >
         <img
           src={img}
           onClick={() => setValue(value)}
@@ -182,6 +187,7 @@ const Circle = () => {
 
   const currentOrderData = currentOrder?.game?.participants?.map((item) => [
     currentOrder?.game?.gameId,
+    `***${item?.user?.slice(0,3)}` ,
     <div style={{ display: "flex", justifyContent: "center" }}>
       {getVelocityAnimal(item?.animalChoice)}
     </div>,
@@ -231,7 +237,7 @@ const Circle = () => {
               </div>
             </div>
 
-            <div className="overflow-y-auto overflow-x-hidden h-[700px] cicle-cont">
+            <div className="cicle-cont">
               <SpinRulesModal
                 show={showcircleRules}
                 handleClose={() => setShowcircleRules(false)}
@@ -254,6 +260,15 @@ const Circle = () => {
                 <div className="bg-[#646464] w-[47px] h-[57px] flex justify-center items-center rounded">
                   <LuHistory style={{ color: "white" }} size={30} />
                 </div>
+              </div>
+              <div className="show-period-number">
+                <p className="desc" style={{ color: "#000" }}>
+                  Period :{" "}
+                </p>
+                <p className="title" style={{ color: "#000" }}>
+                  {" "}
+                  {currentOrder?.game?.gameId}{" "}
+                </p>
               </div>
 
               <div className="mt-2 z-10">
@@ -286,6 +301,7 @@ const Circle = () => {
                     setValue={setColorChoice}
                     colorCode={i.code}
                     probab={i.prob}
+                    className={colourChoice === i.color ? "activeBtn" : ""}
                   />
                 ))}
               </div>
@@ -297,6 +313,7 @@ const Circle = () => {
                     setValue={setAnimalChoice}
                     value={i.name}
                     img={i.img}
+                    className={animalChoice === i.name ? "activeBtn" : ""}
                   />
                 ))}
               </div>
@@ -400,7 +417,7 @@ const Circle = () => {
                       "Period",
                       "Selected Animal",
                       "Selected Color",
-                      "Amount",
+                      "Point",
                     ]}
                     tbody={myOrderData}
                   />
@@ -408,9 +425,10 @@ const Circle = () => {
                   <TableLayout
                     thead={[
                       "Period",
+                      "User",
                       "Selected Animal",
                       "Selected Color",
-                      "Amount",
+                      "Point",
                     ]}
                     tbody={currentOrderData}
                   />

@@ -2,15 +2,27 @@
 
 import { Link } from "react-router-dom";
 import back from "../Assets/back.svg";
-import coins from "../Assets/coins.svg";
 import teasure from "../Assets/Treasure.svg";
 import teasureanimation from "../Assets/teasureanimation.svg";
-import { postApi } from "../Repository/Repository";
-import { useState } from "react";
+import { getApi, postApi } from "../Repository/Repository";
+import { useEffect, useState } from "react";
 import { RewardClamedModal } from "../Components/Modal/Modals";
+import { checkInRewards } from "../Constant/Constant";
 
 const Checkin = () => {
+  const [profile, setProfile] = useState({});
   const [show, setShow] = useState(false);
+
+  const getProfile = () => {
+    getApi({
+      url: "/user/profile",
+      setResponse: setProfile,
+    });
+  };
+
+  useEffect(() => {
+    getProfile();
+  }, []);
 
   const redeemReward = () => {
     const additionalFunctions = [() => setShow(true)];
@@ -19,6 +31,11 @@ const Checkin = () => {
       payload: {},
       additionalFunctions,
     });
+  };
+
+  const isAlreadyClaim = (day) => {
+    const isClaim = profile?.data?.user?.checkIn?.some((i) => i.day === day);
+    return isClaim;
   };
 
   return (
@@ -43,41 +60,18 @@ const Checkin = () => {
               <div className="flex justify-center mt-10">
                 <div className="w-[450px] checkin-card h-[300px] bg-white rounded-lg">
                   <div className="flex flex-wrap justify-center gap-12 m-5">
-                    <div className="flex flex-col items-center gap-1">
-                      <span className="font-bold">Day 1</span>
-                      <img src={coins} alt="" />
-                      <span className="font-bold">₹1</span>
-                    </div>
-                    <div className="flex flex-col items-center gap-1">
-                      <span className="font-bold">Day 2</span>
-                      <img src={coins} alt="" />
-                      <span className="font-bold">₹2</span>
-                    </div>
-                    <div className="flex flex-col items-center gap-1">
-                      <span className="font-bold">Day 3</span>
-                      <img src={coins} alt="" />
-                      <span className="font-bold">₹2</span>
-                    </div>
-                    <div className="flex flex-col items-center gap-1">
-                      <span className="font-bold">Day 4</span>
-                      <img src={coins} alt="" />
-                      <span className="font-bold">₹3</span>
-                    </div>
-                    <div className="flex flex-col items-center gap-1">
-                      <span className="font-bold">Day 5</span>
-                      <img src={coins} alt="" />
-                      <span className="font-bold">₹3</span>
-                    </div>
-                    <div className="flex flex-col items-center gap-1">
-                      <span className="font-bold">Day 6</span>
-                      <img src={coins} alt="" />
-                      <span className="font-bold">₹3</span>
-                    </div>
-                    <div className="flex flex-col items-center gap-1">
-                      <span className="font-bold">Day 7</span>
-                      <img src={coins} alt="" />
-                      <span className="font-bold">₹4</span>
-                    </div>
+                    {checkInRewards?.map((i, index) => (
+                      <div
+                        className={`check-in-days ${
+                          isAlreadyClaim(i.day) === true ? "disabled" : ""
+                        } `}
+                        key={index}
+                      >
+                        <span className="font-bold"> Day {i?.day} </span>
+                        {i.icon}
+                        <span className="font-bold"> {i.amount} </span>
+                      </div>
+                    ))}
 
                     <div>
                       <img src={teasure} alt="" />

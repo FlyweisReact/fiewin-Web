@@ -46,7 +46,7 @@ const router = createBrowserRouter([
     element: <Forgotpassword />,
   },
   {
-    path: "/Home",
+    path: "/home",
     element: <Home />,
   },
   {

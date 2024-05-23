@@ -34,7 +34,7 @@ const Home = () => {
 
   return (
     <>
-      <div className=" background-main flex justify-center">
+      <div className="background-main flex justify-center">
         <div className="grid place-items-center w-[500px] ">
           <div className="bg-[#FFDC82] w-[500px] p-5 flex justify-center items-center text-xl font-semibold top-0 fixed z-50">
             <img src={logo} alt="logo" />
@@ -44,7 +44,7 @@ const Home = () => {
               <div className="flex justify-between mt-8 ml-2 ">
                 <div className="flex flex-col gap-2">
                   <div>Balance</div>
-                  <div className="flex items-center gap-2 font-bold">
+                  <div className="flex items-center gap-2 font-bold user-balance">
                     ₹
                     {profile?.data?.user?.wallet
                       ? profile?.data?.user?.wallet
@@ -54,7 +54,9 @@ const Home = () => {
                       className="cursor-pointer"
                     />
                   </div>
-                  <div>ID:{profile?.data?.user?.userId}</div>
+                  <div className="user-balance">
+                    ID:{profile?.data?.user?.userId}
+                  </div>
                 </div>
                 <div className="flex flex-col gap-2 mr-2">
                   <Link to="/wallet">

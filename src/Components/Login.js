@@ -42,7 +42,7 @@ const Login = () => {
   }, [isLoggedIn, navigate]);
 
   return (
-    <div className="bg-slate-100 h-[100vh] flex justify-center ">
+    <div className="h-[100vh] flex justify-center ">
       <div className="grid place-items-center">
         <div className="lg:w-[500px] lg:h-[700px] bg-white bg-height">
           <div className="bg-[#FFB800] h-[80px] flex justify-center items-center text-xl font-semibold">

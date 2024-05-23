@@ -461,3 +461,78 @@ export const RewardClamedModal = ({ show, handleClose }) => {
     )
   );
 };
+
+
+export const HeadResModal = ({ show, handleClose, data }) => {
+  return (
+    show && (
+      <div
+        className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50"
+        style={{
+          boxShadow: "(99, 99, 99, 0.2) 0px 2px 8px 0px",
+        }}
+      >
+        <div className="w-[300px] h-[350px] bg-white  rounded-lg relative ">
+          <div className="bg-[red] w-full h-[50px] rounded-t text-white font-bold text-xl flex justify-center items-center"></div>
+          <div
+            className="absolute top-0 right-0 mr-[-.5rem] mt-[-1rem] cursor-pointer"
+            onClick={() => handleClose()}
+          >
+            <IoCloseCircle color="gold" size={35} />
+          </div>
+          <div className="flex justify-center mt-2">
+            {data?.game?.winners?.[0]?.prize ? (
+              <div className="bg-[#1D9377] w-[70px] h-[70px] rounded-full flex justify-center items-center text-3xl text-white font-bold">
+                Win
+              </div>
+            ) : (
+              <div className="bg-[red] w-[70px] h-[70px] rounded-full flex justify-center items-center text-3xl text-white font-bold">
+                Loss
+              </div>
+            )}
+          </div>
+          <div className="">
+            <div className="flex justify-between mt-2 mr-5 ml-5">
+              <div>Period</div>
+              <div> {data?.game?.gameId} </div>
+            </div>
+            {data?.game?.winners?.[0]?.prize && (
+              <div className="flex justify-between mt-2 mr-5 ml-5">
+                <div>Prize</div>
+                <div>₹{data?.game?.winners?.[0]?.prize} </div>
+              </div>
+            )}
+          </div>
+          <div className="flex justify-center mt-2 mb-2">
+            <div className="bg-gray-100 w-[250px] h-[auto] p-2 ">
+              <div className="flex justify-between">
+                <span>Selected Animal</span>
+                {getVelocityAnimal(data?.game?.participants?.[0]?.animalChoice)}
+              </div>
+              <div className="flex justify-between">
+                <span>Selected Color</span>
+                {getVelocityColor(data?.game?.participants?.[0]?.colourResult)}
+              </div>
+
+              <div className="flex justify-between">
+                <span>Amount</span>
+                <span className="text-[green] text-xl">
+                  {" "}
+                  ₹{data?.game?.participants?.[0]?.amount}{" "}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className="flex justify-center">
+            <button
+              onClick={() => handleClose()}
+              className="w-[200px] h-[40px] bg-[#87CEEB] text-white font-bold rounded-lg"
+            >
+              Ok
+            </button>
+          </div>
+        </div>
+      </div>
+    )
+  );
+};

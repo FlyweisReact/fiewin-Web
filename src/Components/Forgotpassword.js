@@ -1,10 +1,13 @@
+/** @format */
+
 import logo from "../Assets/FieWinlogo.svg";
 import { IoPhonePortraitOutline } from "react-icons/io5";
 import { CiLock } from "react-icons/ci";
 import key from "../Assets/key.svg";
+
 const Forgotpassword = () => {
   return (
-    <div className="bg-slate-100 h-[100vh] flex justify-center">
+    <div className="h-[100vh] flex justify-center">
       <div className="grid place-items-center">
         <div className="w-[500px] h-[700px] bg-white forgetbg-height">
           <div className="bg-[#FFB800] h-[80px] flex justify-center items-center text-xl font-semibold">
