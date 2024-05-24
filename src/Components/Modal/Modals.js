@@ -462,7 +462,6 @@ export const RewardClamedModal = ({ show, handleClose }) => {
   );
 };
 
-
 export const HeadResModal = ({ show, handleClose, data }) => {
   return (
     show && (
@@ -473,7 +472,11 @@ export const HeadResModal = ({ show, handleClose, data }) => {
         }}
       >
         <div className="w-[300px] h-[350px] bg-white  rounded-lg relative ">
-          <div className="bg-[red] w-full h-[50px] rounded-t text-white font-bold text-xl flex justify-center items-center"></div>
+          <div
+            className={`bg-[${
+              data?.result?.status === "Loss" ? "red" : "#1D9377"
+            }] w-full h-[50px] rounded-t text-white font-bold text-xl flex justify-center items-center`}
+          ></div>
           <div
             className="absolute top-0 right-0 mr-[-.5rem] mt-[-1rem] cursor-pointer"
             onClick={() => handleClose()}
@@ -481,13 +484,13 @@ export const HeadResModal = ({ show, handleClose, data }) => {
             <IoCloseCircle color="gold" size={35} />
           </div>
           <div className="flex justify-center mt-2">
-            {data?.game?.winners?.[0]?.prize ? (
-              <div className="bg-[#1D9377] w-[70px] h-[70px] rounded-full flex justify-center items-center text-3xl text-white font-bold">
-                Win
-              </div>
-            ) : (
+            {data?.result?.status === "Loss" ? (
               <div className="bg-[red] w-[70px] h-[70px] rounded-full flex justify-center items-center text-3xl text-white font-bold">
                 Loss
+              </div>
+            ) : (
+              <div className="bg-[#1D9377] w-[70px] h-[70px] rounded-full flex justify-center items-center text-3xl text-white font-bold">
+                Win
               </div>
             )}
           </div>
@@ -506,20 +509,29 @@ export const HeadResModal = ({ show, handleClose, data }) => {
           <div className="flex justify-center mt-2 mb-2">
             <div className="bg-gray-100 w-[250px] h-[auto] p-2 ">
               <div className="flex justify-between">
-                <span>Selected Animal</span>
-                {getVelocityAnimal(data?.game?.participants?.[0]?.animalChoice)}
-              </div>
-              <div className="flex justify-between">
-                <span>Selected Color</span>
-                {getVelocityColor(data?.game?.participants?.[0]?.colourResult)}
+                <span>Selected Choice</span>
+                <div
+                  className={`headandTail  ${
+                    data?.result?.choice === "head" ? "H" : "T"
+                  } `}
+                  style={{margin : 0}}
+                >
+                  {data?.result?.choice === "head" ? "H" : "T"}
+                </div>
               </div>
 
               <div className="flex justify-between">
                 <span>Amount</span>
-                <span className="text-[green] text-xl">
-                  {" "}
-                  ₹{data?.game?.participants?.[0]?.amount}{" "}
-                </span>
+
+                {data?.result?.status === "Loss" ? (
+                  <span className="text-[red] text-xl">
+                    -₹{data?.game?.participants?.[0]?.amount}{" "}
+                  </span>
+                ) : (
+                  <span className="text-[#1D9377] text-xl">
+                    -₹{data?.game?.participants?.[0]?.amount}{" "}
+                  </span>
+                )}
               </div>
             </div>
           </div>

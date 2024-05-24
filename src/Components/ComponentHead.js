@@ -12,7 +12,7 @@ const ComponentHead = ({ title, subTitle, subLink }) => {
           <img src={back} alt="" className="ml-2" />
         </Link>
       </div>
-      <div className="text-2xl  "> {title} </div>
+      <div className="text-2xl"> {title} </div>
 
       {subLink ? (
         <div className="cursor-pointer" onClick={() => subLink()}>

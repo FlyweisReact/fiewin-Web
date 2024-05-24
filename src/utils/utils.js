@@ -106,3 +106,4 @@ export const copyText = ({ textToCopy, setCopied }) => {
     setCopied(false);
   }, 1000);
 };
+

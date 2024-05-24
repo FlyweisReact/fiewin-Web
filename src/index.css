@@ -495,7 +495,7 @@ html {
   text-align: center;
   font-weight: 600;
 }
-.order-table tbody tr td .headandTail {
+ .headandTail {
   width: 40px;
   height: 40px;
   border-radius: 5px;
@@ -506,10 +506,10 @@ html {
   display: block;
   margin: auto;
 }
-.order-table tbody tr td .headandTail.H {
+ .headandTail.H {
   background-color: rgb(165 129 79);
 }
-.order-table tbody tr td .headandTail.T {
+ .headandTail.T {
   background-color: rgb(255 184 0);
 }
 

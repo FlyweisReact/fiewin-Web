@@ -8,6 +8,7 @@ import { getApi, postApi } from "../Repository/Repository";
 import { useEffect, useState } from "react";
 import { RewardClamedModal } from "../Components/Modal/Modals";
 import { checkInRewards } from "../Constant/Constant";
+import ComponentHead from "../Components/ComponentHead";
 
 const Checkin = () => {
   const [profile, setProfile] = useState({});
@@ -80,12 +81,21 @@ const Checkin = () => {
                 </div>
               </div>
               <div className="flex justify-center mt-2">
-                <button
-                  className="w-[150px] h-[40px] bg-[#FFB800] text-white rounded-xl  font-semibold text-xl"
-                  onClick={() => redeemReward()}
-                >
-                  Check in
-                </button>
+                {profile?.data?.user?.isEligibleForCheckIn ? (
+                  <button
+                    className="w-[150px] h-[40px] bg-[#FFB800] text-white rounded-xl  font-semibold text-xl"
+                    onClick={() => redeemReward()}
+                  >
+                    Check in
+                  </button>
+                ) : (
+                  <button
+                    className="w-[150px] h-[40px] bg-[#e5e5e5] text-white rounded-xl  font-semibold text-xl"
+                    type="button"
+                  >
+                    Check in
+                  </button>
+                )}
               </div>
               <div className="flex justify-center mt-2">
                 <div className="text-center w-[450px] check-p font-semibold">

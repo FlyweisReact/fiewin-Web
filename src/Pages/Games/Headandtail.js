@@ -16,12 +16,11 @@ import {
   HeadTailRulesPopup,
 } from "../../Components/Modal/Modals";
 
-const getWinner = ({ userId, WinnerArr }) => {
-  const isWin = WinnerArr?.filter((i) => i.user === userId);
-  if (isWin?.[0]) {
-    return <span>₹{isWin?.[0]?.price}</span>;
+const isWinLoss = (winAmount, amount) => {
+  if (winAmount === 0) {
+    return <span style={{ color: "#fa3c09" }}>-₹{amount}</span>;
   } else {
-    return "";
+    return <span style={{ color: "#00c282" }}>+₹{winAmount}</span>;
   }
 };
 
@@ -39,6 +38,7 @@ const Headandtail = () => {
   const [lastTenOrder, setLastTenOrder] = useState({});
   const [currentOrder, setCurrentOrder] = useState({});
   const [open, setOpen] = useState(false);
+  const [gameRes, setGameRes] = useState({});
 
   useEffect(() => {
     if (currentGame?.game?.currentCount !== undefined) {
@@ -68,7 +68,7 @@ const Headandtail = () => {
 
   const getOrders = () => {
     getApi({
-      url: "/user/game/users",
+      url: "/user/order/by/token",
       setResponse: setMyOrder,
     });
   };
@@ -105,33 +105,33 @@ const Headandtail = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const additionalFunctions = [(res) => setGameRes(res), () => setOpen(true)];
     postApi({
       url: "/user/join/game",
       payload,
       setLoading,
+      additionalFunctions,
     });
   };
 
-  const userOrderDate = myOrder?.games
+  const userOrderDate = myOrder?.orders
     ?.slice()
     ?.reverse()
+    ?.filter((item) => item?.type === "Head-Tail")
     ?.map((item) => [
-      item?.gameId,
+      item?.headTailGame?.gameId,
+      <div className={`headandTail ${item?.choice === "head" ? "H" : "T"}`}>
+        {item?.choice === "head" ? "H" : "T"}
+      </div>,
       <div
-        className={`headandTail  ${
-          item?.participants?.[0]?.choice === "head" ? "H" : "T"
-        } `}
+        className={`headandTail ${
+          item?.headTailGame?.result === "head" ? "H" : "T"
+        }`}
       >
-        {item?.participants?.[0]?.choice === "head" ? "H" : "T"}
+        {item?.headTailGame?.result === "head" ? "H" : "T"}
       </div>,
-      <div className={`headandTail  ${item?.result === "head" ? "H" : "T"} `}>
-        {item?.result === "head" ? "H" : "T"}
-      </div>,
-      <span>₹{item?.participants?.[0]?.amount}</span>,
-      getWinner({
-        userId: item?.participants?.[0]?.user?._id,
-        WinnerArr: item?.winners,
-      }),
+      <span>₹{item?.amount}</span>,
+      isWinLoss(item?.userWinAmount, item?.amount),
     ]);
 
   const currentOrderData = currentOrder?.game?.participants?.map((item) => [
@@ -145,7 +145,11 @@ const Headandtail = () => {
 
   return (
     <>
-      <HeadResModal show={open} handleClose={() => setOpen(false)} />
+      <HeadResModal
+        data={gameRes}
+        show={open}
+        handleClose={() => setOpen(false)}
+      />
       <div className="h-screen flex justify-center ">
         <div className="grid place-items-center ">
           <div className="lg:w-[500px] lg:h-full bg-white md:w-[400px] headtail-main flex flex-col ">

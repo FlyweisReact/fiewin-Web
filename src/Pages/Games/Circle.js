@@ -119,7 +119,7 @@ const Circle = () => {
 
   const fetchAll = () => {
     getApi({
-      url: "/user/spinGame/game/users",
+      url: "/user/order/by/token",
       setResponse: setMyOrder,
     });
   };
@@ -187,7 +187,7 @@ const Circle = () => {
 
   const currentOrderData = currentOrder?.game?.participants?.map((item) => [
     currentOrder?.game?.gameId,
-    `***${item?.user?.slice(0,3)}` ,
+    `***${item?.user?.slice(0, 3)}`,
     <div style={{ display: "flex", justifyContent: "center" }}>
       {getVelocityAnimal(item?.animalChoice)}
     </div>,
@@ -197,17 +197,23 @@ const Circle = () => {
     <span>₹{item?.amount}</span>,
   ]);
 
-  const myOrderData = myOrder?.games
+  console.log(myOrder);
+
+  const myOrderData = myOrder?.orders
     ?.slice()
     ?.reverse()
+    ?.filter((item) => item?.type === "Spin")
     ?.map((item) => [
-      item?.gameId,
+      item?.spinGame?.gameId,
       <div style={{ display: "flex", justifyContent: "center" }}>
-        {getVelocityAnimal(item?.participants?.[0]?.animalChoice)}
+        {getVelocityAnimal(item?.animalChoice)}
+        {getVelocityColor(item?.colourChoice)}
       </div>,
       <div style={{ display: "flex", justifyContent: "center" }}>
-        {getVelocityColor(item?.participants?.[0]?.colourChoice)}
+        {getVelocityAnimal(item?.spinGame?.animalResult)}
+        {getVelocityColor(item?.spinGame?.colourResult)}
       </div>,
+
       <span>₹{item?.participants?.[0]?.amount}</span>,
     ]);
 
