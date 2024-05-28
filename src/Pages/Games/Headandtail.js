@@ -5,7 +5,6 @@ import back from "../../Assets/back.svg";
 import cointail from "../../Assets/cointail.svg";
 import coinhead from "../../Assets/coinhead.svg";
 import coinbg from "../../Assets/coinbg.svg";
-import { LuHistory } from "react-icons/lu";
 import React, { useEffect, useState } from "react";
 import { getApi, postApi } from "../../Repository/Repository";
 import { ClipLoader } from "react-spinners";
@@ -32,13 +31,13 @@ const Headandtail = () => {
   const [myOrder, setMyOrder] = useState({});
   const [type, setType] = useState("all-order");
   const [isActivated, setIsActivate] = useState(true);
-  const [isCoinHead, setIsCoinHead] = useState(false);
   const [currentGame, setCurrentGame] = useState({});
   const [countDownTime, setCountDownTime] = useState(0);
   const [lastTenOrder, setLastTenOrder] = useState({});
   const [currentOrder, setCurrentOrder] = useState({});
   const [open, setOpen] = useState(false);
   const [gameRes, setGameRes] = useState({});
+  const [isBtn, setIsBtn] = useState(true);
 
   useEffect(() => {
     if (currentGame?.game?.currentCount !== undefined) {
@@ -54,13 +53,6 @@ const Headandtail = () => {
       });
     }
   }, [currentGame]);
-
-  useEffect(() => {
-    const flipInterval = setInterval(() => {
-      setIsCoinHead((prevState) => !prevState);
-    }, 500);
-    return () => clearInterval(flipInterval);
-  }, []);
 
   const toggleRulesPopup = () => {
     setShowRulesPopup(!showRulesPopup);
@@ -82,10 +74,6 @@ const Headandtail = () => {
       url: "/user/current-game/head-tail",
       setResponse: setCurrentGame,
     });
-    getApi({
-      url: "/user/last-ten-games/head-tail",
-      setResponse: setLastTenOrder,
-    });
   }, []);
 
   useEffect(() => {
@@ -94,7 +82,17 @@ const Headandtail = () => {
         url: "/user/current-game/head-tail",
         setResponse: setCurrentOrder,
       });
-    }, 2000);
+    }, 5000);
+    return () => clearInterval(flipInterval);
+  }, []);
+
+  useEffect(() => {
+    const flipInterval = setInterval(() => {
+      getApi({
+        url: "/user/last-ten-games/head-tail",
+        setResponse: setLastTenOrder,
+      });
+    }, 10000);
     return () => clearInterval(flipInterval);
   }, []);
 
@@ -105,13 +103,24 @@ const Headandtail = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const additionalFunctions = [(res) => setGameRes(res), () => setOpen(true)];
+    setIsBtn(false);
+    const additionalFunctions = [(res) => setGameRes(res)];
     postApi({
       url: "/user/join/game",
       payload,
       setLoading,
       additionalFunctions,
     });
+
+    if (countDownTime === 0) {
+      setOpen(true);
+      setIsBtn(true);
+    } else {
+      setTimeout(() => {
+        setOpen(true);
+        setIsBtn(true);
+      }, countDownTime * 1000);
+    }
   };
 
   const userOrderDate = myOrder?.orders
@@ -143,12 +152,14 @@ const Headandtail = () => {
     <span>₹{item?.amount}</span>,
   ]);
 
+  const isButtonActive = isActivated && isBtn;
   return (
     <>
       <HeadResModal
         data={gameRes}
         show={open}
         handleClose={() => setOpen(false)}
+        fetchHandler={getOrders}
       />
       <div className="h-screen flex justify-center ">
         <div className="grid place-items-center ">
@@ -196,9 +207,6 @@ const Headandtail = () => {
                     ))}
                   </div>
                 </div>
-                <div className="bg-[#646464]  w-[40px] h-[50px] flex justify-center items-center rounded">
-                  <LuHistory style={{ color: "white" }} size={20} />
-                </div>
               </div>
 
               <div className="show-period-number">
@@ -206,51 +214,30 @@ const Headandtail = () => {
                 <p className="title"> {currentOrder?.game?.gameId} </p>
               </div>
 
-              {isActivated ? (
-                <div className="flex justify-center mt-10 relative">
-                  <img
-                    src={coinbg}
-                    alt=""
-                    className="absolute inset-0 w-full h-full"
-                  />
+              <div className="flex justify-center mt-10 relative">
+                <img
+                  src={coinbg}
+                  alt=""
+                  className="absolute inset-0 w-full h-full"
+                  style={{ zIndex: 1 }}
+                />
 
-                  {guess === "head" ? (
-                    <img
-                      src={coinhead}
-                      alt=""
-                      className="w-28 h-auto transform transition-transform duration-500 rotate-180 hover:rotate-y-180"
-                    />
-                  ) : (
-                    <img
-                      src={cointail}
-                      alt=""
-                      className="w-28 h-auto transform transition-transform duration-500 rotate-0 hover:rotate-y-180"
-                    />
-                  )}
-                </div>
-              ) : (
-                <div className="flex justify-center mt-10 relative">
+                {isActivated ? (
                   <img
-                    src={coinbg}
+                    src={guess === "head" ? coinhead : cointail}
                     alt=""
-                    className="absolute inset-0 w-full h-full"
+                    className="w-28 h-auto"
+                    style={{ zIndex: 2 }}
                   />
-
-                  {isCoinHead ? (
-                    <img
-                      src={coinhead}
-                      alt=""
-                      className="w-28 h-auto transform transition-transform duration-500 rotate-180 hover:rotate-y-180"
-                    />
-                  ) : (
-                    <img
-                      src={cointail}
-                      alt=""
-                      className="w-28 h-auto transform transition-transform duration-500 rotate-0 hover:rotate-y-180"
-                    />
-                  )}
-                </div>
-              )}
+                ) : (
+                  <div className="coin">
+                    <div className="coin-inner">
+                      <img src={coinhead} alt="" className="coin-head" />
+                      <img src={cointail} alt="" className="coin-tail" />
+                    </div>
+                  </div>
+                )}
+              </div>
 
               <div className="flex justify-center gap-2 mt-10">
                 <div className="flex flex-col gap-2 items-center">
@@ -341,7 +328,7 @@ const Headandtail = () => {
                     </div>
                   </div>
                   <div className="mt-2 flex justify-center">
-                    {isActivated ? (
+                    {isButtonActive ? (
                       <button
                         type="submit"
                         className="bg-[#ED1B24] head-tail-confirm-btn w-[450px] h-[50px] rounded-lg font-bold text-white  "

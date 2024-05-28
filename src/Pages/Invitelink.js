@@ -17,6 +17,11 @@ const Invitelink = () => {
     });
   }, []);
 
+  const inviteLink =
+    process.env.React_App_Web_Url +
+    profile?.data?.user?.referralCode +
+    "/refer";
+
   return (
     <div className=" h-screen flex justify-center">
       <div className="grid place-items-center">
@@ -40,7 +45,7 @@ const Invitelink = () => {
                 type="text"
                 className=" placeholder: ml-2 block w-[430px] invitelink-div h-[30px] rounded-xl border-0 py-1.5 pl-1 pr-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2   sm:text-sm sm:leading-6"
                 placeholder="Link"
-                value={profile?.data?.user?.referralCode}
+                value={inviteLink}
               />
             </div>
             <div className="">
@@ -49,7 +54,7 @@ const Invitelink = () => {
                 type="button"
                 onClick={() =>
                   copyText({
-                    textToCopy: profile?.data?.user?.referralCode,
+                    textToCopy: inviteLink,
                     setCopied,
                   })
                 }

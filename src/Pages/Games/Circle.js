@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import back from "../../Assets/back.svg";
 import pin from "../../Assets/Games/pin.svg";
 import circle from "../../Assets/Games/circle.svg";
-import { LuHistory } from "react-icons/lu";
 import tiger from "../../Assets/Games/tiger.svg";
 import camel from "../../Assets/Games/camel.svg";
 import elephant from "../../Assets/Games/elephant.svg";
@@ -197,8 +196,6 @@ const Circle = () => {
     <span>₹{item?.amount}</span>,
   ]);
 
-  console.log(myOrder);
-
   const myOrderData = myOrder?.orders
     ?.slice()
     ?.reverse()
@@ -262,9 +259,6 @@ const Circle = () => {
                       getVelocityAnimal(i?.animalResult)
                     )}
                   </div>
-                </div>
-                <div className="bg-[#646464] w-[47px] h-[57px] flex justify-center items-center rounded">
-                  <LuHistory style={{ color: "white" }} size={30} />
                 </div>
               </div>
               <div className="show-period-number">

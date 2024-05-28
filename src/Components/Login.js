@@ -20,7 +20,7 @@ const Login = () => {
 
   const payload = {
     password,
-    phoneNumber: `+${phoneNumber}`,
+    phoneNumber: `+91${phoneNumber}`,
   };
 
   const handleSubmit = (e) => {
@@ -42,43 +42,41 @@ const Login = () => {
   }, [isLoggedIn, navigate]);
 
   return (
-    <div className="h-[100vh] flex justify-center ">
-      <div className="grid place-items-center">
-        <div className="lg:w-[500px] lg:h-[700px] bg-white bg-height">
-          <div className="bg-[#FFB800] h-[80px] flex justify-center items-center text-xl font-semibold">
-            Login
-          </div>
-          <div className="flex justify-center mt-10">
+    <div className="LoginSection">
+      <div className="MainDiv">
+        <div className="LoginDiv">
+          <div className="Head-title">Login</div>
+
+          <div className="logo-div">
             <img src={logo} alt="logo" />
           </div>
 
           <form onSubmit={handleSubmit}>
-            <div className="flex flex-col gap-5 items-center mt-10">
-              <div className="relative rounded">
-                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                  <span className="p-2.5 ml-[-3px] rounded-tl rounded-bl text-white">
-                    <IoPhonePortraitOutline style={{ color: "gray" }} />
+            <div className="formDiv">
+              <div className="InputDiv">
+                <div>
+                  <span>
+                    <IoPhonePortraitOutline />
                   </span>
                 </div>
 
                 <input
                   type="tel"
-                  className=" placeholder: ml-2 block input-css  lg:w-[430px] h-[48px] rounded-xl border-0 py-1.5 pl-10 pr-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2   sm:text-sm sm:leading-6"
                   placeholder="Mobile Number"
                   required
                   onChange={(e) => setPhoneNumber(e.target.value)}
                 />
               </div>
-              <div className="relative rounded">
-                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                  <span className="p-2.5 ml-[-3px] rounded-tl rounded-bl text-white">
-                    <CiLock style={{ color: "gray" }} />
+
+              <div className="InputDiv">
+                <div>
+                  <span>
+                    <CiLock />
                   </span>
                 </div>
 
                 <input
-                  type="tel"
-                  className="placeholder: ml-2 block input-css lg:w-[430px] h-[48px] rounded-xl border-0 py-1.5 pl-10 pr-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2   sm:text-sm sm:leading-6"
+                  type="password"
                   placeholder="Password"
                   required
                   onChange={(e) => setPassword(e.target.value)}
@@ -86,10 +84,7 @@ const Login = () => {
               </div>
 
               <div className="mt-10">
-                <button
-                  className="bg-[#FFB800] rounded-xl input-css lg:w-[430px] h-[48px] text-white font-semibold"
-                  type="submit"
-                >
+                <button className="submitBtn" type="submit">
                   {loading ? <ClipLoader color="#fff" /> : "Login"}
                 </button>
               </div>

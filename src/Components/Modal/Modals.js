@@ -462,7 +462,12 @@ export const RewardClamedModal = ({ show, handleClose }) => {
   );
 };
 
-export const HeadResModal = ({ show, handleClose, data }) => {
+export const HeadResModal = ({ show, handleClose, data, fetchHandler }) => {
+  const closeBtn = () => {
+    handleClose();
+    fetchHandler();
+  };
+
   return (
     show && (
       <div
@@ -479,7 +484,7 @@ export const HeadResModal = ({ show, handleClose, data }) => {
           ></div>
           <div
             className="absolute top-0 right-0 mr-[-.5rem] mt-[-1rem] cursor-pointer"
-            onClick={() => handleClose()}
+            onClick={() => closeBtn()}
           >
             <IoCloseCircle color="gold" size={35} />
           </div>
@@ -514,7 +519,7 @@ export const HeadResModal = ({ show, handleClose, data }) => {
                   className={`headandTail  ${
                     data?.result?.choice === "head" ? "H" : "T"
                   } `}
-                  style={{margin : 0}}
+                  style={{ margin: 0 }}
                 >
                   {data?.result?.choice === "head" ? "H" : "T"}
                 </div>
@@ -537,7 +542,7 @@ export const HeadResModal = ({ show, handleClose, data }) => {
           </div>
           <div className="flex justify-center">
             <button
-              onClick={() => handleClose()}
+              onClick={() => closeBtn()}
               className="w-[200px] h-[40px] bg-[#87CEEB] text-white font-bold rounded-lg"
             >
               Ok

@@ -1,0 +1,95 @@
+/** @format */
+
+/* Login Page */
+.LoginSection {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+}
+
+.LoginSection .MainDiv {
+  display: grid;
+  place-items: center;
+}
+
+.LoginSection .MainDiv .LoginDiv {
+  background-color: #fff;
+  width: 500px;
+  height: 700px;
+}
+
+.LoginSection .MainDiv .LoginDiv .Head-title {
+  font-weight: 600;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  background-color: rgb(255 184 0);
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+  display: flex;
+}
+.LoginSection .MainDiv .LoginDiv .logo-div {
+  display: flex;
+  justify-content: center;
+  margin-top: 2.5rem;
+}
+.LoginSection .MainDiv .LoginDiv .logo-div img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.LoginSection .MainDiv .LoginDiv .formDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  margin-top: 2.5rem;
+}
+
+.LoginSection .MainDiv .LoginDiv .formDiv .InputDiv {
+  border-radius: 0.25rem;
+  position: relative;
+}
+.LoginSection .MainDiv .LoginDiv .formDiv .InputDiv div {
+  padding-left: 0.75rem;
+  align-items: center;
+  display: flex;
+  inset: 0;
+  position: absolute;
+  pointer-events: none;
+}
+.LoginSection .MainDiv .LoginDiv .formDiv .InputDiv div span {
+  color: #fff;
+  padding: 0.625rem;
+  border-radius: 0.25rem;
+  margin-left: -3px;
+}
+.LoginSection .MainDiv .LoginDiv .formDiv .InputDiv div span svg {
+  color: gray;
+}
+.LoginSection .MainDiv .LoginDiv .formDiv .InputDiv input {
+  width: 430px;
+  line-height: 1.5rem;
+  font-size: 0.875rem;
+  color: #000;
+  border: 1px solid rgb(209 213 219);
+  padding-right: 1rem;
+  padding-left: 2.5rem;
+  padding-top: 0.375rem;
+  padding-bottom: 0.375rem;
+  border-radius: 0.75rem;
+  height: 48px;
+  margin-left: 0.5rem;
+  display: block;
+}
+.LoginSection .MainDiv .LoginDiv .formDiv  .submitBtn{
+
+    width: 430px;
+    color: #fff;
+    font-weight: 600;
+    background-color: rgb(255 184 0);
+    border-radius: 0.75rem;
+    height: 48px;
+}
+/* ---- */

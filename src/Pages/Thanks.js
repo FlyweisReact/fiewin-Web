@@ -23,7 +23,7 @@ const Thanks = () => {
 
   useEffect(() => {
     submitHanlder();
-  }, [id]);
+  }, [submitHanlder]);
 
   return (
     <div className="bg-slate-100 h-screen flex justify-center">

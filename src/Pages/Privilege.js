@@ -1,7 +1,10 @@
+/** @format */
+
 import React from "react";
 import { Link } from "react-router-dom";
 import back from "../Assets/back.svg";
 import grouppeople from "../Assets/gruoppeople.svg";
+
 const Privilege = () => {
   return (
     <div className="bg-slate-100 h-screen flex justify-center">

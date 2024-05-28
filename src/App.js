@@ -30,6 +30,8 @@ import Awardplains from "./Pages/Awardplains";
 import { ReactNotifications } from "react-notifications-component";
 import Thanks from "./Pages/Thanks";
 import AgentWithdraw from "./Pages/AgentWithdraw";
+import Refer from "./Components/Refer";
+import './CSS/style.css'
 
 const router = createBrowserRouter([
   {
@@ -145,6 +147,10 @@ const router = createBrowserRouter([
   {
     path: "/agent-withdraw",
     element: <AgentWithdraw />,
+  },
+  {
+    path: "/:id/refer",
+    element: <Refer />,
   },
 ]);
 

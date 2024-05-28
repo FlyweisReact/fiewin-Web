@@ -1,6 +1,9 @@
+/** @format */
+
 import { Link } from "react-router-dom";
 import back from "../Assets/back.svg";
 import comingsoon from "../Assets/comingsoon.svg";
+
 const Ranking = () => {
   return (
     <div className="bg-slate-100 h-screen flex justify-center">

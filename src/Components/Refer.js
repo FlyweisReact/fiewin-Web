@@ -1,27 +1,28 @@
 /** @format */
+
 import { useState } from "react";
 import logo from "../Assets/FieWinlogo.svg";
 import key from "../Assets/key.svg";
 import { IoPhonePortraitOutline } from "react-icons/io5";
 import { CiLock } from "react-icons/ci";
 import { FaFileCode } from "react-icons/fa6";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { postApi } from "../Repository/Repository";
 import { ClipLoader } from "react-spinners";
 
-const Signup = () => {
+const Refer = () => {
+  const { id } = useParams();
   const [phoneNumber, setPhoneNumber] = useState("");
   const [otp, setOtp] = useState("");
   const [password, setPassword] = useState("");
   const [confirm_password, setConfirmPassword] = useState("");
-  const [referenceCode, setRefrenceCode] = useState("");
   const [otpLoading, setOtpLoading] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const sendOtp = () => {
     const payload = {
-      phoneNumber: `+${phoneNumber}`,
+      phoneNumber: `+91${phoneNumber}`,
     };
     postApi({
       url: "/user/sendOtp",
@@ -33,11 +34,11 @@ const Signup = () => {
   };
 
   const payload = {
-    phoneNumber: `+91${phoneNumber}`,
+    phoneNumber: `+${phoneNumber}`,
     otp,
     password,
     confirm_password,
-    referenceCode,
+    referenceCode: id,
   };
 
   const handleSubmit = (e) => {
@@ -123,8 +124,7 @@ const Signup = () => {
                 <input
                   type="tel"
                   className=" placeholder: ml-2 block register-input-css w-[430px] h-[48px] rounded-xl border-0 py-1.5 pl-10 pr-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2   sm:text-sm sm:leading-6"
-                  value={referenceCode}
-                  onChange={(e) => setRefrenceCode(e.target.value)}
+                  value={id}
                   placeholder="Reedem code"
                 />
               </div>
@@ -176,4 +176,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default Refer;
