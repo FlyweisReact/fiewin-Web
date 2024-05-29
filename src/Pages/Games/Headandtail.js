@@ -74,6 +74,10 @@ const Headandtail = () => {
       url: "/user/current-game/head-tail",
       setResponse: setCurrentGame,
     });
+    getApi({
+      url: "/user/last-ten-games/head-tail",
+      setResponse: setLastTenOrder,
+    });
   }, []);
 
   useEffect(() => {
@@ -103,7 +107,7 @@ const Headandtail = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setIsBtn(false);
+    // setIsBtn(false);
     const additionalFunctions = [(res) => setGameRes(res)];
     postApi({
       url: "/user/join/game",
@@ -112,15 +116,15 @@ const Headandtail = () => {
       additionalFunctions,
     });
 
-    if (countDownTime === 0) {
-      setOpen(true);
-      setIsBtn(true);
-    } else {
-      setTimeout(() => {
-        setOpen(true);
-        setIsBtn(true);
-      }, countDownTime * 1000);
-    }
+    // if (countDownTime === 0) {
+    //   setOpen(true);
+    //   setIsBtn(true);
+    // } else {
+    //   setTimeout(() => {
+    //     setOpen(true);
+    //     setIsBtn(true);
+    //   }, countDownTime * 1000);
+    // }
   };
 
   const userOrderDate = myOrder?.orders

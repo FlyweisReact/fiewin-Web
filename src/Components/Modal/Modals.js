@@ -12,7 +12,11 @@ import { ClipLoader } from "react-spinners";
 import teasureanimation from "../../Assets/teasureanimation.svg";
 import { getVelocityAnimal, getVelocityColor } from "../../utils/utils";
 
-export const SpinResModal = ({ show, handleClose, data }) => {
+export const SpinResModal = ({ show, handleClose, data, fetchHandler }) => {
+  const closeBtn = () => {
+    handleClose();
+    fetchHandler();
+  };
   return (
     show && (
       <div
@@ -22,21 +26,25 @@ export const SpinResModal = ({ show, handleClose, data }) => {
         }}
       >
         <div className="w-[300px] h-[350px] bg-white  rounded-lg relative ">
-          <div className="bg-[red] w-full h-[50px] rounded-t text-white font-bold text-xl flex justify-center items-center"></div>
+          <div
+            className={`bg-[${
+              data?.result?.status === "Loss" ? "red" : "#1D9377"
+            }] w-full h-[50px] rounded-t text-white font-bold text-xl flex justify-center items-center`}
+          ></div>
           <div
             className="absolute top-0 right-0 mr-[-.5rem] mt-[-1rem] cursor-pointer"
-            onClick={() => handleClose()}
+            onClick={() => closeBtn()}
           >
             <IoCloseCircle color="gold" size={35} />
           </div>
           <div className="flex justify-center mt-2">
-            {data?.game?.winners?.[0]?.prize ? (
-              <div className="bg-[#1D9377] w-[70px] h-[70px] rounded-full flex justify-center items-center text-3xl text-white font-bold">
-                Win
-              </div>
-            ) : (
+            {data?.result?.status === "Loss" ? (
               <div className="bg-[red] w-[70px] h-[70px] rounded-full flex justify-center items-center text-3xl text-white font-bold">
                 Loss
+              </div>
+            ) : (
+              <div className="bg-[#1D9377] w-[70px] h-[70px] rounded-full flex justify-center items-center text-3xl text-white font-bold">
+                Win
               </div>
             )}
           </div>
@@ -45,36 +53,33 @@ export const SpinResModal = ({ show, handleClose, data }) => {
               <div>Period</div>
               <div> {data?.game?.gameId} </div>
             </div>
-            {data?.game?.winners?.[0]?.prize && (
-              <div className="flex justify-between mt-2 mr-5 ml-5">
-                <div>Prize</div>
-                <div>₹{data?.game?.winners?.[0]?.prize} </div>
-              </div>
-            )}
           </div>
           <div className="flex justify-center mt-2 mb-2">
             <div className="bg-gray-100 w-[250px] h-[auto] p-2 ">
               <div className="flex justify-between">
-                <span>Selected Animal</span>
-                {getVelocityAnimal(data?.game?.participants?.[0]?.animalChoice)}
-              </div>
-              <div className="flex justify-between">
-                <span>Selected Color</span>
-                {getVelocityColor(data?.game?.participants?.[0]?.colourResult)}
+                <span>Selected Choice</span>
+                {data?.result?.colourChoice
+                  ? getVelocityColor(data?.result?.colourChoice)
+                  : getVelocityAnimal(data?.result?.animalChoice)}
               </div>
 
               <div className="flex justify-between">
                 <span>Amount</span>
-                <span className="text-[green] text-xl">
-                  {" "}
-                  ₹{data?.game?.participants?.[0]?.amount}{" "}
-                </span>
+                {data?.result?.status === "Loss" ? (
+                  <span className="text-[red] text-xl">
+                    -₹{data?.result?.lossAmount}{" "}
+                  </span>
+                ) : (
+                  <span className="text-[#1D9377] text-xl">
+                    +₹{data?.result?.prizeAmount}{" "}
+                  </span>
+                )}
               </div>
             </div>
           </div>
           <div className="flex justify-center">
             <button
-              onClick={() => handleClose()}
+              onClick={() => closeBtn()}
               className="w-[200px] h-[40px] bg-[#87CEEB] text-white font-bold rounded-lg"
             >
               Ok
@@ -504,12 +509,6 @@ export const HeadResModal = ({ show, handleClose, data, fetchHandler }) => {
               <div>Period</div>
               <div> {data?.game?.gameId} </div>
             </div>
-            {data?.game?.winners?.[0]?.prize && (
-              <div className="flex justify-between mt-2 mr-5 ml-5">
-                <div>Prize</div>
-                <div>₹{data?.game?.winners?.[0]?.prize} </div>
-              </div>
-            )}
           </div>
           <div className="flex justify-center mt-2 mb-2">
             <div className="bg-gray-100 w-[250px] h-[auto] p-2 ">
@@ -530,11 +529,11 @@ export const HeadResModal = ({ show, handleClose, data, fetchHandler }) => {
 
                 {data?.result?.status === "Loss" ? (
                   <span className="text-[red] text-xl">
-                    -₹{data?.game?.participants?.[0]?.amount}{" "}
+                    -₹{data?.result?.lossAmount}{" "}
                   </span>
                 ) : (
                   <span className="text-[#1D9377] text-xl">
-                    -₹{data?.game?.participants?.[0]?.amount}{" "}
+                    +₹{data?.result?.prizeAmount}{" "}
                   </span>
                 )}
               </div>

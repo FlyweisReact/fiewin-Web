@@ -48,7 +48,7 @@ const Reward = () => {
       return (
         <div
           className="bg-[#FFB800] h-4 rounded-full"
-          style={{ width: filteredData?.[0]?.percentage }}
+          style={{ width: `${filteredData?.[0]?.percentage}%` }}
         ></div>
       );
     } else {

@@ -31,7 +31,7 @@ import { ReactNotifications } from "react-notifications-component";
 import Thanks from "./Pages/Thanks";
 import AgentWithdraw from "./Pages/AgentWithdraw";
 import Refer from "./Components/Refer";
-import './CSS/style.css'
+import "./CSS/style.css";
 
 const router = createBrowserRouter([
   {

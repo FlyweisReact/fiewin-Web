@@ -83,13 +83,22 @@
   margin-left: 0.5rem;
   display: block;
 }
-.LoginSection .MainDiv .LoginDiv .formDiv  .submitBtn{
-
-    width: 430px;
-    color: #fff;
-    font-weight: 600;
-    background-color: rgb(255 184 0);
-    border-radius: 0.75rem;
-    height: 48px;
+.LoginSection .MainDiv .LoginDiv .formDiv .submitBtn {
+  width: 430px;
+  color: #fff;
+  font-weight: 600;
+  background-color: rgb(255 184 0);
+  border-radius: 0.75rem;
+  height: 48px;
 }
 /* ---- */
+
+.rotating-wheel {
+  transform: rotate(10deg);
+}
+
+
+/* Rewards Page */
+.RweardSection {
+  
+}

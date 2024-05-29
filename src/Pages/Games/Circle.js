@@ -27,7 +27,7 @@ const GetColorBox = ({ color, setValue, colorCode, probab, className }) => {
       <button
         className={`bg-[${colorCode}] circle-btn w-[150px] h-[60px] text-white font-bold rounded-lg text-xl ${className} `}
         style={{ textTransform: "capitalize" }}
-        onClick={() => setValue(color)}
+        onClick={() => setValue({ text: color, isAnimal: false })}
       >
         {color}
       </button>
@@ -36,7 +36,7 @@ const GetColorBox = ({ color, setValue, colorCode, probab, className }) => {
   );
 };
 
-const GetAnimalBox = ({ setValue, value, img, className }) => {
+const GetAnimalBox = ({ setValue, value, img, className, probab }) => {
   return (
     <div className="flex flex-col gap-2 items-center">
       <div
@@ -47,12 +47,12 @@ const GetAnimalBox = ({ setValue, value, img, className }) => {
       >
         <img
           src={img}
-          onClick={() => setValue(value)}
+          onClick={() => setValue({ text: value, isAnimal: true })}
           alt=""
           className="w-10 cursor-pointer"
         />
       </div>
-      <span>1.2</span>
+      <span> {probab} </span>
     </div>
   );
 };
@@ -66,7 +66,7 @@ const colorOptions = [
   {
     color: "red",
     code: "#FF000B",
-    prob: "1.8",
+    prob: "1.18",
   },
   {
     color: "green",
@@ -79,21 +79,33 @@ const animalOptions = [
   {
     name: "camel",
     img: camel,
+    prob: 1.3,
   },
 
   {
     name: "lion",
     img: tiger,
+    prob: 1.3,
   },
   {
     name: "elephant",
     img: elephant,
+    prob: 1.3,
   },
   {
     name: "crown",
     img: king,
+    prob: 1.18,
   },
 ];
+
+const isWinLoss = (winAmount, amount) => {
+  if (winAmount === 0) {
+    return <span style={{ color: "#fa3c09" }}>-₹{amount}</span>;
+  } else {
+    return <span style={{ color: "#00c282" }}>+₹{winAmount}</span>;
+  }
+};
 
 const Circle = () => {
   const [showcircleRules, setShowcircleRules] = useState(false);
@@ -104,13 +116,13 @@ const Circle = () => {
   const [type, setType] = useState("all-order");
   const [myOrder, setMyOrder] = useState([]);
   const [lastTenOrder, setLastTenOrder] = useState({});
-
   const [isActivated, setIsActivate] = useState(true);
   const [countDownTime, setCountDownTime] = useState(0);
   const [currentGame, setCurrentGame] = useState({});
   const [colourChoice, setColorChoice] = useState("red");
-  const [animalChoice, setAnimalChoice] = useState("crown");
+  const [animalChoice, setAnimalChoice] = useState("");
   const [currentOrder, setCurrentOrder] = useState({});
+  const [isBtn, setIsBtn] = useState(true);
 
   const togglecircleRules = () => {
     setShowcircleRules(!showcircleRules);
@@ -131,17 +143,23 @@ const Circle = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const additionalFunctions = [
-      () => setpopupwinner(true),
-      (res) => setSpinData(res),
-      fetchAll,
-    ];
+    // setIsBtn(false);
+    const additionalFunctions = [(res) => setSpinData(res)];
     postApi({
       url: "/user/spinGame/join/game",
       payload,
       setLoading,
       additionalFunctions,
     });
+    // if (countDownTime === 0) {
+    //   setpopupwinner(true);
+    //   setIsBtn(true);
+    // } else {
+    //   setTimeout(() => {
+    //     setpopupwinner(true);
+    //     setIsBtn(true);
+    //   }, countDownTime * 1000);
+    // }
   };
 
   useEffect(() => {
@@ -150,22 +168,34 @@ const Circle = () => {
 
   useEffect(() => {
     getApi({
-      url: "/user/last-ten-games/spin",
-      setResponse: setLastTenOrder,
-    });
-    getApi({
       url: "/user/current-game/spin",
       setResponse: setCurrentGame,
     });
+    getApi({
+      url: "/user/last-ten-games/spin",
+      setResponse: setLastTenOrder,
+    });
   }, []);
 
+  // Get Last Ten Games Result
+  useEffect(() => {
+    const flipInterval = setInterval(() => {
+      getApi({
+        url: "/user/last-ten-games/spin",
+        setResponse: setLastTenOrder,
+      });
+    }, 10000);
+    return () => clearInterval(flipInterval);
+  }, []);
+
+  // Get Current Game Details
   useEffect(() => {
     const flipInterval = setInterval(() => {
       getApi({
         url: "/user/current-game/spin",
         setResponse: setCurrentOrder,
       });
-    }, 2000);
+    }, 5000);
     return () => clearInterval(flipInterval);
   }, []);
 
@@ -188,31 +218,42 @@ const Circle = () => {
     currentOrder?.game?.gameId,
     `***${item?.user?.slice(0, 3)}`,
     <div style={{ display: "flex", justifyContent: "center" }}>
-      {getVelocityAnimal(item?.animalChoice)}
-    </div>,
-    <div style={{ display: "flex", justifyContent: "center" }}>
-      {getVelocityColor(item?.colourChoice)}
+      {item?.animalChoice
+        ? getVelocityAnimal(item?.animalChoice)
+        : getVelocityColor(item?.colourChoice)}
     </div>,
     <span>₹{item?.amount}</span>,
   ]);
 
   const myOrderData = myOrder?.orders
     ?.slice()
-    ?.reverse()
     ?.filter((item) => item?.type === "Spin")
     ?.map((item) => [
       item?.spinGame?.gameId,
       <div style={{ display: "flex", justifyContent: "center" }}>
-        {getVelocityAnimal(item?.animalChoice)}
-        {getVelocityColor(item?.colourChoice)}
+        {item?.colourChoice
+          ? getVelocityColor(item?.colourChoice)
+          : getVelocityAnimal(item?.animalChoice)}
       </div>,
+      <span>₹{item?.amount}</span>,
       <div style={{ display: "flex", justifyContent: "center" }}>
         {getVelocityAnimal(item?.spinGame?.animalResult)}
         {getVelocityColor(item?.spinGame?.colourResult)}
       </div>,
-
-      <span>₹{item?.participants?.[0]?.amount}</span>,
+      isWinLoss(item?.userWinAmount, item?.amount),
     ]);
+
+  function UserChoice({ text, isAnimal }) {
+    if (isAnimal === true) {
+      setAnimalChoice(text);
+      setColorChoice("");
+    } else {
+      setAnimalChoice("");
+      setColorChoice(text);
+    }
+  }
+
+  const isButtonActive = isActivated && isBtn;
 
   return (
     <>
@@ -220,6 +261,7 @@ const Circle = () => {
         data={spinData}
         show={popupwinner}
         handleClose={() => setpopupwinner(false)}
+        fetchHandler={fetchAll}
       />
       <div className="bg-slate-100 h-screen flex justify-center circle-main-div">
         <div className="grid place-items-center">
@@ -278,12 +320,16 @@ const Circle = () => {
 
                 <div className="flex justify-center velocity-div">
                   {isActivated ? (
-                    <img src={circle} alt="" className="w-[400px]" />
+                    <img
+                      src={circle}
+                      alt=""
+                      className="w-[400px] rotating-wheel"
+                    />
                   ) : (
                     <img
                       src={circle}
                       alt=""
-                      className="w-[400px]  moving-circle animate-spin"
+                      className="w-[400px]  moving-circle animate-spin rotating-wheel"
                     />
                   )}
 
@@ -298,7 +344,7 @@ const Circle = () => {
                   <GetColorBox
                     key={index}
                     color={i.color}
-                    setValue={setColorChoice}
+                    setValue={UserChoice}
                     colorCode={i.code}
                     probab={i.prob}
                     className={colourChoice === i.color ? "activeBtn" : ""}
@@ -310,9 +356,10 @@ const Circle = () => {
                 {animalOptions?.map((i, index) => (
                   <GetAnimalBox
                     ke={`animal${index}`}
-                    setValue={setAnimalChoice}
+                    setValue={UserChoice}
                     value={i.name}
                     img={i.img}
+                    probab={i.prob}
                     className={animalChoice === i.name ? "activeBtn" : ""}
                   />
                 ))}
@@ -375,7 +422,7 @@ const Circle = () => {
                   </div>
 
                   <div className="mt-2 flex justify-center">
-                    {isActivated ? (
+                    {isButtonActive ? (
                       <button
                         type="submit"
                         className="bg-[#ED1B24] head-tail-confirm-btn w-[450px] h-[50px] rounded-lg font-bold text-white  "
@@ -413,23 +460,12 @@ const Circle = () => {
 
                 {type === "my-order" ? (
                   <TableLayout
-                    thead={[
-                      "Period",
-                      "Selected Animal",
-                      "Selected Color",
-                      "Point",
-                    ]}
+                    thead={["Period", "Select", "Point", "Result", "Amount"]}
                     tbody={myOrderData}
                   />
                 ) : (
                   <TableLayout
-                    thead={[
-                      "Period",
-                      "User",
-                      "Selected Animal",
-                      "Selected Color",
-                      "Point",
-                    ]}
+                    thead={["Period", "User", "Select", "Point"]}
                     tbody={currentOrderData}
                   />
                 )}
