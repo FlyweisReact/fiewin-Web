@@ -127,7 +127,7 @@ export const SpinRulesModal = ({ show, handleClose }) => {
               <button className="bg-[#FF000B] w-[120px] h-[60px] circle-rule-btn text-white font-bold rounded-lg text-xl">
                 Red
               </button>
-              <span>1.2</span>
+              <span>1.18</span>
             </div>
             <div className="flex flex-col gap-2 items-center">
               <button className="bg-[#1D9377] w-[120px] h-[60px] circle-rule-btn text-white font-bold rounded-lg text-xl">
@@ -141,25 +141,25 @@ export const SpinRulesModal = ({ show, handleClose }) => {
               <div className="bg-[#BEEBFF]  flex justify-center items-end  border circle-tiger w-[100px] h-[50px] text-white font-bold rounded-lg ">
                 <img src={camel} alt="" className="w-10" />
               </div>
-              <span>1.2</span>
+              <span>1.3</span>
             </div>
             <div className="flex flex-col gap-2 items-center">
               <div className="bg-[#BEEBFF]  flex justify-center items-end  border circle-tiger w-[100px] h-[50px] text-white font-bold rounded-lg ">
                 <img src={tiger} alt="" className="w-10" />
               </div>
-              <span>1.2</span>
+              <span>1.3</span>
             </div>
             <div className="flex flex-col gap-2 items-center">
               <div className="bg-[#BEEBFF]  flex justify-center items-end  border circle-tiger w-[100px] h-[50px] text-white font-bold rounded-lg ">
                 <img src={elephant} alt="" className="w-10" />
               </div>
-              <span>1.2</span>
+              <span>1.3</span>
             </div>
             <div className="flex flex-col gap-2 items-center">
               <div className="bg-[#BEEBFF]  flex justify-center items-end  border circle-tiger w-[100px] h-[50px] text-white font-bold rounded-lg ">
                 <img src={king} alt="" className="w-10" />
               </div>
-              <span>1.2</span>
+              <span>1.18</span>
             </div>
           </div>
         </div>
@@ -254,42 +254,68 @@ export const UpdateProfileModal = ({
 };
 
 export const UpdatePasswordModal = ({ show, handleClose }) => {
+  const [oldPassword, setOldPassword] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const payload = {
+    oldPassword,
+    password,
+  };
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    const additionalFunctions = [handleClose];
+    edit_module({
+      url: "/user/updatePassword ",
+      payload,
+      successMsg: "Your password has been updated successfully",
+      additionalFunctions,
+      setLoading,
+    });
+  };
+
   return (
     show && (
       <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
         <div className="w-[400px] h-[200px] bg-white  rounded-lg relative p-5">
           <div className="font-semibold text-xl ">Set New Password</div>
 
-          <form>
+          <form onSubmit={submitHandler}>
             <div className="flex justify-center flex-col items-center mt-2  gap-5">
               <div className="">
                 <input
-                  type="text"
-                  className="w-[350px] border-black border-b"
+                  type="password"
+                  onChange={(e) => setOldPassword(e.target.value)}
+                  className="w-[350px] border-black border-b outline-none"
                   placeholder="Old Password"
                 />
               </div>
               <div className="">
                 <input
-                  type="text"
-                  className="w-[350px] border-black border-b"
+                  type="password"
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-[350px] border-black border-b outline-none"
                   placeholder="New Password"
                 />
               </div>
             </div>
+            <div className="flex justify-center gap-2 mt-5">
+              <button
+                onClick={() => handleClose()}
+                type="button"
+                className="w-[150px] h-[40px] border font-bold rounded-lg"
+              >
+                Cancel
+              </button>
+              <button
+                className="w-[150px] h-[40px] bg-[#FFB800] text-white font-bold rounded-lg"
+                type="submit"
+              >
+                {loading ? <ClipLoader color="#fff" /> : "Confirm"}
+              </button>
+            </div>
           </form>
-
-          <div className="flex justify-center gap-2 mt-5">
-            <button
-              onClick={() => handleClose()}
-              className="w-[150px] h-[40px] border font-bold rounded-lg"
-            >
-              Cancel
-            </button>
-            <button className="w-[150px] h-[40px] bg-[#FFB800] text-white font-bold rounded-lg">
-              Confirm
-            </button>
-          </div>
         </div>
       </div>
     )

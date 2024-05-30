@@ -1,6 +1,6 @@
 /** @format */
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import logo from "../Assets/FieWinlogo.svg";
 import key from "../Assets/key.svg";
 import { IoPhonePortraitOutline } from "react-icons/io5";
@@ -9,6 +9,8 @@ import { FaFileCode } from "react-icons/fa6";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { postApi } from "../Repository/Repository";
 import { ClipLoader } from "react-spinners";
+import { useSelector } from "react-redux";
+import { isAuthenticated } from "../store/authSlice";
 
 const Refer = () => {
   const { id } = useParams();
@@ -19,10 +21,18 @@ const Refer = () => {
   const [otpLoading, setOtpLoading] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const isLoggedIn = useSelector(isAuthenticated);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/home");
+    }
+  }, [isLoggedIn, navigate]);
 
   const sendOtp = () => {
     const payload = {
       phoneNumber: `+91${phoneNumber}`,
+      referralCode: id,
     };
     postApi({
       url: "/user/sendOtp",
@@ -34,11 +44,10 @@ const Refer = () => {
   };
 
   const payload = {
-    phoneNumber: `+${phoneNumber}`,
+    phoneNumber: `+91${phoneNumber}`,
     otp,
     password,
     confirm_password,
-    referenceCode: id,
   };
 
   const handleSubmit = (e) => {

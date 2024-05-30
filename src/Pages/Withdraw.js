@@ -20,7 +20,7 @@ const Withdraw = () => {
 
   const payload = {
     amount,
-    transType: "account",
+    transType: "wallet",
   };
 
   const submitHandler = (e) => {

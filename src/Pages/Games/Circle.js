@@ -44,13 +44,9 @@ const GetAnimalBox = ({ setValue, value, img, className, probab }) => {
       bg-[#BEEBFF]  flex justify-center items-end  border circle-tiger w-[100px] h-[50px] text-white font-bold rounded-lg 
       ${className}
       `}
+        onClick={() => setValue({ text: value, isAnimal: true })}
       >
-        <img
-          src={img}
-          onClick={() => setValue({ text: value, isAnimal: true })}
-          alt=""
-          className="w-10 cursor-pointer"
-        />
+        <img src={img} alt="" className="w-10 cursor-pointer" />
       </div>
       <span> {probab} </span>
     </div>
@@ -123,6 +119,7 @@ const Circle = () => {
   const [animalChoice, setAnimalChoice] = useState("");
   const [currentOrder, setCurrentOrder] = useState({});
   const [isBtn, setIsBtn] = useState(true);
+  const [rotationDegree, setRotationDegree] = useState(0);
 
   const togglecircleRules = () => {
     setShowcircleRules(!showcircleRules);
@@ -143,7 +140,7 @@ const Circle = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // setIsBtn(false);
+    setIsBtn(false);
     const additionalFunctions = [(res) => setSpinData(res)];
     postApi({
       url: "/user/spinGame/join/game",
@@ -151,15 +148,15 @@ const Circle = () => {
       setLoading,
       additionalFunctions,
     });
-    // if (countDownTime === 0) {
-    //   setpopupwinner(true);
-    //   setIsBtn(true);
-    // } else {
-    //   setTimeout(() => {
-    //     setpopupwinner(true);
-    //     setIsBtn(true);
-    //   }, countDownTime * 1000);
-    // }
+    if (countDownTime === 0) {
+      setpopupwinner(true);
+      setIsBtn(true);
+    } else {
+      setTimeout(() => {
+        setpopupwinner(true);
+        setIsBtn(true);
+      }, countDownTime * 1000);
+    }
   };
 
   useEffect(() => {
@@ -177,25 +174,22 @@ const Circle = () => {
     });
   }, []);
 
-  // Get Last Ten Games Result
   useEffect(() => {
-    const flipInterval = setInterval(() => {
+    if (countDownTime === 0 || countDownTime === 30) {
       getApi({
         url: "/user/last-ten-games/spin",
         setResponse: setLastTenOrder,
       });
-    }, 10000);
-    return () => clearInterval(flipInterval);
-  }, []);
+    }
+  }, [countDownTime]);
 
-  // Get Current Game Details
   useEffect(() => {
     const flipInterval = setInterval(() => {
       getApi({
         url: "/user/current-game/spin",
         setResponse: setCurrentOrder,
       });
-    }, 5000);
+    }, 2000);
     return () => clearInterval(flipInterval);
   }, []);
 
@@ -255,6 +249,11 @@ const Circle = () => {
 
   const isButtonActive = isActivated && isBtn;
 
+  useEffect(() => {
+    if (!isActivated) {
+      setRotationDegree((prev) => prev + 35);
+    }
+  }, [isActivated]);
   return (
     <>
       <SpinResModal
@@ -291,15 +290,17 @@ const Circle = () => {
               <div className="flex mt-2 gap-1 cicle-color-div">
                 <div className="flex flex-col gap-1">
                   <div className="flex gap-1 w-[450px]">
-                    {lastTenOrder?.games?.map((i) =>
-                      getVelocityColor(i?.colourResult)
-                    )}
+                    {lastTenOrder?.games
+                      ?.slice()
+                      ?.reverse()
+                      ?.map((i) => getVelocityColor(i?.colourResult))}
                   </div>
                   <div className="flex gap-1 w-[450px]">
                     {" "}
-                    {lastTenOrder?.games?.map((i) =>
-                      getVelocityAnimal(i?.animalResult)
-                    )}
+                    {lastTenOrder?.games
+                      ?.slice()
+                      ?.reverse()
+                      ?.map((i) => getVelocityAnimal(i?.animalResult))}
                   </div>
                 </div>
               </div>
@@ -324,6 +325,7 @@ const Circle = () => {
                       src={circle}
                       alt=""
                       className="w-[400px] rotating-wheel"
+                      style={{ transform: `rotate(${rotationDegree}deg)` }}
                     />
                   ) : (
                     <img

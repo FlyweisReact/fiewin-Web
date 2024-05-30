@@ -9,25 +9,36 @@ import mylink from "../Assets/mylink.svg";
 import banner from "../Assets/banner.svg";
 import { IoChevronForward } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
-import { getApi, postApi } from "../Repository/Repository";
+import { getApi } from "../Repository/Repository";
 
 const Inviteandearn = () => {
   const navigate = useNavigate();
   const [profile, setProfile] = useState({});
+  const [referData, setReferData] = useState({});
+  const [totalRefer, setTotalRefer] = useState({});
 
-  const getProfile = () => {
+  useEffect(() => {
     getApi({
       url: "/user/profile",
       setResponse: setProfile,
     });
-  };
-
-  useEffect(() => {
-    getProfile();
+    getApi({
+      url: "/user/today-referral/data",
+      setResponse: setReferData,
+    });
+    getApi({
+      url: "/user/level-wise-income",
+      setResponse: setTotalRefer,
+    });
   }, []);
 
+  let totalUserCount = 0;
 
-
+  if (referData?.data?.referralLevels) {
+    referData?.data?.referralLevels?.forEach((level) => {
+      totalUserCount += level.users.length;
+    });
+  }
 
   return (
     <div className=" flex justify-center">
@@ -43,8 +54,9 @@ const Inviteandearn = () => {
                 <div className="flex justify-between items-center agent-div bg-white w-[470px] h-[120px]  rounded-lg">
                   <div className="flex flex-col ml-5">
                     Agent amount
-                    <span className="text-3xl" >
-                      ₹{profile?.data?.user?.agentWallet
+                    <span className="text-3xl">
+                      ₹
+                      {profile?.data?.user?.agentWallet
                         ? profile?.data?.user?.agentWallet
                         : 0}
                     </span>
@@ -78,7 +90,7 @@ const Inviteandearn = () => {
                   </Link>
                   <div
                     className="bg-[#38C56D] agent-card { w-[150px] h-[126px] rounded-lg flex flex-col justify-center items-center cursor-pointer"
-                    onClick={() => navigate('/Invitelink')}
+                    onClick={() => navigate("/Invitelink")}
                   >
                     <img src={mylink} alt="" />
                     <div className="text-white font-bold text-xl">My Link</div>
@@ -100,9 +112,9 @@ const Inviteandearn = () => {
             <div className="flex justify-between m-5 pb-2">
               <div className="flex flex-col gap-2 items-center">
                 <div className="font-semibold">Invited today</div>
-                <div>0</div>
+                <div> {referData?.referralCounts?.length} </div>
                 <div className="flex items-center gap-1">
-                  Total 0
+                  Total {totalUserCount}
                   <Link to="/Invitetoday">
                     <span className="bg-[#F6C100] w-[23px] h-[23px] rounded-full flex justify-center items-center cursor-pointer">
                       <IoChevronForward style={{ color: "white" }} />{" "}
@@ -112,9 +124,9 @@ const Inviteandearn = () => {
               </div>
               <div className="flex flex-col gap-2 items-center">
                 <div className="font-semibold"> Today's Income</div>
-                <div>0</div>
+                <div> ₹{referData?.earnings} </div>
                 <div className="flex items-center gap-1">
-                  Total 0{" "}
+                  Total ₹{totalRefer?.data?.[0]?.totalIncome}
                   <Link to="/Todaysincome">
                     <span className="bg-[#F6C100] w-[23px] h-[23px] rounded-full flex justify-center items-center cursor-pointer">
                       <IoChevronForward style={{ color: "white" }} />{" "}
@@ -125,11 +137,11 @@ const Inviteandearn = () => {
             </div>
           </div>
           <div className="bg-white p-4 h-[300px]">
-            <div className="flex justify-between ">
+            {/* <div className="flex justify-between ">
               <div>Income details</div>
               <div>View more</div>
-            </div>
-            <div className="text-center">No Income</div>
+            </div> */}
+            {/* <div className="text-center">No Income</div> */}
             <div className="flex justify-center mt-2">
               <Link to="/Invitelink">
                 <button className="bg-[#FFB800] w-[150px] h-[50px] text-white rounded-3xl">

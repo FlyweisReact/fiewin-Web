@@ -93,7 +93,7 @@ const AgentWithdraw = () => {
                     <div className="text-2xl">
                       <input
                         type="number"
-                        min={10}
+                        min={40}
                         max={50000}
                         required
                         onChange={(e) => setAmount(e.target.value)}

@@ -86,19 +86,18 @@ const Headandtail = () => {
         url: "/user/current-game/head-tail",
         setResponse: setCurrentOrder,
       });
-    }, 5000);
+    }, 2000);
     return () => clearInterval(flipInterval);
   }, []);
 
   useEffect(() => {
-    const flipInterval = setInterval(() => {
+    if (countDownTime === 0 || countDownTime === 30) {
       getApi({
         url: "/user/last-ten-games/head-tail",
         setResponse: setLastTenOrder,
       });
-    }, 10000);
-    return () => clearInterval(flipInterval);
-  }, []);
+    }
+  }, [countDownTime]);
 
   const payload = {
     choice: guess,
@@ -107,7 +106,7 @@ const Headandtail = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // setIsBtn(false);
+    setIsBtn(false);
     const additionalFunctions = [(res) => setGameRes(res)];
     postApi({
       url: "/user/join/game",
@@ -116,20 +115,19 @@ const Headandtail = () => {
       additionalFunctions,
     });
 
-    // if (countDownTime === 0) {
-    //   setOpen(true);
-    //   setIsBtn(true);
-    // } else {
-    //   setTimeout(() => {
-    //     setOpen(true);
-    //     setIsBtn(true);
-    //   }, countDownTime * 1000);
-    // }
+    if (countDownTime === 0) {
+      setOpen(true);
+      setIsBtn(true);
+    } else {
+      setTimeout(() => {
+        setOpen(true);
+        setIsBtn(true);
+      }, countDownTime * 1000);
+    }
   };
 
   const userOrderDate = myOrder?.orders
     ?.slice()
-    ?.reverse()
     ?.filter((item) => item?.type === "Head-Tail")
     ?.map((item) => [
       item?.headTailGame?.gameId,
@@ -195,20 +193,23 @@ const Headandtail = () => {
                     className="flex gap-1 w-[450px] headtail-mini-main "
                     style={{ overflow: "hidden" }}
                   >
-                    {lastTenOrder?.games?.map((i, index) => (
-                      <React.Fragment key={`history${index}`}>
-                        {i.result === "head" ? (
-                          <span className="w-[47px] headtail-mini h-[57px] bg-[#B49366] rounded flex justify-center items-center font-bold text-xl">
-                            {" "}
-                            H
-                          </span>
-                        ) : (
-                          <span className="w-[47px] headtail-mini h-[57px] bg-[#FFB800] rounded flex justify-center items-center font-bold text-xl">
-                            T
-                          </span>
-                        )}
-                      </React.Fragment>
-                    ))}
+                    {lastTenOrder?.games
+                      ?.slice()
+                      ?.reverse()
+                      ?.map((i, index) => (
+                        <React.Fragment key={`history${index}`}>
+                          {i.result === "head" ? (
+                            <span className="w-[47px] headtail-mini h-[57px] bg-[#B49366] rounded flex justify-center items-center font-bold text-xl">
+                              {" "}
+                              H
+                            </span>
+                          ) : (
+                            <span className="w-[47px] headtail-mini h-[57px] bg-[#FFB800] rounded flex justify-center items-center font-bold text-xl">
+                              T
+                            </span>
+                          )}
+                        </React.Fragment>
+                      ))}
                   </div>
                 </div>
               </div>

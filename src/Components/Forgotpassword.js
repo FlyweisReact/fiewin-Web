@@ -1,49 +1,116 @@
 /** @format */
-
+import { useEffect, useState } from "react";
 import logo from "../Assets/FieWinlogo.svg";
 import { IoPhonePortraitOutline } from "react-icons/io5";
 import { CiLock } from "react-icons/ci";
 import key from "../Assets/key.svg";
+import { postApi } from "../Repository/Repository";
+import { ClipLoader } from "react-spinners";
+import { useSelector } from "react-redux";
+import { isAuthenticated } from "../store/authSlice";
+import { useNavigate } from "react-router-dom";
 
 const Forgotpassword = () => {
+  const [email, setEmail] = useState("");
+  const [id, setId] = useState("");
+  const [otp, setOtp] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [otpLoader, setOtpLoader] = useState(false);
+  const isLoggedIn = useSelector(isAuthenticated);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/home");
+    }
+  }, [isLoggedIn, navigate]);
+
+  const sendOtp = () => {
+    const payload = {
+      email: `+91${email}`,
+    };
+
+    const additionalFunctions = [(res) => setId(res?.data?._id)];
+
+    postApi({
+      url: "/user/forgetPassword",
+      payload,
+      setLoading: setOtpLoader,
+      successMsg: "OTP has been sent to your mobile number",
+      additionalFunctions,
+    });
+  };
+
+  const payload = {
+    otp,
+    newPassword,
+    confirmPassword,
+  };
+
+  const updatePassword = (e) => {
+    e.preventDefault();
+    postApi({
+      url: `/user/changePassword/${id}`,
+      payload,
+      successMsg: "Password updated successfully",
+      setLoading,
+    });
+  };
+
   return (
-    <div className="h-[100vh] flex justify-center">
-      <div className="grid place-items-center">
-        <div className="w-[500px] h-[700px] bg-white forgetbg-height">
-          <div className="bg-[#FFB800] h-[80px] flex justify-center items-center text-xl font-semibold">
-            Reset Password
+    <div className="LoginSection">
+      <div className="MainDiv">
+        <div className="LoginDiv">
+          <div className="Head-title"> Reset Password</div>
+          <div className="logo-div">
+            <img src={logo} alt="" />
           </div>
 
-          <div className="flex justify-center mt-10">
-            <img src={logo} alt="logo" />
-          </div>
-
-          <form>
-            <div className="flex flex-col gap-5 items-center mt-10">
-              <div className="relative rounded">
-                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                  <span className="p-2.5 ml-[-3px] rounded-tl rounded-bl text-white">
-                    <IoPhonePortraitOutline style={{ color: "gray" }} />
+          <form onSubmit={updatePassword}>
+            <div className="formDiv">
+              <div className="InputDiv">
+                <div>
+                  <span>
+                    <IoPhonePortraitOutline />{" "}
                   </span>
                 </div>
-
                 <input
                   type="tel"
-                  className=" placeholder: ml-2 block forget-input-css w-[430px] h-[48px] rounded-xl border-0 py-1.5 pl-10 pr-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2   sm:text-sm sm:leading-6"
+                  value={email}
+                  required
+                  onChange={(e) => setEmail(e.target.value)}
                   placeholder="Mobile Number"
                 />
               </div>
-              <div className="relative rounded">
-                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                  <span className="p-2.5 ml-[-3px] rounded-tl rounded-bl text-white">
-                    <CiLock style={{ color: "gray" }} />
+              <div className="InputDiv">
+                <div>
+                  <span>
+                    <CiLock />{" "}
                   </span>
                 </div>
-
                 <input
-                  type="Password"
-                  className=" placeholder: ml-2 block forget-input-css w-[430px] h-[48px] rounded-xl border-0 py-1.5 pl-10 pr-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2   sm:text-sm sm:leading-6"
+                  type="password"
+                  value={newPassword}
+                  required
+                  onChange={(e) => setNewPassword(e.target.value)}
                   placeholder="New Password"
+                />
+              </div>
+
+              <div className="InputDiv">
+                <div>
+                  <span>
+                    <CiLock />{" "}
+                  </span>
+                </div>
+                <input
+                  type="password"
+                  value={confirmPassword}
+                  required
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  placeholder="Confirm Password"
                 />
               </div>
               <div className="flex gap-6">
@@ -55,19 +122,27 @@ const Forgotpassword = () => {
                   </div>
 
                   <input
-                    type=""
-                    className=" placeholder: ml-2 block  forget-btn w-[230px] h-[48px] rounded-xl border-0 py-1.5 pl-10 pr-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2   sm:text-sm sm:leading-6"
+                    type="tel"
+                    className=" placeholder: ml-2 block register-btn w-[230px] h-[48px] rounded-xl border-0 py-1.5 pl-10 pr-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 focus:ring-2   sm:text-sm sm:leading-6"
+                    value={otp}
+                    required
+                    onChange={(e) => setOtp(e.target.value)}
                     placeholder="OTP"
                   />
                 </div>
-                <button className="bg-[#FFB800] rounded forget-btn w-[174px] h-[48px] text-white font-semibold">
-                  OTP
+                <button
+                  type="button"
+                  className="bg-[#FFB800] register-btn rounded w-[174px] h-[48px] text-white font-semibold"
+                  onClick={() => sendOtp()}
+                >
+                  {" "}
+                  {otpLoader ? "Sending..." : "Send OTP"}
                 </button>
               </div>
 
               <div className="mt-10">
-                <button className="bg-[#FFB800] rounded-xl forget-input-css w-[430px] h-[48px] text-white font-semibold">
-                  Reset
+                <button className="submitBtn" type="submit">
+                  {loading ? <ClipLoader color="#fff" /> : "Reset"}
                 </button>
               </div>
             </div>

@@ -8,7 +8,6 @@ import { getApi, postApi } from "../Repository/Repository";
 import { useEffect, useState } from "react";
 import { RewardClamedModal } from "../Components/Modal/Modals";
 import { checkInRewards } from "../Constant/Constant";
-import ComponentHead from "../Components/ComponentHead";
 
 const Checkin = () => {
   const [profile, setProfile] = useState({});
@@ -26,7 +25,7 @@ const Checkin = () => {
   }, []);
 
   const redeemReward = () => {
-    const additionalFunctions = [() => setShow(true)];
+    const additionalFunctions = [() => setShow(true), getProfile];
     postApi({
       url: "/user/check-in",
       payload: {},
