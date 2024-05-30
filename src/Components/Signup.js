@@ -128,7 +128,6 @@ const Signup = () => {
                 <input
                   type={"tel"}
                   placeholder="Reedem code"
-                  
                   value={referenceCode}
                   onChange={(e) => setRefrenceCode(e.target.value)}
                 />

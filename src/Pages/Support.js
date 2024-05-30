@@ -61,7 +61,7 @@ const Support = () => {
                 <div className="flex flex-col">
                   <span>Write Us</span>
                   <span className="text-[#FFB800]">
-                    fiewin.recharge@support.com
+                    support@fiewin.org
                   </span>
                 </div>
               </div>

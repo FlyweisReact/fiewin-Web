@@ -493,10 +493,11 @@ export const RewardClamedModal = ({ show, handleClose }) => {
   );
 };
 
-export const HeadResModal = ({ show, handleClose, data, fetchHandler }) => {
+export const HeadResModal = ({ show, handleClose, data, fetchHandler ,getLastOrder }) => {
   const closeBtn = () => {
     handleClose();
     fetchHandler();
+    getLastOrder();
   };
 
   return (
@@ -512,7 +513,9 @@ export const HeadResModal = ({ show, handleClose, data, fetchHandler }) => {
             className={`bg-[${
               data?.result?.status === "Loss" ? "red" : "#1D9377"
             }] w-full h-[50px] rounded-t text-white font-bold text-xl flex justify-center items-center`}
-          ></div>
+          >
+            {data?.result?.status === "Loss" ? "Loss" : "Win"}
+          </div>
           <div
             className="absolute top-0 right-0 mr-[-.5rem] mt-[-1rem] cursor-pointer"
             onClick={() => closeBtn()}
@@ -520,15 +523,14 @@ export const HeadResModal = ({ show, handleClose, data, fetchHandler }) => {
             <IoCloseCircle color="gold" size={35} />
           </div>
           <div className="flex justify-center mt-2">
-            {data?.result?.status === "Loss" ? (
-              <div className="bg-[red] w-[70px] h-[70px] rounded-full flex justify-center items-center text-3xl text-white font-bold">
-                Loss
-              </div>
-            ) : (
-              <div className="bg-[#1D9377] w-[70px] h-[70px] rounded-full flex justify-center items-center text-3xl text-white font-bold">
-                Win
-              </div>
-            )}
+            <div
+              className={`headandTail  ${
+                data?.game?.result === "head" ? "H" : "T"
+              } `}
+              style={{ margin: 0 }}
+            >
+              {data?.game?.result === "head" ? "H" : "T"}
+            </div>
           </div>
           <div className="">
             <div className="flex justify-between mt-2 mr-5 ml-5">
@@ -539,20 +541,7 @@ export const HeadResModal = ({ show, handleClose, data, fetchHandler }) => {
           <div className="flex justify-center mt-2 mb-2">
             <div className="bg-gray-100 w-[250px] h-[auto] p-2 ">
               <div className="flex justify-between">
-                <span>Selected Choice</span>
-                <div
-                  className={`headandTail  ${
-                    data?.result?.choice === "head" ? "H" : "T"
-                  } `}
-                  style={{ margin: 0 }}
-                >
-                  {data?.result?.choice === "head" ? "H" : "T"}
-                </div>
-              </div>
-
-              <div className="flex justify-between">
                 <span>Amount</span>
-
                 {data?.result?.status === "Loss" ? (
                   <span className="text-[red] text-xl">
                     -₹{data?.result?.lossAmount}{" "}

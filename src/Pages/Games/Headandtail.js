@@ -69,15 +69,20 @@ const Headandtail = () => {
     getOrders();
   }, []);
 
+
+  const getLastOrder = () => {
+    getApi({
+      url: "/user/last-ten-games/head-tail",
+      setResponse: setLastTenOrder,
+    });
+  }
+
   useEffect(() => {
     getApi({
       url: "/user/current-game/head-tail",
       setResponse: setCurrentGame,
     });
-    getApi({
-      url: "/user/last-ten-games/head-tail",
-      setResponse: setLastTenOrder,
-    });
+    getLastOrder()
   }, []);
 
   useEffect(() => {
@@ -92,10 +97,7 @@ const Headandtail = () => {
 
   useEffect(() => {
     if (countDownTime === 0 || countDownTime === 30) {
-      getApi({
-        url: "/user/last-ten-games/head-tail",
-        setResponse: setLastTenOrder,
-      });
+      getLastOrder()
     }
   }, [countDownTime]);
 
@@ -147,13 +149,14 @@ const Headandtail = () => {
 
   const currentOrderData = currentOrder?.game?.participants?.map((item) => [
     currentOrder?.game?.gameId,
-    `***${item?.user?.slice(0, 3)}`,
+    `***${item?.user?.slice(-3)}`,
     <div className={`headandTail  ${item?.choice === "head" ? "H" : "T"} `}>
       {item?.choice === "head" ? "H" : "T"}
     </div>,
     <span>₹{item?.amount}</span>,
   ]);
 
+console.log(currentOrder)
   const isButtonActive = isActivated && isBtn;
   return (
     <>
@@ -162,6 +165,7 @@ const Headandtail = () => {
         show={open}
         handleClose={() => setOpen(false)}
         fetchHandler={getOrders}
+        getLastOrder={getLastOrder}
       />
       <div className="h-screen flex justify-center ">
         <div className="grid place-items-center ">
