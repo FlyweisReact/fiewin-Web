@@ -22,12 +22,10 @@ const Orderrecord = () => {
 
   const userOrderData = response?.orders
     ?.slice()
-    ?.reverse()
     ?.filter((item) => item?.type === "Head-Tail");
 
   const userSpinOrder = response?.orders
     ?.slice()
-    ?.reverse()
     ?.filter((item) => item?.type === "Spin");
 
   return (
