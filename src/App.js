@@ -32,6 +32,7 @@ import Thanks from "./Pages/Thanks";
 import AgentWithdraw from "./Pages/AgentWithdraw";
 import Refer from "./Components/Refer";
 import "./CSS/style.css";
+import Velociy from "./Pages/Velociy";
 
 const router = createBrowserRouter([
   {
@@ -151,6 +152,12 @@ const router = createBrowserRouter([
   {
     path: "/:id/refer",
     element: <Refer />,
+    
+  },
+  {
+    path: "/velocity",
+    element: <Velociy />,
+    
   },
 ]);
 

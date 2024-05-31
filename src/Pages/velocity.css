@@ -1,0 +1,60 @@
+.center-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+}
+.circle.InCenter{
+  transform: rotate(0deg);
+}
+
+.circle {
+  position: relative;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background-color: transparent;
+  animation: rotate360 2s linear infinite paused;
+  background-color: #FFD958 ;
+  border: 2px solid transparent;
+  border-radius: 100%;
+  
+}
+
+.circle.rotate {
+  animation-play-state: running; /* Play the animation when this class is added */
+}
+
+.segment {
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  top: 0;
+  left: 50%;
+  transform-origin: left bottom;
+  clip-path: polygon(100% 0, 12% 0%, 0 100%, 0 0);
+  
+}
+
+/* .white-space {
+  width: 450px;
+  height: 450px;
+  border-radius: 100%;
+  background-color: #fff;
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.9;
+} */
+
+@keyframes rotate360 {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

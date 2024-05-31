@@ -17,8 +17,11 @@ import { FaClipboardCheck } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getApi } from "../Repository/Repository";
+import { IoMdClose } from "react-icons/io";
+import congopopup from "../Assets/congopopup.svg";
 
 const Home = () => {
+  const [popupimage, setpopupimage] = useState(true);
   const [profile, setProfile] = useState({});
 
   const getProfile = () => {
@@ -34,6 +37,17 @@ const Home = () => {
 
   return (
     <>
+      {popupimage ? (
+        <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
+          <div className="w-[300px] h-[300px]  rounded-lg flex flex-col items-center justify-center">
+            <IoMdClose
+              onClick={() => setpopupimage(false)}
+              className="ml-[15rem] bg-[#F2A60C] w-[33px] h-[35px] cursor-pointer text-white rounded"
+            />
+            <img src={congopopup} alt="" />
+          </div>
+        </div>
+      ) : null}
       <div className="background-main flex justify-center">
         <div className="grid place-items-center w-[500px] ">
           <div className="bg-[#FFDC82] w-[500px] p-5 flex justify-center items-center text-xl font-semibold top-0 fixed z-50">

@@ -156,7 +156,6 @@ const Headandtail = () => {
     <span>₹{item?.amount}</span>,
   ]);
 
-console.log(currentOrder)
   const isButtonActive = isActivated && isBtn;
   return (
     <>
