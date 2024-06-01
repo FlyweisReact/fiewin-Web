@@ -18,11 +18,12 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getApi } from "../Repository/Repository";
 import { IoMdClose } from "react-icons/io";
-import congopopup from "../Assets/congopopup.svg";
+import congopopup from "../Assets/congratulation.png";
 
 const Home = () => {
   const [popupimage, setpopupimage] = useState(true);
   const [profile, setProfile] = useState({});
+  const [referData, setReferData] = useState({});
 
   const getProfile = () => {
     getApi({
@@ -33,18 +34,46 @@ const Home = () => {
 
   useEffect(() => {
     getProfile();
+    getApi({
+      url: "/user/today-referral/data",
+      setResponse: setReferData,
+    });
   }, []);
+
+  const showPopup = popupimage && referData?.referralCounts?.length > 0;
 
   return (
     <>
-      {popupimage ? (
+      {showPopup ? (
         <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
-          <div className="w-[300px] h-[300px]  rounded-lg flex flex-col items-center justify-center">
-            <IoMdClose
-              onClick={() => setpopupimage(false)}
-              className="ml-[15rem] bg-[#F2A60C] w-[33px] h-[35px] cursor-pointer text-white rounded"
-            />
-            <img src={congopopup} alt="" />
+          <div className="rounded-lg flex flex-col items-center justify-center">
+            <div style={{ position: "relative" }}>
+              <IoMdClose
+                onClick={() => setpopupimage(false)}
+                className="ml-[15rem] bg-[#F2A60C] w-[33px] h-[35px] cursor-pointer text-white rounded"
+              />
+              <img src={congopopup} alt="" className="congratulationImg" />
+              <div className="newly-invited-popup">
+                <p>
+                  Newly invited{" "}
+                  <span>
+                    {" "}
+                    {referData?.referralCounts?.length
+                      ? referData?.referralCounts?.length
+                      : 0}{" "}
+                  </span>{" "}
+                  people <br /> New agency income
+                </p>
+
+                <p>
+                  {" "}
+                  <span>₹{referData?.earnings ? referData?.earnings : 0}</span>
+                </p>
+                <Link to={"/Inviteandearn"}>
+                  <button>Details</button>
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       ) : null}

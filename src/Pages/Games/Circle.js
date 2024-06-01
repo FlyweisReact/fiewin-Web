@@ -120,6 +120,7 @@ const Circle = () => {
   const [currentOrder, setCurrentOrder] = useState({});
   const [isBtn, setIsBtn] = useState(true);
   const [rotationDegree, setRotationDegree] = useState(0);
+  const [animalResult, setAnimalResult] = useState("");
 
   const togglecircleRules = () => {
     setShowcircleRules(!showcircleRules);
@@ -210,7 +211,7 @@ const Circle = () => {
 
   const currentOrderData = currentOrder?.game?.participants?.map((item) => [
     currentOrder?.game?.gameId,
-    `***${item?.user?.slice(0, 3)}`,
+    `***${item?.user?.userId?.slice(-3)}`,
     <div style={{ display: "flex", justifyContent: "center" }}>
       {item?.animalChoice
         ? getVelocityAnimal(item?.animalChoice)
@@ -254,6 +255,55 @@ const Circle = () => {
       setRotationDegree((prev) => prev + 35);
     }
   }, [isActivated]);
+
+  useEffect(() => {
+    if (lastTenOrder) {
+      setAnimalResult(
+        lastTenOrder?.games?.[0]?.animalResult +
+          "-" +
+          lastTenOrder?.games?.[0]?.colourResult
+      );
+    }
+  }, [lastTenOrder]);
+
+  let customClass;
+
+  switch (animalResult) {
+    case "lion-yellow":
+      customClass = "yellow-lion";
+      break;
+    case "lion-green":
+      customClass = "green-lion";
+      break;
+    case "lion-red":
+      customClass = "red-lion";
+      break;
+    case "crown-yellow":
+      customClass = "yellow-crown";
+      break;
+    case "crown-green":
+      customClass = "green-crown";
+      break;
+    case "elephant-red":
+      customClass = "red-elephant";
+      break;
+    case "elephant-yellow":
+      customClass = "yellow-elephant";
+      break;
+    case "elephant-green":
+      customClass = "green-elephant";
+      break;
+    case "camel-yellow":
+      customClass = "yellow-camel";
+      break;
+    case "camel-green":
+      customClass = "green-camel";
+      break;
+    default:
+      customClass = "yellow-lion";
+      break;
+  }
+
   return (
     <>
       <SpinResModal
@@ -310,7 +360,7 @@ const Circle = () => {
                 </p>
                 <p className="title" style={{ color: "#000" }}>
                   {" "}
-                  {currentOrder?.game?.gameId}{" "}
+                  {currentGame?.game?.gameId}{" "}
                 </p>
               </div>
 
@@ -324,8 +374,7 @@ const Circle = () => {
                     <img
                       src={circle}
                       alt=""
-                      className="w-[400px] rotating-wheel"
-                      style={{ transform: `rotate(${rotationDegree}deg)` }}
+                      className={`w-[400px] rotating-wheel ${customClass}`}
                     />
                   ) : (
                     <img

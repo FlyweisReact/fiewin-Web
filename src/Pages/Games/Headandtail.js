@@ -69,20 +69,19 @@ const Headandtail = () => {
     getOrders();
   }, []);
 
-
   const getLastOrder = () => {
     getApi({
       url: "/user/last-ten-games/head-tail",
       setResponse: setLastTenOrder,
     });
-  }
+  };
 
   useEffect(() => {
     getApi({
       url: "/user/current-game/head-tail",
       setResponse: setCurrentGame,
     });
-    getLastOrder()
+    getLastOrder();
   }, []);
 
   useEffect(() => {
@@ -97,7 +96,7 @@ const Headandtail = () => {
 
   useEffect(() => {
     if (countDownTime === 0 || countDownTime === 30) {
-      getLastOrder()
+      getLastOrder();
     }
   }, [countDownTime]);
 
@@ -149,7 +148,7 @@ const Headandtail = () => {
 
   const currentOrderData = currentOrder?.game?.participants?.map((item) => [
     currentOrder?.game?.gameId,
-    `***${item?.user?.slice(-3)}`,
+    `***${item?.user?.userId?.slice(-3)}`,
     <div className={`headandTail  ${item?.choice === "head" ? "H" : "T"} `}>
       {item?.choice === "head" ? "H" : "T"}
     </div>,

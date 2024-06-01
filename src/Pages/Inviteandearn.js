@@ -112,7 +112,12 @@ const Inviteandearn = () => {
             <div className="flex justify-between m-5 pb-2">
               <div className="flex flex-col gap-2 items-center">
                 <div className="font-semibold">Invited today</div>
-                <div> {referData?.referralCounts?.length} </div>
+                <div>
+                  {" "}
+                  {referData?.referralCounts?.length
+                    ? referData?.referralCounts?.length
+                    : 0}{" "}
+                </div>
                 <div className="flex items-center gap-1">
                   Total {totalUserCount}
                   <Link to="/Invitetoday">
@@ -124,9 +129,12 @@ const Inviteandearn = () => {
               </div>
               <div className="flex flex-col gap-2 items-center">
                 <div className="font-semibold"> Today's Income</div>
-                <div> ₹{referData?.earnings} </div>
+                <div> ₹{referData?.earnings ? referData?.earnings : 0} </div>
                 <div className="flex items-center gap-1">
-                  Total ₹{totalRefer?.data?.[0]?.totalIncome}
+                  Total ₹
+                  {totalRefer?.data?.[0]?.totalIncome
+                    ? totalRefer?.data?.[0]?.totalIncome
+                    : 0}
                   <Link to="/Todaysincome">
                     <span className="bg-[#F6C100] w-[23px] h-[23px] rounded-full flex justify-center items-center cursor-pointer">
                       <IoChevronForward style={{ color: "white" }} />{" "}
@@ -137,11 +145,6 @@ const Inviteandearn = () => {
             </div>
           </div>
           <div className="bg-white p-4 h-[300px]">
-            {/* <div className="flex justify-between ">
-              <div>Income details</div>
-              <div>View more</div>
-            </div> */}
-            {/* <div className="text-center">No Income</div> */}
             <div className="flex justify-center mt-2">
               <Link to="/Invitelink">
                 <button className="bg-[#FFB800] w-[150px] h-[50px] text-white rounded-3xl">
