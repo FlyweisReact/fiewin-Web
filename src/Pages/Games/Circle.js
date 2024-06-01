@@ -119,7 +119,6 @@ const Circle = () => {
   const [animalChoice, setAnimalChoice] = useState("");
   const [currentOrder, setCurrentOrder] = useState({});
   const [isBtn, setIsBtn] = useState(true);
-  const [rotationDegree, setRotationDegree] = useState(0);
   const [animalResult, setAnimalResult] = useState("");
 
   const togglecircleRules = () => {
@@ -250,11 +249,7 @@ const Circle = () => {
 
   const isButtonActive = isActivated && isBtn;
 
-  useEffect(() => {
-    if (!isActivated) {
-      setRotationDegree((prev) => prev + 35);
-    }
-  }, [isActivated]);
+
 
   useEffect(() => {
     if (lastTenOrder) {
@@ -374,7 +369,7 @@ const Circle = () => {
                     <img
                       src={circle}
                       alt=""
-                      className={`w-[400px] rotating-wheel ${customClass}`}
+                      className={`w-[400px] rotating-wheel min-rotation  ${customClass}`}
                     />
                   ) : (
                     <img

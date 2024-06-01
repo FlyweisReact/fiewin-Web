@@ -1,3 +1,19 @@
-@media (max-width : 1024px) {
-    
+/** @format */
+
+@media (max-width: 780px) {
+    .LoginSection{
+        overflow: hidden;
+    }
+    .LoginSection .MainDiv{
+        width: 100%;
+    }
+    .LoginSection .MainDiv .LoginDiv{
+        width: 100%;
+    }
+    .LoginSection .MainDiv .LoginDiv .formDiv .InputDiv input{
+        width: 400px;
+    }
+    .LoginSection .MainDiv .LoginDiv .formDiv .submitBtn{
+        width: 400px;
+    }
 }

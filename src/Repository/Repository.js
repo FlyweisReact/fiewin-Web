@@ -3,6 +3,7 @@
 import axios from "axios";
 import { Store } from "react-notifications-component";
 import { Login } from "../store/authSlice";
+import { openPopup } from "../store/InviteSlice";
 
 export const showNotification = ({ type = "success", message }) => {
   Store.addNotification({
@@ -153,6 +154,7 @@ export const user_login = ({
           showNotification({ message: successMsg });
         }
         dispatch(Login(res?.data));
+        dispatch(openPopup());
         navigate("/home");
       }
     } catch (e) {
@@ -169,5 +171,3 @@ export const user_login = ({
     }
   };
 };
-
-

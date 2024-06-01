@@ -94,6 +94,7 @@ const Forgotpassword = () => {
                   type="password"
                   value={newPassword}
                   required
+                  minLength={8}
                   onChange={(e) => setNewPassword(e.target.value)}
                   placeholder="New Password"
                 />
@@ -109,6 +110,7 @@ const Forgotpassword = () => {
                   type="password"
                   value={confirmPassword}
                   required
+                  minLength={8}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="Confirm Password"
                 />

@@ -138,30 +138,33 @@
   color: #fff;
 }
 
-.yellow-lion{
+.min-rotation {
+  transition: 1s;
+}
+.yellow-lion {
   transform: rotate(76deg);
 }
-.red-lion{
+.red-lion {
   transform: rotate(43deg);
 }
-.green-lion{
+.green-lion {
   transform: rotate(30deg);
 }
 
-.green-camel{
+.green-camel {
   transform: rotate(-51deg);
 }
-.yellow-camel{
+.yellow-camel {
   transform: rotate(-44deg);
 }
 
-.green-elephant{
+.green-elephant {
   transform: rotate(-157deg);
 }
-.red-elephant{
+.red-elephant {
   transform: rotate(-144deg);
 }
-.yellow-elephant{
+.yellow-elephant {
   transform: rotate(-150deg);
 }
 

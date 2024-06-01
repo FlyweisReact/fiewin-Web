@@ -32,6 +32,7 @@ import Thanks from "./Pages/Thanks";
 import AgentWithdraw from "./Pages/AgentWithdraw";
 import Refer from "./Components/Refer";
 import "./CSS/style.css";
+import './CSS/MediaQuery.css'
 
 const router = createBrowserRouter([
   {

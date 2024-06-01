@@ -98,6 +98,7 @@ const Signup = () => {
                   placeholder="Password"
                   required
                   value={password}
+                  minLength={8}
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
@@ -113,6 +114,7 @@ const Signup = () => {
                   type={"password"}
                   placeholder="Confirm Password"
                   required
+                  minLength={8}
                   value={confirm_password}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                 />

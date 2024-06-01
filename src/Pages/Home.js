@@ -19,11 +19,18 @@ import { useState, useEffect } from "react";
 import { getApi } from "../Repository/Repository";
 import { IoMdClose } from "react-icons/io";
 import congopopup from "../Assets/congratulation.png";
+import { useDispatch, useSelector } from "react-redux";
+import { closePopup, showPopup } from "../store/InviteSlice";
 
 const Home = () => {
-  const [popupimage, setpopupimage] = useState(true);
   const [profile, setProfile] = useState({});
   const [referData, setReferData] = useState({});
+  const isShow = useSelector(showPopup);
+  const dispatch = useDispatch();
+
+  const closeHandler = () => {
+    dispatch(closePopup());
+  };
 
   const getProfile = () => {
     getApi({
@@ -40,16 +47,14 @@ const Home = () => {
     });
   }, []);
 
-  const showPopup = popupimage && referData?.referralCounts?.length > 0;
-
   return (
     <>
-      {showPopup ? (
+      {isShow ? (
         <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
           <div className="rounded-lg flex flex-col items-center justify-center">
             <div style={{ position: "relative" }}>
               <IoMdClose
-                onClick={() => setpopupimage(false)}
+                onClick={() => closeHandler()}
                 className="ml-[15rem] bg-[#F2A60C] w-[33px] h-[35px] cursor-pointer text-white rounded"
               />
               <img src={congopopup} alt="" className="congratulationImg" />
