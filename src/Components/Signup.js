@@ -73,12 +73,7 @@ const Signup = () => {
           <form onSubmit={handleSubmit}>
             <div className="formDiv">
               <div className="InputDiv">
-                <div>
-                  <span>
-                    <IoPhonePortraitOutline />{" "}
-                  </span>
-                </div>
-
+                <IoPhonePortraitOutline className="spansvg" />
                 <input
                   type={"tel"}
                   placeholder="Mobile Number"
@@ -88,11 +83,7 @@ const Signup = () => {
                 />
               </div>
               <div className="InputDiv">
-                <div>
-                  <span>
-                    <CiLock />{" "}
-                  </span>
-                </div>
+                <CiLock className="spansvg" />
                 <input
                   type={"password"}
                   placeholder="Password"
@@ -102,14 +93,8 @@ const Signup = () => {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
-
               <div className="InputDiv">
-                <div>
-                  <span>
-                    <CiLock />{" "}
-                  </span>
-                </div>
-
+                <CiLock className="spansvg" />
                 <input
                   type={"password"}
                   placeholder="Confirm Password"
@@ -119,14 +104,8 @@ const Signup = () => {
                   onChange={(e) => setConfirmPassword(e.target.value)}
                 />
               </div>
-
               <div className="InputDiv">
-                <div>
-                  <span>
-                    <FaFileCode />{" "}
-                  </span>
-                </div>
-
+                <FaFileCode className="spansvg" />
                 <input
                   type={"tel"}
                   placeholder="Reedem code"

@@ -2,14 +2,18 @@
 
 /* Login Page */
 .LoginSection {
-  height: 100vh;
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .LoginSection .MainDiv {
-  display: grid;
-  place-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .LoginSection .MainDiv .LoginDiv {
@@ -48,40 +52,25 @@
 }
 
 .LoginSection .MainDiv .LoginDiv .formDiv .InputDiv {
-  border-radius: 0.25rem;
-  position: relative;
-}
-.LoginSection .MainDiv .LoginDiv .formDiv .InputDiv div {
-  padding-left: 0.75rem;
-  align-items: center;
+  border: 1px solid rgb(209 213 219);
+  border-radius: 0.75rem;
   display: flex;
-  inset: 0;
-  position: absolute;
-  pointer-events: none;
+  gap: 10px;
+  width: 430px;
+  align-items: center;
+  padding: 12px;
+  padding-left: 15px;
 }
-.LoginSection .MainDiv .LoginDiv .formDiv .InputDiv div span {
-  color: #fff;
-  padding: 0.625rem;
-  border-radius: 0.25rem;
-  margin-left: -3px;
-}
-.LoginSection .MainDiv .LoginDiv .formDiv .InputDiv div span svg {
+
+.LoginSection .MainDiv .LoginDiv .formDiv .InputDiv div .spansvg {
   color: gray;
 }
 .LoginSection .MainDiv .LoginDiv .formDiv .InputDiv input {
-  width: 430px;
-  line-height: 1.5rem;
   font-size: 0.875rem;
   color: #000;
-  border: 1px solid rgb(209 213 219);
-  padding-right: 1rem;
-  padding-left: 2.5rem;
-  padding-top: 0.375rem;
-  padding-bottom: 0.375rem;
-  border-radius: 0.75rem;
-  height: 48px;
-  margin-left: 0.5rem;
-  display: block;
+  border: none;
+  outline: none;
+  flex: 1;
 }
 .LoginSection .MainDiv .LoginDiv .formDiv .submitBtn {
   width: 430px;

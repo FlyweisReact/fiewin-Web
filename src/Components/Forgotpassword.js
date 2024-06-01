@@ -71,11 +71,7 @@ const Forgotpassword = () => {
           <form onSubmit={updatePassword}>
             <div className="formDiv">
               <div className="InputDiv">
-                <div>
-                  <span>
-                    <IoPhonePortraitOutline />{" "}
-                  </span>
-                </div>
+                <IoPhonePortraitOutline className="spansvg" />
                 <input
                   type="tel"
                   value={email}
@@ -85,11 +81,7 @@ const Forgotpassword = () => {
                 />
               </div>
               <div className="InputDiv">
-                <div>
-                  <span>
-                    <CiLock />{" "}
-                  </span>
-                </div>
+                <CiLock className="spansvg" />
                 <input
                   type="password"
                   value={newPassword}
@@ -99,13 +91,8 @@ const Forgotpassword = () => {
                   placeholder="New Password"
                 />
               </div>
-
               <div className="InputDiv">
-                <div>
-                  <span>
-                    <CiLock />{" "}
-                  </span>
-                </div>
+                <CiLock className="spansvg" />
                 <input
                   type="password"
                   value={confirmPassword}
@@ -115,6 +102,7 @@ const Forgotpassword = () => {
                   placeholder="Confirm Password"
                 />
               </div>
+
               <div className="flex gap-6">
                 <div className="relative rounded">
                   <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">

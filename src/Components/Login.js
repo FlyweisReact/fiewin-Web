@@ -42,71 +42,62 @@ const Login = () => {
   }, [isLoggedIn, navigate]);
 
   return (
-    <div className="LoginSection">
-      <div className="MainDiv">
-        <div className="LoginDiv">
-          <div className="Head-title">Login</div>
+    <>
+      <div className="LoginSection">
+        <div className="MainDiv">
+          <div className="LoginDiv">
+            <div className="Head-title">Login</div>
 
-          <div className="logo-div">
-            <img src={logo} alt="logo" />
-          </div>
-
-          <form onSubmit={handleSubmit}>
-            <div className="formDiv">
-              <div className="InputDiv">
-                <div>
-                  <span>
-                    <IoPhonePortraitOutline />
-                  </span>
-                </div>
-
-                <input
-                  type="tel"
-                  placeholder="Mobile Number"
-                  required
-                  onChange={(e) => setPhoneNumber(e.target.value)}
-                />
-              </div>
-
-              <div className="InputDiv">
-                <div>
-                  <span>
-                    <CiLock />
-                  </span>
-                </div>
-
-                <input
-                  type="password"
-                  placeholder="Password"
-                  required
-                  minLength={8}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
-
-              <div className="mt-10">
-                <button className="submitBtn" type="submit">
-                  {loading ? <ClipLoader color="#fff" /> : "Login"}
-                </button>
-              </div>
+            <div className="logo-div">
+              <img src={logo} alt="logo" />
             </div>
-          </form>
 
-          <div className="mt-5 flex justify-center gap-1">
-            <Link to="/signup">
-              <button className="text-[#FFB800] rounded-xl w-[210px] h-[48px] border-2 btn-btn">
-                Create an Account
-              </button>
-            </Link>
-            <Link to="forgotpassword">
-              <button className="text-[#FFB800] rounded-xl w-[210px] h-[48px] border-2  btn-btn">
-                Forgot Password?
-              </button>
-            </Link>
+            <form onSubmit={handleSubmit}>
+              <div className="formDiv">
+                <div className="InputDiv">
+                  <IoPhonePortraitOutline className="spansvg" />
+                  <input
+                    type="tel"
+                    placeholder="Mobile Number"
+                    required
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                  />
+                </div>
+                <div className="InputDiv">
+                  <CiLock className="spansvg" />
+                  <input
+                    type="password"
+                    placeholder="Password"
+                    required
+                    minLength={8}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                </div>
+
+                <div className="mt-10">
+                  <button className="submitBtn" type="submit">
+                    {loading ? <ClipLoader color="#fff" /> : "Login"}
+                  </button>
+                </div>
+              </div>
+            </form>
+
+            <div className="mt-5 flex justify-center gap-1">
+              <Link to="/signup">
+                <button className="text-[#FFB800] rounded-xl w-[210px] h-[48px] border-2 btn-btn">
+                  Create an Account
+                </button>
+              </Link>
+              <Link to="forgotpassword">
+                <button className="text-[#FFB800] rounded-xl w-[210px] h-[48px] border-2  btn-btn">
+                  Forgot Password?
+                </button>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
