@@ -1,3 +1,5 @@
+/** @format */
+
 import React from "react";
 import { Link } from "react-router-dom";
 import back from "../Assets/back.svg";
@@ -8,7 +10,7 @@ const Followus = () => {
     <div className=" h-screen flex justify-center">
       <div className="grid place-items-center">
         <div className="lg:w-[500px] lg:h-full followus-main bg-[#9520FD] md:w-[400px] flex flex-col">
-        <div className="relative bg-[#FFB800] h-[60px] text-xl font-semibold text-white">
+          <div className="relative bg-[#FFB800] h-[60px] text-xl font-semibold text-white">
             <div className=" finical-tran flex justify-between items-center mt-4">
               <div className="w-[100px]">
                 <Link to="/profile">
@@ -28,9 +30,15 @@ const Followus = () => {
               <img src={telegram} alt="" className="w-[100px]" />
             </div>
             <div className="flex justify-center">
-              <button className="w-[300px] h-[70px] follow-btn bg-[#FFB800] text-white rounded-full font-bold text-xl">
-                Go To This Link
-              </button>
+              <a
+                href={"https://t.me/+Alyim9ftrU1kZjc1"}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <button className="w-[300px] h-[70px] follow-btn bg-[#FFB800] text-white rounded-full font-bold text-xl">
+                  Go To This Link
+                </button>
+              </a>
             </div>
           </div>
         </div>
