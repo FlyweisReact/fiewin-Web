@@ -33,7 +33,7 @@
     gap: 2px  ;
   }
   .velocity-amount-selector .btns-selector button{
-    width: 50px;
+    width: 48%;
   }
   .orders-container .order-card{
     width: 350px;

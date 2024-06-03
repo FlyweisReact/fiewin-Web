@@ -334,14 +334,14 @@ const Circle = () => {
                 <div className="flex flex-col gap-1">
                   <div className="flex gap-1 w-[450px]">
                     {lastTenOrder?.games
-                      ?.slice()
+                      ?.slice(-8)
                       ?.reverse()
                       ?.map((i) => getVelocityColor(i?.colourResult))}
                   </div>
                   <div className="flex gap-1 w-[450px]">
                     {" "}
                     {lastTenOrder?.games
-                      ?.slice()
+                      ?.slice(-8)
                       ?.reverse()
                       ?.map((i) => getVelocityAnimal(i?.animalResult))}
                   </div>
