@@ -203,3 +203,10 @@
   text-align: center;
   height: 80px;
 }
+
+.latest-tagline{
+  margin: 0;
+  color: #FF000B;
+  font-size: 10px;
+  font-weight: 600;
+}

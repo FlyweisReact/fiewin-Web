@@ -330,13 +330,14 @@ const Circle = () => {
                 handleClose={() => setShowcircleRules(false)}
               />
 
-              <div className="flex mt-2 gap-1 cicle-color-div">
+              <div className="flex mt-2 gap-1">
                 <div className="flex flex-col gap-1">
                   <div className="flex gap-1 w-[450px] smallBtnMob">
                     {lastTenOrder?.games
                       ?.slice()
                       ?.reverse()
                       ?.map((i) => getVelocityColor(i?.colourResult))}
+                    <span className="latest-tagline">Latest</span>
                   </div>
                   <div className="flex gap-1 w-[450px] smallBtnMob">
                     {" "}
@@ -344,14 +345,15 @@ const Circle = () => {
                       ?.slice()
                       ?.reverse()
                       ?.map((i) => getVelocityAnimal(i?.animalResult))}
+                    <span className="latest-tagline">Result</span>
                   </div>
                 </div>
               </div>
               <div className="show-period-number">
-                <p className="desc" style={{ color: "#000" }}>
+                <p className="desc" style={{ color: "#000", margin: 0 }}>
                   Period :{" "}
                 </p>
-                <p className="title" style={{ color: "#000" }}>
+                <p className="title" style={{ color: "#000", margin: 0 }}>
                   {" "}
                   {currentGame?.game?.gameId}{" "}
                 </p>
@@ -411,8 +413,6 @@ const Circle = () => {
 
               <form onSubmit={handleSubmit}>
                 <div className="border-2 pb-2 mt-2 rounded-t-xl shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
-               
-
                   <div className="velocity-amount-selector">
                     <div className="btns-selector">
                       <button type="button" onClick={() => setAmount(20)}>
