@@ -337,7 +337,7 @@ const Circle = () => {
                       ?.slice()
                       ?.reverse()
                       ?.map((i) => getVelocityColor(i?.colourResult))}
-                    <span className="latest-tagline">Latest</span>
+                    <span className="latest-tagline"><i className="fa-solid fa-arrow-left"></i></span>
                   </div>
                   <div className="flex gap-1 w-[450px] smallBtnMob">
                     {" "}
@@ -345,7 +345,7 @@ const Circle = () => {
                       ?.slice()
                       ?.reverse()
                       ?.map((i) => getVelocityAnimal(i?.animalResult))}
-                    <span className="latest-tagline">Result</span>
+                      <span className="latest-tagline"><i className="fa-solid fa-arrow-left"></i></span>
                   </div>
                 </div>
               </div>

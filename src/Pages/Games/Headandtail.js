@@ -192,7 +192,7 @@ const Headandtail = () => {
               <div className="flex mt-2 gap-1 ">
                 <div className="flex flex-col gap-1">
                   <div
-                    className="flex gap-1 w-[450px] headtail-mini-main "
+                    className="flex gap-1 w-[450px] headtail-mini-main smallHeadMob "
                     style={{ overflow: "hidden" }}
                   >
                     {lastTenOrder?.games
@@ -212,6 +212,7 @@ const Headandtail = () => {
                           )}
                         </React.Fragment>
                       ))}
+                      <span className="latest-tagline"><i className="fa-solid fa-arrow-left"></i></span>
                   </div>
                 </div>
               </div>
