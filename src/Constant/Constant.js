@@ -7,7 +7,8 @@ export const FooterNav = [
     title: "Home",
   },
   {
-    icon: <i className="fa-solid fa-share"></i>,
+    icon: <i className="fa-solid fa-user-tag"></i>,
+    // icon: <i className="fa-solid fa-share"></i>,
     link: "/Inviteandearn",
     title: "Invite & Earn",
   },
