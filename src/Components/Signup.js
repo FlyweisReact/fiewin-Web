@@ -19,19 +19,37 @@ const Signup = () => {
   const [referenceCode, setRefrenceCode] = useState("");
   const [otpLoading, setOtpLoading] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [countDownTime, setCountDownTime] = useState(0);
+  const [text, setText] = useState("Send OTP");
   const isLoggedIn = useSelector(isAuthenticated);
   const navigate = useNavigate();
+
+  const startCountdown = () => {
+    setText("Resend OTP");
+    setCountDownTime(60);
+    const countdownInterval = setInterval(() => {
+      setCountDownTime((prevTime) => {
+        if (prevTime <= 1) {
+          clearInterval(countdownInterval);
+          return 0;
+        }
+        return prevTime - 1;
+      });
+    }, 1000);
+  };
 
   const sendOtp = () => {
     const payload = {
       phoneNumber: `+91${phoneNumber}`,
     };
+    const additionalFunctions = [startCountdown];
     postApi({
       url: "/user/sendOtp",
       payload,
       showMsg: true,
       successMsg: "OTP sent to your number",
       setLoading: setOtpLoading,
+      additionalFunctions,
     });
   };
 
@@ -136,8 +154,11 @@ const Signup = () => {
                   className="bg-[#FFB800] register-btn rounded w-[174px] h-[48px] text-white font-semibold"
                   onClick={() => sendOtp()}
                 >
-                  {" "}
-                  {otpLoading ? "Sending..." : "OTP"}
+                  {otpLoading
+                    ? "Sending..."
+                    : countDownTime === 0
+                    ? text
+                    : countDownTime}
                 </button>
               </div>
 

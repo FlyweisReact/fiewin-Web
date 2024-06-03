@@ -18,6 +18,8 @@ const Forgotpassword = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [otpLoader, setOtpLoader] = useState(false);
+  const [countDownTime, setCountDownTime] = useState(0);
+  const [text, setText] = useState("Send OTP");
   const isLoggedIn = useSelector(isAuthenticated);
   const navigate = useNavigate();
 
@@ -27,13 +29,28 @@ const Forgotpassword = () => {
     }
   }, [isLoggedIn, navigate]);
 
+  const startCountdown = () => {
+    setText("Resend OTP");
+    setCountDownTime(60);
+    const countdownInterval = setInterval(() => {
+      setCountDownTime((prevTime) => {
+        if (prevTime <= 1) {
+          clearInterval(countdownInterval);
+          return 0;
+        }
+        return prevTime - 1;
+      });
+    }, 1000);
+  };
+
   const sendOtp = () => {
     const payload = {
       email: `+91${email}`,
     };
-
-    const additionalFunctions = [(res) => setId(res?.data?._id)];
-
+    const additionalFunctions = [
+      (res) => setId(res?.data?._id),
+      startCountdown,
+    ];
     postApi({
       url: "/user/forgetPassword",
       payload,
@@ -125,8 +142,11 @@ const Forgotpassword = () => {
                   className="bg-[#FFB800] register-btn rounded w-[174px] h-[48px] text-white font-semibold"
                   onClick={() => sendOtp()}
                 >
-                  {" "}
-                  {otpLoader ? "Sending..." : "Send OTP"}
+                  {otpLoader
+                    ? "Sending..."
+                    : countDownTime === 0
+                    ? text
+                    : countDownTime}
                 </button>
               </div>
 
