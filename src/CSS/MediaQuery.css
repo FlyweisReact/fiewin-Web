@@ -38,4 +38,9 @@
   .orders-container .order-card{
     width: 350px;
   }
+  .smallBtnMob span{
+    width: 30px;
+    height: 20px;
+
+  }
 }

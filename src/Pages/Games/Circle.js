@@ -332,16 +332,16 @@ const Circle = () => {
 
               <div className="flex mt-2 gap-1 cicle-color-div">
                 <div className="flex flex-col gap-1">
-                  <div className="flex gap-1 w-[450px]">
+                  <div className="flex gap-1 w-[450px] smallBtnMob">
                     {lastTenOrder?.games
-                      ?.slice(-8)
+                      ?.slice()
                       ?.reverse()
                       ?.map((i) => getVelocityColor(i?.colourResult))}
                   </div>
-                  <div className="flex gap-1 w-[450px]">
+                  <div className="flex gap-1 w-[450px] smallBtnMob">
                     {" "}
                     {lastTenOrder?.games
-                      ?.slice(-8)
+                      ?.slice()
                       ?.reverse()
                       ?.map((i) => getVelocityAnimal(i?.animalResult))}
                   </div>
