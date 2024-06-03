@@ -45,7 +45,7 @@ const Inviteandearn = () => {
       <div className="grid place-items-center ">
         <div className="w-[500px]  h-[850px] first-div-main bg-slate-100 ">
           <div className="relative bg-[#FFB800] text-white h-[80px] flex justify-center items-center text-xl font-semibold">
-            Invite
+            
           </div>
           <div className="bg-[white] ">
             <img src={invitebg} alt="" className="agent-background" />

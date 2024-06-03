@@ -159,7 +159,7 @@ export const SpinRulesModal = ({ show, handleClose }) => {
               <div className="bg-[#BEEBFF]  flex justify-center items-end  border circle-tiger w-[100px] h-[50px] text-white font-bold rounded-lg ">
                 <img src={king} alt="" className="w-10" />
               </div>
-              <span>1.18</span>
+              <span>1.12</span>
             </div>
           </div>
         </div>
@@ -435,14 +435,11 @@ export const HeadTailRulesPopup = ({ show, handleClose }) => {
             <thead>
               <tr>
                 <th className="w-[150px] bg-[#FFE7A9] border-slate-950 border">
-                  Song
+                  Bet
                 </th>
-                <th className="w-[200px] bg-[#FFE7A9] border-slate-950 border">
-                  {" "}
-                  Artist
-                </th>
+              
                 <th className="w-[150px] bg-[#FFE7A9] border-slate-950 border">
-                  Year
+                  Multiplier 
                 </th>
               </tr>
             </thead>
@@ -452,9 +449,7 @@ export const HeadTailRulesPopup = ({ show, handleClose }) => {
                   <td className="w-[150px] text-center text-[#F57C00] bg-[#D9D9D9] border-slate-950 border">
                     {i.Select}
                   </td>
-                  <td className="w-[150px] text-center bg-[#D9D9D9] border-slate-950 border">
-                    {i.Result}
-                  </td>
+             
                   <td className="w-[150px] text-center bg-[#D9D9D9] border-slate-950 border">
                     {i.Multiplier}
                   </td>

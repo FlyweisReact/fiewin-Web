@@ -25,4 +25,17 @@
     width: 100%;
     min-width: 350px;
   }
+
+  .velocity-amount-selector input{
+    width: 100px;
+  }
+  .velocity-amount-selector .btns-selector{
+    gap: 2px  ;
+  }
+  .velocity-amount-selector .btns-selector button{
+    width: 50px;
+  }
+  .orders-container .order-card{
+    width: 350px;
+  }
 }

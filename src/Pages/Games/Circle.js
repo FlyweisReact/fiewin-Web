@@ -23,7 +23,7 @@ import TableLayout from "../../Components/TableLayout";
 
 const GetColorBox = ({ color, setValue, colorCode, probab, className }) => {
   return (
-    <div className="flex flex-col gap-2 items-center">
+    <div className="flex flex-col gap-2 items-center ">
       <button
         className={`bg-[${colorCode}] circle-btn w-[150px] h-[60px] text-white font-bold rounded-lg text-xl ${className} `}
         style={{ textTransform: "capitalize" }}
@@ -91,7 +91,7 @@ const animalOptions = [
   {
     name: "crown",
     img: king,
-    prob: 1.18,
+    prob: 1.12,
   },
 ];
 
@@ -249,8 +249,6 @@ const Circle = () => {
 
   const isButtonActive = isActivated && isBtn;
 
-
-
   useEffect(() => {
     if (lastTenOrder) {
       setAnimalResult(
@@ -369,13 +367,13 @@ const Circle = () => {
                     <img
                       src={circle}
                       alt=""
-                      className={`w-[400px] rotating-wheel min-rotation  ${customClass}`}
+                      className={`w-[400px]  rotating-wheel min-rotation  ${customClass}`}
                     />
                   ) : (
                     <img
                       src={circle}
                       alt=""
-                      className="w-[400px]  moving-circle animate-spin rotating-wheel"
+                      className="w-[400px]  animate-spin rotating-wheel"
                     />
                   )}
 
@@ -385,7 +383,7 @@ const Circle = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex justify-center gap-2 mt-3">
+              <div className="flex justify-center gap-2 mt-3 velocity-btns">
                 {colorOptions?.map((i, index) => (
                   <GetColorBox
                     key={index}
@@ -413,57 +411,39 @@ const Circle = () => {
 
               <form onSubmit={handleSubmit}>
                 <div className="border-2 pb-2 mt-2 rounded-t-xl shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
-                  <div className="border-2 border-slate-200 p-2 m-3 rounded-2xl">
-                    <div className="flex justify-around items-center mt-3">
-                      <div className="w-[130px] flex flex-wrap gap-1">
-                        <div
-                          className="w-[60px] circle-small  h-[40px] bg-[#BEEBFF] flex justify-center items-center rounded-lg cursor-pointer"
-                          onClick={() => setAmount(20)}
-                        >
-                          20
-                        </div>
-                        <div
-                          className="w-[60px] circle-small h-[40px] bg-[#BEEBFF] flex justify-center items-center rounded-lg cursor-pointer"
-                          onClick={() => setAmount(50)}
-                        >
-                          50
-                        </div>
-                        <div
-                          className="w-[60px] circle-small h-[40px] bg-[#BEEBFF] flex justify-center items-center rounded-lg cursor-pointer"
-                          onClick={() => setAmount(100)}
-                        >
-                          100
-                        </div>
-                        <div
-                          className="w-[60px] circle-small  h-[40px] bg-[#BEEBFF] flex justify-center items-center rounded-lg cursor-pointer"
-                          onClick={() => setAmount(200)}
-                        >
-                          200
-                        </div>
-                      </div>
-                      <div>
-                        <input
-                          type="number"
-                          min={0}
-                          className="w-[170px] cicle-large h-[80px] text-2xl bg-[#BEEBFF] underline flex justify-center items-center rounded-lg outline-none text-center"
-                          value={amount}
-                          onChange={(e) => setAmount(e.target.value)}
-                        />
-                      </div>
-                      <div className="flex flex-col gap-1">
-                        <div
-                          className="w-[88px] h-[40px] bg-[#BEEBFF] flex justify-center items-center rounded-lg cursor-pointer"
-                          onClick={() => setAmount(500)}
-                        >
-                          500
-                        </div>
-                        <div
-                          className="w-[88px] h-[40px] bg-[#BEEBFF] flex justify-center items-center rounded-lg cursor-pointer"
-                          onClick={() => setAmount(1000)}
-                        >
-                          1000
-                        </div>
-                      </div>
+               
+
+                  <div className="velocity-amount-selector">
+                    <div className="btns-selector">
+                      <button type="button" onClick={() => setAmount(20)}>
+                        20
+                      </button>
+                      <button type="button" onClick={() => setAmount(50)}>
+                        50
+                      </button>
+                      <button type="button" onClick={() => setAmount(100)}>
+                        100
+                      </button>
+                      <button type="button" onClick={() => setAmount(200)}>
+                        200
+                      </button>
+                    </div>
+                    <div>
+                      <input
+                        type="number"
+                        min={10}
+                        max={50000}
+                        value={amount}
+                        onChange={(e) => setAmount(e.target.value)}
+                      />
+                    </div>
+                    <div className="btns-selector special">
+                      <button type="button" onClick={() => setAmount(500)}>
+                        500
+                      </button>
+                      <button type="button" onClick={() => setAmount(1000)}>
+                        1000
+                      </button>
                     </div>
                   </div>
 

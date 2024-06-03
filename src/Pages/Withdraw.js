@@ -1,6 +1,5 @@
 /** @format */
 import React, { useState, useEffect } from "react";
-import { LiaLessThanSolid } from "react-icons/lia";
 import { useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import ComponentHead from "../Components/ComponentHead";
@@ -10,7 +9,7 @@ const Withdraw = () => {
   const [addupi, setaddupi] = useState(false);
   const [profile, setProfile] = useState({});
   const [amount, setAmount] = useState(0);
-  const [ loading , setLoading ] = useState(false)
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const navigationHandler = (res) => {
@@ -30,7 +29,7 @@ const Withdraw = () => {
       url: "/payment/withdrawRequest",
       payload,
       additionalFunctions,
-      setLoading
+      setLoading,
     });
   };
 
@@ -147,7 +146,7 @@ const Withdraw = () => {
                         max={50000}
                         required
                         onChange={(e) => setAmount(e.target.value)}
-                        placeholder="40~100000"
+                        placeholder="50~100000"
                         className="text-[gray] w-full outline-none"
                       />
                     </div>
@@ -155,7 +154,7 @@ const Withdraw = () => {
 
                     <div className="flex justify-between">
                       <div className="flex items-center amount-font">
-                        Amount <LiaLessThanSolid /> 10000, fee ₹ 30{" "}
+                        Amount {">"} 1000, fee ₹ 30{" "}
                       </div>
                       <div className="amount-font">
                         Maximum :{" "}
@@ -164,7 +163,7 @@ const Withdraw = () => {
                     </div>
                     <div className="flex justify-between">
                       <div className="flex items-center amount-font">
-                        Amount <LiaLessThanSolid /> = 10000, fee 3%{" "}
+                        Amount {"<"} 1000, fee 3%{" "}
                       </div>
                       <div className="amount-font">
                         Manimum : <span className="font-bold"> ₹50</span>
@@ -177,7 +176,7 @@ const Withdraw = () => {
                       className="bg-[#ffb800] rounded-xl withdraw-btn w-[450px] h-[48px] text-white text-xl font-bold"
                       type="submit"
                     >
-                      { loading ? <ClipLoader color="#fff" /> : "Withdrawal"}
+                      {loading ? <ClipLoader color="#fff" /> : "Withdrawal"}
                     </button>
                   </div>
                 </form>

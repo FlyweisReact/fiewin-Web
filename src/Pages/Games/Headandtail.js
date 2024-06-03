@@ -280,60 +280,43 @@ const Headandtail = () => {
                       {formatCountDown(countDownTime)}
                     </div>
                   </div>
-                  <div className="flex justify-center">
-                    <div className="flex justify-around items-center border-2 rounded-lg mt-5 p-2 w-[450px]">
-                      <div className="w-[130px] flex flex-wrap gap-1">
-                        <div
-                          className="w-[60px] head-tail-small h-[40px] bg-[#BEEBFF] flex justify-center items-center rounded-lg cursor-pointer"
-                          onClick={() => setAmount(20)}
-                        >
-                          20
-                        </div>
-                        <div
-                          className="w-[60px] head-tail-small h-[40px] bg-[#BEEBFF] flex justify-center items-center rounded-lg cursor-pointer"
-                          onClick={() => setAmount(50)}
-                        >
-                          50
-                        </div>
-                        <div
-                          className="w-[60px] head-tail-small h-[40px] bg-[#BEEBFF] flex justify-center items-center rounded-lg cursor-pointer"
-                          onClick={() => setAmount(100)}
-                        >
-                          100
-                        </div>
-                        <div
-                          className="w-[60px] head-tail-small h-[40px] bg-[#BEEBFF] flex justify-center items-center rounded-lg cursor-pointer"
-                          onClick={() => setAmount(200)}
-                        >
-                          200
-                        </div>
-                      </div>
-                      <div>
-                        <input
-                          type={"number"}
-                          className="w-[170px] head--tail-medium h-[80px] text-2xl bg-[#BEEBFF] underline flex justify-center items-center rounded-lg"
-                          onChange={(e) => setAmount(e.target.value)}
-                          value={amount}
-                          min={0}
-                          style={{ outline: "none", textAlign: "center" }}
-                        />
-                      </div>
-                      <div className="flex flex-col gap-1">
-                        <div
-                          className="w-[88px] h-[40px] bg-[#BEEBFF] flex justify-center items-center rounded-lg cursor-pointer"
-                          onClick={() => setAmount(500)}
-                        >
-                          500
-                        </div>
-                        <div
-                          className="w-[88px] h-[40px] bg-[#BEEBFF] flex justify-center items-center rounded-lg cursor-pointer"
-                          onClick={() => setAmount(1000)}
-                        >
-                          1000
-                        </div>
-                      </div>
+                
+
+                  <div className="velocity-amount-selector">
+                    <div className="btns-selector">
+                      <button type="button" onClick={() => setAmount(20)}>
+                        20
+                      </button>
+                      <button type="button" onClick={() => setAmount(50)}>
+                        50
+                      </button>
+                      <button type="button" onClick={() => setAmount(100)}>
+                        100
+                      </button>
+                      <button type="button" onClick={() => setAmount(200)}>
+                        200
+                      </button>
+                    </div>
+                    <div>
+                      <input
+                        type="number"
+                        min={10}
+                        max={50000}
+                        value={amount}
+                        onChange={(e) => setAmount(e.target.value)}
+                      />
+                    </div>
+                    <div className="btns-selector special">
+                      <button type="button" onClick={() => setAmount(500)}>
+                        500
+                      </button>
+                      <button type="button" onClick={() => setAmount(1000)}>
+                        1000
+                      </button>
                     </div>
                   </div>
+
+
                   <div className="mt-2 flex justify-center">
                     {isButtonActive ? (
                       <button

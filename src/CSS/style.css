@@ -163,3 +163,43 @@
 .green-crown {
   transform: rotate(149deg);
 }
+
+.velocity-amount-selector {
+  padding: 0.5rem;
+  border: 2px solid rgb(226 232 240);
+  border-radius: 1rem;
+  margin: 0.75rem;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 10px;
+}
+.velocity-amount-selector .btns-selector {
+  width: 130px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px;
+}
+.velocity-amount-selector .btns-selector button {
+  background-color: rgb(190 235 255);
+  border-radius: 0.5rem;
+  width: 60px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.velocity-amount-selector .btns-selector.special button {
+  width: 100%;
+}
+
+.velocity-amount-selector input {
+  outline: none;
+  font-size: 1.5rem;
+  background-color: rgb(190 235 255);
+  border-radius: 0.5rem;
+  width: 150px;
+  text-align: center;
+  height: 80px;
+}
