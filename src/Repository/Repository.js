@@ -158,7 +158,7 @@ export const user_login = ({
         navigate("/home");
       }
     } catch (e) {
-      const msg = e?.response?.data || "Something went worng !";
+      const msg = e?.response?.data?.message || "Something went worng !";
       if (errorMsg && e?.response?.data?.message === undefined) {
         showNotification({ message: errorMsg, type: "danger" });
       } else {
