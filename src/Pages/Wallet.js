@@ -3,14 +3,16 @@
 import React, { useState, useEffect } from "react";
 import Footer from "../Components/Footer";
 import { Link } from "react-router-dom";
-import { edit_module, getApi } from "../Repository/Repository";
+import { edit_module, getApi, postApi } from "../Repository/Repository";
+import { ClipLoader } from "react-spinners";
 
 const Wallet = () => {
   const [selectedAmount, setSelectedAmount] = useState();
   const [res, setRes] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const payload = {
-    wallet: parseInt(selectedAmount),
+    totalAmount: parseInt(selectedAmount),
   };
 
   const getProfile = () => {
@@ -20,13 +22,25 @@ const Wallet = () => {
     });
   };
 
+  const navigationHandler = (res) => {
+    const url = res?.data?.short_url;
+    window.location.href = url;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    const additionalFunctions = [getProfile];
-    edit_module({
-      url: "/user/addWallet",
+    const additionalFunctions = [navigationHandler];
+    // edit_module({
+    //   url: "/user/addWallet",
+    //   payload,
+    //   additionalFunctions,
+    // });
+
+    postApi({
+      url: "/user/razorpayPayment",
       payload,
       additionalFunctions,
+      setLoading,
     });
   };
 
@@ -139,7 +153,7 @@ const Wallet = () => {
                   type="submit"
                   className="bg-[#FFB800] rounded-xl recharge-btn w-[430px] h-[48px] text-white text-xl font-bold"
                 >
-                  Recharge
+                  {loading ? <ClipLoader color="#fff" /> : "Recharge"}
                 </button>
               </div>
             </div>

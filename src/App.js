@@ -33,6 +33,7 @@ import AgentWithdraw from "./Pages/AgentWithdraw";
 import Refer from "./Components/Refer";
 import "./CSS/style.css";
 import './CSS/MediaQuery.css'
+import PaymentSuccess from "./Pages/PaymentSuccess";
 
 const router = createBrowserRouter([
   {
@@ -152,6 +153,10 @@ const router = createBrowserRouter([
   {
     path: "/:id/refer",
     element: <Refer />,
+  },
+  {
+    path: "/payment-success",
+    element: <PaymentSuccess />,
   },
 ]);
 
