@@ -7,23 +7,23 @@ import { edit_module } from "../Repository/Repository";
 
 const Thanks = () => {
   const { id } = useParams();
-  const [isDone, setIsDone] = useState(false);
+  const [isDone, setIsDone] = useState(true);
   const navigate = useNavigate();
 
-  const submitHanlder = useCallback(() => {
-    const additionalFunctions = [() => setIsDone(true)];
-    edit_module({
-      url: `/payment/withdraw-request/${id}`,
-      payload: {
-        status: "successful",
-      },
-      additionalFunctions,
-    });
-  }, [id]);
+  // const submitHanlder = useCallback(() => {
+  //   const additionalFunctions = [() => setIsDone(true)];
+  //   edit_module({
+  //     url: `/payment/withdraw-request/${id}`,
+  //     payload: {
+  //       status: "successful",
+  //     },
+  //     additionalFunctions,
+  //   });
+  // }, [id]);
 
-  useEffect(() => {
-    submitHanlder();
-  }, [submitHanlder]);
+  // useEffect(() => {
+  //   submitHanlder();
+  // }, [submitHanlder]);
 
   return (
     <div className="bg-slate-100 h-screen flex justify-center">
