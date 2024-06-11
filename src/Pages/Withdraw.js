@@ -3,35 +3,109 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import ComponentHead from "../Components/ComponentHead";
-import { getApi, postApi } from "../Repository/Repository";
+import { getApi, postApi, showNotification } from "../Repository/Repository";
 
 const Withdraw = () => {
   const [addupi, setaddupi] = useState(false);
+  const [addAccount, setaddAccount] = useState(false);
+  const [withDrowApi, setWithDrowApi] = useState(false);
+  const [paymentId, setPaymentId] = useState("");
+  const [accountDetail, setAccountDetail] = useState("");
+  const [transType, setTransType] = useState("");
+  const [type, setType] = useState("");
   const [profile, setProfile] = useState({});
   const [amount, setAmount] = useState(0);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  // enter condition
+  const [upiKey, setUpiKey] = useState("");
+  const [accountKey, setAcoountKey] = useState("");
+
+  // upi state
+  const [upiId, setUpiId] = useState("");
+
+  // back account
+  const [accountNumber, setAccountNumber] = useState("");
+  const [confirmNumber, setConfirmNumber] = useState("");
+  const [ifscCode, setIfscCode] = useState("");
+  const [branchName, srtBranchName] = useState("");
+
+  const submitUpiData = (e) => {
+    e.preventDefault();
+    const payload = {
+      upiId,
+      type: "Upi",
+    };
+    // const additionalFunctions = [() => navigate("/Withdraw")];
+    postApi({
+      url: "/user/user-details",
+      payload,
+      setLoading,
+      successMsg: "Upi Add Successfully",
+      // additionalFunctions,
+    });
+    setaddupi(false);
+  };
+
+  const submitAccountData = (e) => {
+    e.preventDefault();
+    const payload = {
+      accountNumber,
+      confirmNumber,
+      ifscCode,
+      branchName,
+      type: "Bank",
+    };
+    // const additionalFunctions = [() => navigate("/Withdraw")];
+    postApi({
+      url: "/user/user-details",
+      payload,
+      setLoading,
+      successMsg: "Back Account Add Successfully",
+      // additionalFunctions,
+    });
+    setaddAccount(false);
+  };
 
   const navigationHandler = (res) => {
     const id = res?.transaction?._id;
     navigate(`/thanks/${id}`);
   };
 
-  const payload = {
-    amount,
-    transType: "wallet",
-  };
-
   const submitHandler = (e) => {
     e.preventDefault();
-    const additionalFunctions = [(res) => navigationHandler(res)];
-    postApi({
-      url: "/payment/withdrawRequest",
-      payload,
-      additionalFunctions,
-      setLoading,
+    if (amount < 40) {
+      showNotification({ message: "Amaunt is less than 40", type: "danger" });
+      setWithDrowApi(false);
+      return;
+    } else {
+      const payload = {
+        amount,
+        paymentId,
+        transType: "wallet",
+      };
+      const additionalFunctions = [(res) => navigationHandler(res)];
+      postApi({
+        url: "/payment/withdrawRequest",
+        payload,
+        additionalFunctions,
+        setLoading,
+      });
+    }
+    setWithDrowApi(false);
+  };
+
+  const getAccountDetail = () => {
+    getApi({
+      url: `/user/user-details?type=${type}`,
+      setResponse: setAccountDetail,
     });
   };
+
+  useEffect(() => {
+    getAccountDetail();
+  }, [type]);
 
   const getProfile = () => {
     getApi({
@@ -48,51 +122,186 @@ const Withdraw = () => {
     <>
       {addupi ? (
         <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
-          <div className="w-[400px] h-[270px] bg-white  rounded-lg relative  gap-5 p-3">
-            <form>
+          <div className="w-[400px] h-[auto] bg-white  rounded-lg relative  p-3">
+            <form onSubmit={submitUpiData}>
               <div className="flex justify-center flex-col items-center mt-2 gap-3">
                 <div className="">
-                  <label>First Name</label>
+                  <label>Enter UPI Id</label>
                   <br />
                   <input
                     type="text"
+                    value={upiId}
+                    onChange={(e) => setUpiId(e.target.value)}
                     className=" w-[350px] border-black border-b "
-                    placeholder="Enter Your Full Name"
-                  />
-                </div>
-
-                <div className="">
-                  <label>Email</label>
-                  <br />
-                  <input
-                    type="text"
-                    className="w-[350px] border-black border-b"
-                    placeholder="Enter Email"
-                  />
-                </div>
-                <div className="">
-                  <label>UPI ID</label>
-                  <br />
-                  <input
-                    type="text"
-                    className="w-[350px] border-black border-b"
-                    placeholder="Enter UPI ID"
+                    placeholder="Enter Upi ID"
                   />
                 </div>
               </div>
-            </form>
 
-            <div className="flex justify-center mt-5">
-              <button
-                onClick={() => setaddupi(false)}
-                className="w-[200px] h-[40px] bg-[#FFB800] text-white font-bold rounded-lg"
-              >
-                Submit
-              </button>
-            </div>
+              <div className="flex justify-center mt-5">
+                <button
+                  type="submit"
+                  className="w-[200px] h-[40px] bg-[#FFB800] text-white font-bold rounded-lg"
+                >
+                  Submit
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       ) : null}
+      {addAccount ? (
+        <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
+          <div className="w-[400px] h-[360px] bg-white  rounded-lg relative  gap-5 p-3">
+            <form onSubmit={submitAccountData}>
+              <div className="flex justify-center flex-col items-center mt-2 gap-3">
+                <div className="">
+                  <label>Enter Bank Account Number</label>
+                  <br />
+                  <input
+                    type="text"
+                    value={accountNumber}
+                    onChange={(e) => setAccountNumber(e.target.value)}
+                    className="w-[350px] border-black border-b"
+                    placeholder="Enter Back Account"
+                  />
+                </div>
+
+                <div className="">
+                  <label> Confirm Bank Account Number</label>
+                  <br />
+                  <input
+                    type="text"
+                    value={confirmNumber}
+                    onChange={(e) => setConfirmNumber(e.target.value)}
+                    className="w-[350px] border-black border-b"
+                    placeholder="Enter Confirm Account Number"
+                  />
+                </div>
+
+                <div className="">
+                  <label>Enter IFSC Code</label>
+                  <br />
+                  <input
+                    type="text"
+                    value={ifscCode}
+                    onChange={(e) => setIfscCode(e.target.value)}
+                    className="w-[350px] border-black border-b"
+                    placeholder="Enter IFSC Code "
+                  />
+                </div>
+
+                <div className="">
+                  <label>Enter Branch Name</label>
+                  <br />
+                  <input
+                    type="text"
+                    value={branchName}
+                    onChange={(e) => srtBranchName(e.target.value)}
+                    className="w-[350px] border-black border-b"
+                    placeholder="Enter Branch Name"
+                  />
+                </div>
+
+                <div className="flex justify-center mt-5">
+                  <button
+                    type="submit"
+                    className="w-[200px] h-[40px] bg-[#FFB800] text-white font-bold rounded-lg"
+                  >
+                    Submit
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      ) : null}
+
+      {withDrowApi ? (
+        <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
+          <div className="w-[400px] h-[300px] bg-white  rounded-lg relative  gap-5 p-3">
+            <form onSubmit={submitHandler}>
+              <div className="flex justify-center flex-col items-center mt-2 gap-3">
+                <div className="">
+                  <label>Select Payment Method</label>
+                  <br />
+                  <select
+                    value={type}
+                    onChange={(e) => setType(e.target.value)}
+                    className="w-[350px] border-black border-b"
+                    placeholder="Enter Confirm Account Number"
+                  >
+                    <option>Select</option>
+                    <option value="Bank">Bank</option>
+                    <option value="Upi">Upi</option>
+                  </select>
+                </div>
+
+                <div className="">
+                  <label>Select TransType</label>
+                  <br />
+                  <select
+                    value={transType}
+                    onChange={(e) => setTransType(e.target.value)}
+                    className="w-[350px] border-black border-b"
+                    placeholder="Enter Confirm Account Number"
+                  >
+                    <option>Select</option>
+                    <option value="account">Account</option>
+                    <option value="upi">Upi</option>
+                  </select>
+                </div>
+
+                {type === "Bank" ? (
+                  <div className="">
+                    <label>Select Account</label>
+                    <br />
+                    <select
+                      value={paymentId}
+                      onChange={(e) => setPaymentId(e.target.value)}
+                      className="w-[350px] border-black border-b"
+                      placeholder="Enter Confirm Account Number"
+                    >
+                      <option>Select</option>
+                      {accountDetail?.userdetails?.map((i, index) => (
+                        <option
+                          value={i?._id}
+                        >{`${i?.type} ${i?.accountNumber} ${i?.branchName}`}</option>
+                      ))}
+                    </select>
+                  </div>
+                ) : (
+                  <div className="">
+                    <label>Select Account</label>
+                    <br />
+                    <select
+                      value={paymentId}
+                      onChange={(e) => setPaymentId(e.target.value)}
+                      className="w-[350px] border-black border-b"
+                      placeholder="Enter Confirm Account Number"
+                    >
+                      <option>Select</option>
+                      {accountDetail?.userdetails?.map((i, index) => (
+                        <option value={i?._id}>{`${i?.type}`}</option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+
+                <div className="flex justify-center mt-5">
+                  <button
+                    type="submit"
+                    className="w-[200px] h-[40px] bg-[#FFB800] text-white font-bold rounded-lg"
+                  >
+                    Submit
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      ) : null}
+
       <div className="h-screen flex justify-center">
         <div className="grid place-items-center ">
           <div className="lg:w-[500px] lg:h-full bg-white flex flex-col ">
@@ -129,24 +338,29 @@ const Withdraw = () => {
                     <div className="card-font">
                       Bank account can be added to get fast withdrawals
                     </div>
-                    <div className="underline">Click here to add</div>
+                    <div
+                      className="underline cursor-pointer"
+                      onClick={() => setaddAccount(true)}
+                    >
+                      Click here to add
+                    </div>
                   </div>
-                  <div className="bg-[#FFEBB9] w-[457px] withdraw-card h-[120px] rounded-lg flex  flex-col justify-center items-center">
+                  {/* <div className="bg-[#FFEBB9] w-[457px] withdraw-card h-[120px] rounded-lg flex  flex-col justify-center items-center">
                     <div className="card-font">Paytm</div>
-                  </div>
+                  </div> */}
                 </div>
-
-                <form onSubmit={submitHandler}>
+                {/* onSubmit={submitHandler} */}
+                <form>
                   <div className="p-6">
                     <div className="font-bold font-xl ">Amount</div>
                     <div className="text-2xl">
                       <input
                         type="number"
-                        min={50}
+                        min={40}
                         max={50000}
                         required
                         onChange={(e) => setAmount(e.target.value)}
-                        placeholder="50~100000"
+                        placeholder="40~50000"
                         className="text-[gray] w-full outline-none"
                       />
                     </div>
@@ -166,7 +380,7 @@ const Withdraw = () => {
                         Amount {"<"} 1000, fee 3%{" "}
                       </div>
                       <div className="amount-font">
-                        Manimum : <span className="font-bold"> ₹50</span>
+                        Minimum : <span className="font-bold"> ₹40</span>
                       </div>
                     </div>
                   </div>
@@ -174,7 +388,8 @@ const Withdraw = () => {
                   <div className="mt-10 flex justify-center ">
                     <button
                       className="bg-[#ffb800] rounded-xl withdraw-btn w-[450px] h-[48px] text-white text-xl font-bold"
-                      type="submit"
+                      type="button"
+                      onClick={() => setWithDrowApi(true)}
                     >
                       {loading ? <ClipLoader color="#fff" /> : "Withdrawal"}
                     </button>
