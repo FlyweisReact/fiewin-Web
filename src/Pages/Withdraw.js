@@ -136,6 +136,7 @@ const Withdraw = () => {
       url: `/user/user-details?type=${type}`,
       setResponse: setAccountDetail,
     });
+    console.log(accountDetail);
   };
 
   useEffect(() => {
@@ -145,12 +146,18 @@ const Withdraw = () => {
   useEffect(() => {
     const prevData =
       accountDetail?.userdetails?.[accountDetail.userdetails?.length - 1];
+
     if (accountDetail) {
-      setUpiId(prevData?.upiId);
-      console.log(prevData);
-      setAccountNumber(prevData?.accountNumber);
-      setConfirmNumber(prevData?.accountNumber);
-      setIfscCode(prevData?.ifscCode);
+      const newDetails = accountDetail?.userdetails?.reverse();
+      console.log(newDetails, "AccountDetails");
+      const accountNumber1 = newDetails?.find((item) => item?.type === "Bank");
+      console.log(accountNumber1);
+      const upiId1 = newDetails?.find((item) => item?.type === "Upi");
+
+      setUpiId(upiId1?.upiId);
+      setAccountNumber(accountNumber1?.accountNumber || "");
+      setConfirmNumber(accountNumber1?.accountNumber || "");
+      setIfscCode(accountNumber1?.ifscCode || "");
       srtBranchName(prevData?.branchName);
     }
   }, [accountDetail]);
