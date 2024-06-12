@@ -19,6 +19,7 @@ const Withdraw = () => {
   const navigate = useNavigate();
 
   // enter condition
+
   const [upiKey, setUpiKey] = useState("");
   const [accountKey, setAcoountKey] = useState("");
 
@@ -33,6 +34,14 @@ const Withdraw = () => {
 
   const submitUpiData = (e) => {
     e.preventDefault();
+    if (!upiId) {
+      showNotification({
+        message: "Please Enter a valid Upi ID",
+        type: "danger",
+      });
+      setaddupi(false);
+      return;
+    }
     const payload = {
       upiId,
       type: "Upi",
@@ -50,6 +59,32 @@ const Withdraw = () => {
 
   const submitAccountData = (e) => {
     e.preventDefault();
+    console.log(accountNumber, confirmNumber, ifscCode, branchName);
+    if (!accountNumber) {
+      showNotification({
+        message: "Please Enter a valid Bank Details",
+        type: "danger",
+      });
+      setaddAccount(false);
+      return;
+    }
+    if (!ifscCode) {
+      showNotification({
+        message: "Please Enter a valid Bank Details",
+        type: "danger",
+      });
+      setaddAccount(false);
+      return;
+    }
+    if (!branchName) {
+      showNotification({
+        message: "Please Enter a valid Bank Details",
+        type: "danger",
+      });
+      setaddAccount(false);
+      return;
+    }
+
     const payload = {
       accountNumber,
       confirmNumber,
@@ -107,6 +142,19 @@ const Withdraw = () => {
     getAccountDetail();
   }, [type]);
 
+  useEffect(() => {
+    const prevData =
+      accountDetail?.userdetails?.[accountDetail.userdetails?.length - 1];
+    if (accountDetail) {
+      setUpiId(prevData?.upiId);
+      console.log(prevData);
+      setAccountNumber(prevData?.accountNumber);
+      setConfirmNumber(prevData?.accountNumber);
+      setIfscCode(prevData?.ifscCode);
+      srtBranchName(prevData?.branchName);
+    }
+  }, [accountDetail]);
+
   const getProfile = () => {
     getApi({
       url: "/user/profile",
@@ -159,7 +207,7 @@ const Withdraw = () => {
                   <label>Enter Bank Account Number</label>
                   <br />
                   <input
-                    type="text"
+                    type="number"
                     value={accountNumber}
                     onChange={(e) => setAccountNumber(e.target.value)}
                     className="w-[350px] border-black border-b"
