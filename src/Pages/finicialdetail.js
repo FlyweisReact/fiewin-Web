@@ -15,7 +15,46 @@ const Finicialdetail = () => {
       setResponse: setData,
     });
   }, []);
+  function addTime(timestamp) {
+    const [datePart, timePart] = timestamp.split(", ");
 
+    const [time, modifier] = timePart.trim().split(" ");
+    let [hours, minutes] = time.split(":").map(Number);
+
+    if (modifier === "PM" && hours !== 12) {
+      hours += 12;
+    } else if (modifier === "AM" && hours === 12) {
+      hours = 0;
+    }
+
+    hours += 5;
+    minutes += 27;
+
+    while (minutes >= 60) {
+      minutes -= 60;
+      hours += 1;
+    }
+
+    while (hours >= 24) {
+      hours -= 24;
+    }
+
+    const newModifier = hours >= 12 ? "PM" : "AM";
+    if (hours > 12) {
+      hours -= 12;
+    } else if (hours === 0) {
+      hours = 12;
+    }
+
+    const formattedHours = hours.toString().padStart(2, "0");
+    const formattedMinutes = minutes.toString().padStart(2, "0");
+
+    const updatedTimeString = `${formattedHours}:${formattedMinutes} ${newModifier}`;
+
+    const updatedTimestamp = `${datePart}, ${updatedTimeString}`;
+
+    return updatedTimestamp;
+  }
 
   return (
     <div className=" h-screen flex justify-center">
@@ -42,10 +81,7 @@ const Finicialdetail = () => {
                   <img src={rupee} alt="" className="w-8" />
                   <div className="flex flex-col ">
                     <div> {i.product?.description} </div>
-                    <div>
-                      {i.timestamp}{" "}
-
-                    </div>
+                    <div>{addTime(i?.timestamp)}</div>
                   </div>
                 </div>
                 <div className="font-bold mr-2">₹{i.amount} </div>
