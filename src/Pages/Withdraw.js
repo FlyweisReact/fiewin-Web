@@ -59,7 +59,6 @@ const Withdraw = () => {
 
   const submitAccountData = (e) => {
     e.preventDefault();
-    console.log(accountNumber, confirmNumber, ifscCode, branchName);
     if (!accountNumber) {
       showNotification({
         message: "Please Enter a valid Bank Details",
@@ -136,7 +135,6 @@ const Withdraw = () => {
       url: `/user/user-details?type=${type}`,
       setResponse: setAccountDetail,
     });
-    console.log(accountDetail);
   };
 
   useEffect(() => {
@@ -149,9 +147,9 @@ const Withdraw = () => {
 
     if (accountDetail) {
       const newDetails = accountDetail?.userdetails?.reverse();
-      console.log(newDetails, "AccountDetails");
+
       const accountNumber1 = newDetails?.find((item) => item?.type === "Bank");
-      console.log(accountNumber1);
+
       const upiId1 = newDetails?.find((item) => item?.type === "Upi");
 
       setUpiId(upiId1?.upiId);
