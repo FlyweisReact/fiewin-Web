@@ -322,13 +322,28 @@ const Withdraw = () => {
                       UPI
                     </div>
                     <div className="card-font">
-                      with your UPID , you can withdraw money quickly
+                      {!addupi &&
+                        !upiId &&
+                        `with your UPID , you can withdraw money quickly`}
+                      {upiId && (
+                        <p>
+                          {" "}
+                          <span
+                            style={{ fontWeight: "bold", fontSize: "1rem" }}
+                          >
+                            UPI Id{" "}
+                          </span>
+                          :- {upiId}
+                        </p>
+                      )}
                     </div>
                     <div
                       className="underline cursor-pointer"
                       onClick={() => setaddupi(true)}
                     >
-                      Click here to add
+                      <p style={{ paddingBottom: upiId ? "2rem" : "" }}>
+                        Click here to add
+                      </p>
                     </div>
                   </div>
                   <div className="bg-[#FFEBB9] relative withdraw-card  w-[457px] h-[120px] rounded-lg flex  flex-col justify-center items-center">
@@ -336,10 +351,54 @@ const Withdraw = () => {
                       Bank
                     </div>
                     <div className="card-font">
-                      Bank account can be added to get fast withdrawals
+                      {!addAccount &&
+                        !accountNumber &&
+                        ` Bank account can be added to get fast withdrawals`}
+                      {accountNumber && (
+                        <p
+                          style={{
+                            padding: "1rem",
+                            display: "flex",
+                            flexDirection: "column",
+                          }}
+                        >
+                          <span>
+                            {" "}
+                            <span
+                              style={{ fontWeight: "bold", fontSize: "1rem" }}
+                            >
+                              Account Number
+                            </span>{" "}
+                            :- {accountNumber}{" "}
+                          </span>
+                          <span>
+                            {" "}
+                            <span
+                              style={{ fontWeight: "bold", fontSize: "1rem" }}
+                            >
+                              {" "}
+                              IFSC Code
+                            </span>{" "}
+                            :-{" "}
+                            <span style={{ fontSize: "normal" }}>
+                              {ifscCode}
+                            </span>
+                          </span>
+                          <span>
+                            {" "}
+                            <span
+                              style={{ fontWeight: "bold", fontSize: "1rem" }}
+                            >
+                              {" "}
+                              Branch Name
+                            </span>
+                            :- {branchName}
+                          </span>
+                        </p>
+                      )}
                     </div>
                     <div
-                      className="underline cursor-pointer"
+                      className="underline cursor-pointer pb-3"
                       onClick={() => setaddAccount(true)}
                     >
                       Click here to add
