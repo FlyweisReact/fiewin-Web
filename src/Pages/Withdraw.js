@@ -122,7 +122,7 @@ const Withdraw = () => {
       setWithDrowApi(false);
       return;
     } else {
-      if (account) {
+      if (amount && type && paymentId) {
         const payload = {
           amount,
           paymentId,
@@ -135,6 +135,12 @@ const Withdraw = () => {
           additionalFunctions,
           setLoading,
         });
+      } else {
+        showNotification({
+          message: "First Select WithDrow Detail",
+          type: "danger",
+        });
+        setWithDrowApi(false);
       }
     }
     setWithDrowApi(false);
