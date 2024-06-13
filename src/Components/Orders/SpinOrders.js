@@ -21,13 +21,28 @@ const SpinOrders = ({
       return <span style={{ color: "#00c282" }}>+₹{winAmount}</span>;
     }
   };
+  function updateTime(dateTimeString) {
+    const date = new Date(dateTimeString);
+    
+    if (isNaN(date)) {
+        throw new Error('Invalid date format');
+    }
+
+    date.setHours(date.getHours() + 5);
+    date.setMinutes(date.getMinutes() + 27);
+
+    const updatedTime = date.toISOString().split("T")[1].slice(0, 8);
+
+    return updatedTime;
+}
   return (
     <div className="order-card">
       <div className="upper-div">
         <div> {gameId} </div>
         <div>
-          {" "}
-          {createdAt?.slice(0, 10)} {createdAt?.split("T")?.[1]?.slice(0, 8)}{" "}
+        {createdAt?.slice(0, 10)}  {" "}
+          {updateTime(createdAt)}
+          {/* {createdAt?.slice(0, 10)} {createdAt?.split("T")?.[1]?.slice(0, 8)}{" "} */}
         </div>
       </div>
 

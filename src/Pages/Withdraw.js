@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import ComponentHead from "../Components/ComponentHead";
 import { getApi, postApi, showNotification } from "../Repository/Repository";
+import { RxCross2 } from "react-icons/rx";
 
 const Withdraw = () => {
   const [addupi, setaddupi] = useState(false);
@@ -113,11 +114,18 @@ const Withdraw = () => {
       showNotification({ message: "Amaunt is less than 40", type: "danger" });
       setWithDrowApi(false);
       return;
+    } else if (amount > 50000) {
+      showNotification({
+        message: "Amaunt is greater than 50000",
+        type: "danger",
+      });
+      setWithDrowApi(false);
+      return;
     } else {
       const payload = {
         amount,
         paymentId,
-        transType: "wallet",
+        transType: type === "Bank" ? "account" : "upi",
       };
       const additionalFunctions = [(res) => navigationHandler(res)];
       postApi({
@@ -177,9 +185,16 @@ const Withdraw = () => {
         <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
           <div className="w-[400px] h-[auto] bg-white  rounded-lg relative  p-3">
             <form onSubmit={submitUpiData}>
+              <div className="cross-button">
+                <label>Enter UPI Detail</label>
+                <p>
+                  <RxCross2 onClick={() => setaddupi(false)} />
+                </p>
+              </div>
               <div className="flex justify-center flex-col items-center mt-2 gap-3">
                 <div className="">
                   <label>Enter UPI Id</label>
+
                   <br />
                   <input
                     type="text"
@@ -207,6 +222,12 @@ const Withdraw = () => {
         <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
           <div className="w-[400px] h-[360px] bg-white  rounded-lg relative  gap-5 p-3">
             <form onSubmit={submitAccountData}>
+              <div className="cross-button">
+                <label>Enter Bank Detail</label>
+                <p>
+                  <RxCross2 onClick={() => setaddAccount(false)} />
+                </p>
+              </div>
               <div className="flex justify-center flex-col items-center mt-2 gap-3">
                 <div className="">
                   <label>Enter Bank Account Number</label>
@@ -272,15 +293,23 @@ const Withdraw = () => {
 
       {withDrowApi ? (
         <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
-          <div className="w-[400px] h-[300px] bg-white  rounded-lg relative  gap-5 p-3">
+          <div className="w-[400px] h-[250px] bg-white  rounded-lg relative  gap-5 p-3">
             <form onSubmit={submitHandler}>
+              <div className="cross-button">
+                <label>Enter WithDrow Detail</label>
+                <p>
+                  <RxCross2 onClick={() => setWithDrowApi(false)} />
+                </p>
+              </div>
               <div className="flex justify-center flex-col items-center mt-2 gap-3">
                 <div className="">
                   <label>Select Payment Method</label>
                   <br />
                   <select
                     value={type}
-                    onChange={(e) => setType(e.target.value)}
+                    onChange={(e) => {
+                      setType(e.target.value);
+                    }}
                     className="w-[350px] border-black border-b"
                     placeholder="Enter Confirm Account Number"
                   >
@@ -290,7 +319,7 @@ const Withdraw = () => {
                   </select>
                 </div>
 
-                <div className="">
+                {/* <div className="">
                   <label>Select TransType</label>
                   <br />
                   <select
@@ -303,7 +332,7 @@ const Withdraw = () => {
                     <option value="account">Account</option>
                     <option value="upi">Upi</option>
                   </select>
-                </div>
+                </div> */}
 
                 {type === "Bank" ? (
                   <div className="">
@@ -325,7 +354,7 @@ const Withdraw = () => {
                   </div>
                 ) : (
                   <div className="">
-                    <label>Select Account</label>
+                    <label>Select Upi Id</label>
                     <br />
                     <select
                       value={paymentId}
@@ -335,7 +364,9 @@ const Withdraw = () => {
                     >
                       <option>Select</option>
                       {accountDetail?.userdetails?.map((i, index) => (
-                        <option value={i?._id}>{`${i?.type}`}</option>
+                        <option
+                          value={i?._id}
+                        >{`${i?.type} ${i?.upiId}`}</option>
                       ))}
                     </select>
                   </div>

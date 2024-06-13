@@ -32,10 +32,12 @@ const Thanks = () => {
           <div className="bg-[#FFDC82] w-[500px] p-5 flex justify-center items-center text-xl font-semibold top-0 fixed z-50"></div>
           {isDone ? (
             <div className="withdraw-complete-div">
-              <p>
+              {/* <p>
                 Your withdrawal transaction has been successfully completed. The
                 funds have been transferred to your account.
-              </p>
+              </p> */}
+              <p>Amount will be transfer soon!</p>
+
               <button onClick={() => navigate("/home")}>Home</button>
             </div>
           ) : (

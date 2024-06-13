@@ -669,7 +669,7 @@ html {
 }
 
 .activeBtn {
-  border: 5px solid #7469B6;
+  border: 5px solid #7469b6;
   border: 5px solid #000;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px !important;
 }
@@ -733,7 +733,7 @@ html {
   width: 112px;
   height: 112px; /* Adjust size as needed */
   perspective: 2000px; /* Increased perspective for more 3D effect */
-  z-index: 2 ;
+  z-index: 2;
 }
 
 .coin-inner {
@@ -754,6 +754,15 @@ html {
 
 .coin-tail {
   transform: rotateY(180deg);
+}
+
+.cross-button {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cross-button > p {
+  cursor: pointer;
 }
 
 @keyframes rotateIn {
