@@ -122,18 +122,20 @@ const Withdraw = () => {
       setWithDrowApi(false);
       return;
     } else {
-      const payload = {
-        amount,
-        paymentId,
-        transType: type === "Bank" ? "account" : "upi",
-      };
-      const additionalFunctions = [(res) => navigationHandler(res)];
-      postApi({
-        url: "/payment/withdrawRequest",
-        payload,
-        additionalFunctions,
-        setLoading,
-      });
+      if (account) {
+        const payload = {
+          amount,
+          paymentId,
+          transType: type === "Bank" ? "account" : "upi",
+        };
+        const additionalFunctions = [(res) => navigationHandler(res)];
+        postApi({
+          url: "/payment/withdrawRequest",
+          payload,
+          additionalFunctions,
+          setLoading,
+        });
+      }
     }
     setWithDrowApi(false);
   };
