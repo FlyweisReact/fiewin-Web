@@ -10,7 +10,7 @@ const Todaysincome = () => {
 
   useEffect(() => {
     getApi({
-      url: "/user/today-referral/data",
+      url: "/user/allday-referral/data",
       setResponse,
     });
   }, []);
@@ -22,7 +22,6 @@ const Todaysincome = () => {
       `₹${item?.amount}`,
     ])
   );
-
 
   return (
     <div className=" h-screen flex justify-center">
