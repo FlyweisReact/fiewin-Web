@@ -111,12 +111,12 @@ const Withdraw = () => {
   const submitHandler = (e) => {
     e.preventDefault();
     if (amount < 40) {
-      showNotification({ message: "Amaunt is less than 40", type: "danger" });
+      showNotification({ message: "Amount is less than 40", type: "danger" });
       setWithDrowApi(false);
       return;
     } else if (amount > 50000) {
       showNotification({
-        message: "Amaunt is greater than 50000",
+        message: "Amount is greater than 50000",
         type: "danger",
       });
       setWithDrowApi(false);
