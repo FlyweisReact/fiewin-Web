@@ -79,6 +79,37 @@ const Signup = () => {
     }
   }, [isLoggedIn, navigate]);
 
+  let otpBtn;
+  if (otpLoading) {
+    otpBtn = (
+      <button
+        type="button"
+        className="bg-[#FFB800] register-btn rounded w-[174px] h-[48px] text-white font-semibold"
+      >
+        Sending...
+      </button>
+    );
+  } else if (countDownTime === 0) {
+    otpBtn = (
+      <button
+        type="button"
+        className="bg-[#FFB800] register-btn rounded w-[174px] h-[48px] text-white font-semibold"
+        onClick={() => sendOtp()}
+      >
+        {text}
+      </button>
+    );
+  } else {
+    otpBtn = (
+      <button
+        type="button"
+        className="bg-[#FFB800] register-btn rounded w-[174px] h-[48px] text-white font-semibold"
+      >
+        {countDownTime}
+      </button>
+    );
+  }
+
   return (
     <>
       {show && (
@@ -178,17 +209,9 @@ const Signup = () => {
                       placeholder="OTP"
                     />
                   </div>
-                  <button
-                    type="button"
-                    className="bg-[#FFB800] register-btn rounded w-[174px] h-[48px] text-white font-semibold"
-                    onClick={() => sendOtp()}
-                  >
-                    {otpLoading
-                      ? "Sending..."
-                      : countDownTime === 0
-                      ? text
-                      : countDownTime}
-                  </button>
+
+                  {otpBtn}
+                 
                 </div>
 
                 <div className="mt-10">

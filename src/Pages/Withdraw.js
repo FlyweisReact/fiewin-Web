@@ -12,22 +12,12 @@ const Withdraw = () => {
   const [withDrowApi, setWithDrowApi] = useState(false);
   const [paymentId, setPaymentId] = useState("");
   const [accountDetail, setAccountDetail] = useState("");
-  const [transType, setTransType] = useState("");
   const [type, setType] = useState("");
   const [profile, setProfile] = useState({});
   const [amount, setAmount] = useState(0);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
-  // enter condition
-
-  const [upiKey, setUpiKey] = useState("");
-  const [accountKey, setAcoountKey] = useState("");
-
-  // upi state
   const [upiId, setUpiId] = useState("");
-
-  // back account
   const [accountNumber, setAccountNumber] = useState("");
   const [confirmNumber, setConfirmNumber] = useState("");
   const [ifscCode, setIfscCode] = useState("");
@@ -35,56 +25,21 @@ const Withdraw = () => {
 
   const submitUpiData = (e) => {
     e.preventDefault();
-    if (!upiId) {
-      showNotification({
-        message: "Please Enter a valid Upi ID",
-        type: "danger",
-      });
-      setaddupi(false);
-      return;
-    }
     const payload = {
       upiId,
       type: "Upi",
     };
-    // const additionalFunctions = [() => navigate("/Withdraw")];
     postApi({
       url: "/user/user-details",
       payload,
       setLoading,
       successMsg: "Upi Add Successfully",
-      // additionalFunctions,
     });
     setaddupi(false);
   };
 
   const submitAccountData = (e) => {
     e.preventDefault();
-    if (!accountNumber) {
-      showNotification({
-        message: "Please Enter a valid Bank Details",
-        type: "danger",
-      });
-      setaddAccount(false);
-      return;
-    }
-    if (!ifscCode) {
-      showNotification({
-        message: "Please Enter a valid Bank Details",
-        type: "danger",
-      });
-      setaddAccount(false);
-      return;
-    }
-    if (!branchName) {
-      showNotification({
-        message: "Please Enter a valid Bank Details",
-        type: "danger",
-      });
-      setaddAccount(false);
-      return;
-    }
-
     const payload = {
       accountNumber,
       confirmNumber,
@@ -92,13 +47,11 @@ const Withdraw = () => {
       branchName,
       type: "Bank",
     };
-    // const additionalFunctions = [() => navigate("/Withdraw")];
     postApi({
       url: "/user/user-details",
       payload,
       setLoading,
-      successMsg: "Back Account Add Successfully",
-      // additionalFunctions,
+      successMsg: "Back Account added successfully",
     });
     setaddAccount(false);
   };
@@ -110,40 +63,21 @@ const Withdraw = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    if (amount < 40) {
-      showNotification({ message: "Amount is less than 40", type: "danger" });
-      setWithDrowApi(false);
-      return;
-    } else if (amount > 50000) {
-      showNotification({
-        message: "Amount is greater than 50000",
-        type: "danger",
-      });
-      setWithDrowApi(false);
-      return;
-    } else {
-      if (amount && type && paymentId) {
-        const payload = {
-          amount,
-          paymentId,
-          transType: type === "Bank" ? "account" : "upi",
-        };
-        const additionalFunctions = [(res) => navigationHandler(res)];
-        postApi({
-          url: "/payment/withdrawRequest",
-          payload,
-          additionalFunctions,
-          setLoading,
-        });
-      } else {
-        showNotification({
-          message: "First Select WithDrow Detail",
-          type: "danger",
-        });
-        setWithDrowApi(false);
-      }
-    }
-    setWithDrowApi(false);
+    const payload = {
+      amount,
+      paymentId,
+      transType: type === "Bank" ? "account" : "upi",
+    };
+    const additionalFunctions = [
+      () => setWithDrowApi(false),
+      (res) => navigationHandler(res),
+    ];
+    postApi({
+      url: "/payment/withdrawRequest",
+      payload,
+      additionalFunctions,
+      setLoading,
+    });
   };
 
   const getAccountDetail = () => {
@@ -187,6 +121,11 @@ const Withdraw = () => {
     getProfile();
   }, []);
 
+  const openWidtrawPopup = (e) => {
+    e.preventDefault();
+    setWithDrowApi(true);
+  };
+
   return (
     <>
       {addupi ? (
@@ -202,13 +141,13 @@ const Withdraw = () => {
               <div className="flex justify-center flex-col items-center mt-2 gap-3">
                 <div className="">
                   <label>Enter UPI Id</label>
-
                   <br />
                   <input
                     type="text"
                     value={upiId}
+                    required
                     onChange={(e) => setUpiId(e.target.value)}
-                    className=" w-[350px] border-black border-b "
+                    className=" w-[350px] border-black border-b outline-none"
                     placeholder="Enter Upi ID"
                   />
                 </div>
@@ -228,7 +167,7 @@ const Withdraw = () => {
       ) : null}
       {addAccount ? (
         <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
-          <div className="w-[400px] h-[360px] bg-white  rounded-lg relative  gap-5 p-3">
+          <div className="w-[400px] h-[400px] bg-white  rounded-lg relative  gap-5 p-3">
             <form onSubmit={submitAccountData}>
               <div className="cross-button">
                 <label>Enter Bank Detail</label>
@@ -237,50 +176,54 @@ const Withdraw = () => {
                 </p>
               </div>
               <div className="flex justify-center flex-col items-center mt-2 gap-3">
-                <div className="">
+                <div className="mt-2">
                   <label>Enter Bank Account Number</label>
                   <br />
                   <input
                     type="number"
                     value={accountNumber}
+                    required
                     onChange={(e) => setAccountNumber(e.target.value)}
-                    className="w-[350px] border-black border-b"
+                    className="w-[350px] border-black border-b outline-none"
                     placeholder="Enter Back Account"
                   />
                 </div>
 
-                <div className="">
+                <div className="mt-2">
                   <label> Confirm Bank Account Number</label>
                   <br />
                   <input
                     type="text"
+                    required
                     value={confirmNumber}
                     onChange={(e) => setConfirmNumber(e.target.value)}
-                    className="w-[350px] border-black border-b"
+                    className="w-[350px] border-black border-b outline-none"
                     placeholder="Enter Confirm Account Number"
                   />
                 </div>
 
-                <div className="">
+                <div className="mt-2">
                   <label>Enter IFSC Code</label>
                   <br />
                   <input
                     type="text"
+                    required
                     value={ifscCode}
                     onChange={(e) => setIfscCode(e.target.value)}
-                    className="w-[350px] border-black border-b"
+                    className="w-[350px] border-black border-b outline-none"
                     placeholder="Enter IFSC Code "
                   />
                 </div>
 
-                <div className="">
+                <div className="mt-2">
                   <label>Enter Branch Name</label>
                   <br />
                   <input
                     type="text"
+                    required
                     value={branchName}
                     onChange={(e) => srtBranchName(e.target.value)}
-                    className="w-[350px] border-black border-b"
+                    className="w-[350px] border-black border-b outline-none"
                     placeholder="Enter Branch Name"
                   />
                 </div>
@@ -314,33 +257,19 @@ const Withdraw = () => {
                   <label>Select Payment Method</label>
                   <br />
                   <select
+                    required
                     value={type}
                     onChange={(e) => {
                       setType(e.target.value);
                     }}
-                    className="w-[350px] border-black border-b"
+                    className="w-[350px] border-black border-b outline-none"
                     placeholder="Enter Confirm Account Number"
                   >
-                    <option>Select</option>
+                    <option value="">Select</option>
                     <option value="Bank">Bank</option>
                     <option value="Upi">Upi</option>
                   </select>
                 </div>
-
-                {/* <div className="">
-                  <label>Select TransType</label>
-                  <br />
-                  <select
-                    value={transType}
-                    onChange={(e) => setTransType(e.target.value)}
-                    className="w-[350px] border-black border-b"
-                    placeholder="Enter Confirm Account Number"
-                  >
-                    <option>Select</option>
-                    <option value="account">Account</option>
-                    <option value="upi">Upi</option>
-                  </select>
-                </div> */}
 
                 {type === "Bank" ? (
                   <div className="">
@@ -348,11 +277,12 @@ const Withdraw = () => {
                     <br />
                     <select
                       value={paymentId}
+                      required
                       onChange={(e) => setPaymentId(e.target.value)}
-                      className="w-[350px] border-black border-b"
+                      className="w-[350px] border-black border-b outline-none"
                       placeholder="Enter Confirm Account Number"
                     >
-                      <option>Select</option>
+                      <option value="">Select</option>
                       {accountDetail?.userdetails?.map((i, index) => (
                         <option
                           value={i?._id}
@@ -367,10 +297,11 @@ const Withdraw = () => {
                     <select
                       value={paymentId}
                       onChange={(e) => setPaymentId(e.target.value)}
-                      className="w-[350px] border-black border-b"
+                      className="w-[350px] border-black border-b outline-none"
+                      required
                       placeholder="Enter Confirm Account Number"
                     >
-                      <option>Select</option>
+                      <option value="">Select</option>
                       {accountDetail?.userdetails?.map((i, index) => (
                         <option
                           value={i?._id}
@@ -496,12 +427,8 @@ const Withdraw = () => {
                       Click here to add
                     </div>
                   </div>
-                  {/* <div className="bg-[#FFEBB9] w-[457px] withdraw-card h-[120px] rounded-lg flex  flex-col justify-center items-center">
-                    <div className="card-font">Paytm</div>
-                  </div> */}
                 </div>
-                {/* onSubmit={submitHandler} */}
-                <form>
+                <form onSubmit={openWidtrawPopup}>
                   <div className="p-6">
                     <div className="font-bold font-xl ">Amount</div>
                     <div className="text-2xl">
@@ -539,10 +466,9 @@ const Withdraw = () => {
                   <div className="mt-10 flex justify-center ">
                     <button
                       className="bg-[#ffb800] rounded-xl withdraw-btn w-[450px] h-[48px] text-white text-xl font-bold"
-                      type="button"
-                      onClick={() => setWithDrowApi(true)}
+                      type="submit"
                     >
-                      {loading ? <ClipLoader color="#fff" /> : "Withdrawal"}
+                      Withdrawal
                     </button>
                   </div>
                 </form>

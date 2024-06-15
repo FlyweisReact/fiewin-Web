@@ -18,7 +18,7 @@ const Todaysincome = () => {
   const data = response?.referralCounts?.flatMap((i) =>
     i?.earnings?.map((item) => [
       item?.createdAt?.slice(0, 10),
-      `***${item?.user?.slice(-3)}`,
+      `***${item?.user?.userId?.slice(-3)}`,
       `₹${item?.amount}`,
     ])
   );

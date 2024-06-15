@@ -23,11 +23,13 @@ import TableLayout from "../../Components/TableLayout";
 
 const GetColorBox = ({ color, setValue, colorCode, probab, className }) => {
   return (
-    <div className="flex flex-col gap-2 items-center ">
+    <div
+      className="flex flex-col gap-2 items-center"
+      onClick={() => setValue({ text: color, isAnimal: false })}
+    >
       <button
         className={`bg-[${colorCode}] circle-btn w-[150px] h-[60px] text-white font-bold rounded-lg text-xl ${className} `}
         style={{ textTransform: "capitalize" }}
-        onClick={() => setValue({ text: color, isAnimal: false })}
       >
         {color}
       </button>
@@ -38,13 +40,15 @@ const GetColorBox = ({ color, setValue, colorCode, probab, className }) => {
 
 const GetAnimalBox = ({ setValue, value, img, className, probab }) => {
   return (
-    <div className="flex flex-col gap-2 items-center">
+    <div
+      className="flex flex-col gap-2 items-center"
+      onClick={() => setValue({ text: value, isAnimal: true })}
+    >
       <div
         className={`
       bg-[#BEEBFF]  flex justify-center items-end  border circle-tiger w-[100px] h-[50px] text-white font-bold rounded-lg 
       ${className}
       `}
-        onClick={() => setValue({ text: value, isAnimal: true })}
       >
         <img src={img} alt="" className="w-10 cursor-pointer" />
       </div>
@@ -141,22 +145,24 @@ const Circle = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsBtn(false);
-    const additionalFunctions = [(res) => setSpinData(res)];
+    const countFunction = () => {
+      if (countDownTime === 0) {
+        setpopupwinner(true);
+        setIsBtn(true);
+      } else {
+        setTimeout(() => {
+          setpopupwinner(true);
+          setIsBtn(true);
+        }, countDownTime * 1000);
+      }
+    };
+    const additionalFunctions = [(res) => setSpinData(res), countFunction];
     postApi({
       url: "/user/spinGame/join/game",
       payload,
       setLoading,
       additionalFunctions,
     });
-    if (countDownTime === 0) {
-      setpopupwinner(true);
-      setIsBtn(true);
-    } else {
-      setTimeout(() => {
-        setpopupwinner(true);
-        setIsBtn(true);
-      }, countDownTime * 1000);
-    }
   };
 
   useEffect(() => {
@@ -337,7 +343,9 @@ const Circle = () => {
                       ?.slice()
                       ?.reverse()
                       ?.map((i) => getVelocityColor(i?.colourResult))}
-                    <span className="latest-tagline"><i className="fa-solid fa-arrow-left"></i></span>
+                    <span className="latest-tagline">
+                      <i className="fa-solid fa-arrow-left"></i>
+                    </span>
                   </div>
                   <div className="flex gap-1 w-[450px] smallBtnMob">
                     {" "}
@@ -345,7 +353,9 @@ const Circle = () => {
                       ?.slice()
                       ?.reverse()
                       ?.map((i) => getVelocityAnimal(i?.animalResult))}
-                      <span className="latest-tagline"><i className="fa-solid fa-arrow-left"></i></span>
+                    <span className="latest-tagline">
+                      <i className="fa-solid fa-arrow-left"></i>
+                    </span>
                   </div>
                 </div>
               </div>

@@ -117,7 +117,7 @@ const AgentWithdraw = () => {
                         Amount <LiaLessThanSolid /> = 10000, fee 3%{" "}
                       </div>
                       <div className="amount-font">
-                        Minimum : <span className="font-bold"> ₹50</span>
+                        Minimum : <span className="font-bold"> ₹40</span>
                       </div>
                     </div>
                   </div>

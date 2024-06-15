@@ -108,23 +108,26 @@ const Headandtail = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsBtn(false);
-    const additionalFunctions = [(res) => setGameRes(res)];
+
+    const countFunction = () => {
+      if (countDownTime === 0) {
+        setOpen(true);
+        setIsBtn(true);
+      } else {
+        setTimeout(() => {
+          setOpen(true);
+          setIsBtn(true);
+        }, countDownTime * 1000);
+      }
+    };
+
+    const additionalFunctions = [(res) => setGameRes(res), countFunction];
     postApi({
       url: "/user/join/game",
       payload,
       setLoading,
       additionalFunctions,
     });
-
-    if (countDownTime === 0) {
-      setOpen(true);
-      setIsBtn(true);
-    } else {
-      setTimeout(() => {
-        setOpen(true);
-        setIsBtn(true);
-      }, countDownTime * 1000);
-    }
   };
 
   const userOrderDate = myOrder?.orders
@@ -156,6 +159,8 @@ const Headandtail = () => {
   ]);
 
   const isButtonActive = isActivated && isBtn;
+
+
   return (
     <>
       <HeadResModal
@@ -212,7 +217,9 @@ const Headandtail = () => {
                           )}
                         </React.Fragment>
                       ))}
-                      <span className="latest-tagline"><i className="fa-solid fa-arrow-left"></i></span>
+                    <span className="latest-tagline">
+                      <i className="fa-solid fa-arrow-left"></i>
+                    </span>
                   </div>
                 </div>
               </div>
@@ -281,7 +288,6 @@ const Headandtail = () => {
                       {formatCountDown(countDownTime)}
                     </div>
                   </div>
-                
 
                   <div className="velocity-amount-selector">
                     <div className="btns-selector">
@@ -316,7 +322,6 @@ const Headandtail = () => {
                       </button>
                     </div>
                   </div>
-
 
                   <div className="mt-2 flex justify-center">
                     {isButtonActive ? (
