@@ -375,20 +375,13 @@ const Circle = () => {
                 </div>
 
                 <div className="flex justify-center velocity-div">
-                  {isActivated ? (
-                    <img
-                      src={circle}
-                      alt=""
-                      className={`w-[400px]  rotating-wheel min-rotation  ${customClass}`}
-                    />
-                  ) : (
-                    <img
-                      src={circle}
-                      alt=""
-                      className="w-[400px]  animate-spin rotating-wheel"
-                    />
-                  )}
-
+                  <img
+                    src={circle}
+                    alt=""
+                    className={`w-[400px] rotating-wheel ${customClass} ${
+                      isActivated ? `min-rotation` : `animate-spin`
+                    } `}
+                  />
                   <div className="countdown-velocity">
                     <p className="count-down">CountDown</p>
                     <p className="time"> {formatCountDown(countDownTime)}</p>

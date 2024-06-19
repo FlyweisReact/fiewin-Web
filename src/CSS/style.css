@@ -128,7 +128,7 @@
 }
 
 .min-rotation {
-  transition: 1s;
+  /* transition: 1s; */
 }
 .yellow-lion {
   transform: rotate(76deg);
@@ -209,4 +209,8 @@
   color: #FF000B;
   font-size: 10px;
   font-weight: 600;
+}
+
+.stop-spin {
+  animation: none;
 }

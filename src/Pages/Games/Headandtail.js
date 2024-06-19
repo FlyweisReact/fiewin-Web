@@ -160,6 +160,11 @@ const Headandtail = () => {
 
   const isButtonActive = isActivated && isBtn;
 
+  useEffect(() => {
+    if (lastTenOrder) {
+      setGuess(lastTenOrder?.games?.[0]?.result);
+    }
+  }, [lastTenOrder]);
 
   return (
     <>
