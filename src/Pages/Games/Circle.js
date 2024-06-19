@@ -365,7 +365,7 @@ const Circle = () => {
                 </p>
                 <p className="title" style={{ color: "#000", margin: 0 }}>
                   {" "}
-                  {currentGame?.game?.gameId}{" "}
+                  {currentOrder?.game?.gameId}{" "}
                 </p>
               </div>
 

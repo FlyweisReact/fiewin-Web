@@ -1,9 +1,8 @@
 /** @format */
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ClipLoader } from "react-spinners";
 import ComponentHead from "../Components/ComponentHead";
-import { getApi, postApi, showNotification } from "../Repository/Repository";
+import { getApi, postApi } from "../Repository/Repository";
 import { RxCross2 } from "react-icons/rx";
 
 const Withdraw = () => {
