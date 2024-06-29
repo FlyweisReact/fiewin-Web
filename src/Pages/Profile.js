@@ -19,6 +19,7 @@ import {
 } from "../Components/Modal/Modals";
 import { useDispatch } from "react-redux";
 import { signOut } from "../utils/utils";
+import knowMoreImg from "../Assets/book-solid.svg";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -170,6 +171,21 @@ const Profile = () => {
                       <img src={complaint} alt="" className="w-5" />
                       <span className="text-[#4C8CD6] font-semibold">
                         Complaint
+                      </span>
+                    </div>
+                    <div className="">
+                      <img src={arrow} alt="" className="w-5" />
+                    </div>
+                  </div>
+                </Link>
+
+                <hr className="m-3" />
+                <Link to="/know-more">
+                  <div className="flex justify-between">
+                    <div className="flex gap-2">
+                      <img src={knowMoreImg} alt="" className="w-5" />
+                      <span className="text-[#4C8CD6] font-semibold">
+                        Know More
                       </span>
                     </div>
                     <div className="">

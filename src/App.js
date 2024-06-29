@@ -34,6 +34,12 @@ import Refer from "./Components/Refer";
 import "./CSS/style.css";
 import "./CSS/MediaQuery.css";
 import PaymentSuccess from "./Pages/PaymentSuccess";
+import KnowMore from "./Pages/KnowMore";
+import PrivacyPolicy from "./Pages/PrivacyPolicy";
+import AboutUs from "./Pages/AboutUs";
+import ContactUs from "./Pages/ContactUs";
+import TermCondition from "./Pages/TermCondition";
+import Refund from "./Pages/Refund";
 
 const router = createBrowserRouter([
   {
@@ -157,6 +163,31 @@ const router = createBrowserRouter([
   {
     path: "/payment-success",
     element: <PaymentSuccess />,
+  },
+  {
+    path: "/know-more",
+    element: <KnowMore />,
+  },
+  {
+    path: "/privacy-policy",
+    element: <PrivacyPolicy />,
+  },
+  {
+    path: "/about-us",
+    element: <AboutUs />,
+  },
+  {
+    path: "/contact-us",
+    element: <ContactUs />,
+  },
+
+  {
+    path: "/terms-condition",
+    element: <TermCondition />,
+  },
+  {
+    path: "/refund",
+    element: <Refund />,
   },
 ]);
 
