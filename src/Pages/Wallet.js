@@ -183,17 +183,15 @@ const Wallet = () => {
               </div>
             </form>
           ) : (
-            <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-4">
-              <div className="bg-white p-6 rounded-lg shadow-lg">
-                {/* <h2 className="text-2xl font-bold mb-4">
+            <div className="bg-gray-100 flex flex-col items-center justify-center p-4">
+              <div className="bg-white p-6 rounded-lg shadow-lg mt-10 mb-10 ">
+                <h2 className="text-2xl font-bold mb-4">
                   Choose your payment method:
-                </h2> */}
+                </h2>
                 <ul className="list-none mb-4">
-                  {paymentStatus && (
+                  {/* {paymentStatus && (
                     <div className="mb-4 p-4 bg-gray-200 rounded-lg">
-                      {/* <h2 className="text-lg font-bold mb-2">
-                        General Payment URL:
-                      </h2> */}
+                      
                       <a
                         href={paymentData?.payment_url}
                         className="text-blue-500 hover:text-blue-700 cursor-pointer break-all"
@@ -202,10 +200,25 @@ const Wallet = () => {
                           src={paymentData?.payment_url}
                           style={{ width: "100%", height: "500px" }}
                         />
-                        {/* {paymentData?.payment_url} */}
                       </a>
                     </div>
-                  )}
+                  )} */}
+                  <li className="mb-2">
+                    <button
+                      onClick={() => handleRedirect(paymentData?.payment_url)}
+                      className="text-blue-500 hover:text-blue-700 cursor-pointer flex items-center gap-1"
+                    >
+                      <span>Pay with QR</span>{" "}
+                      <span>
+                        <Icon
+                          icon="pepicons-pop:qr-code-circle-filled"
+                          width="1.2rem"
+                          height="1.2rem"
+                          style={{ color: "#E86C01" }}
+                        />
+                      </span>
+                    </button>
+                  </li>
                   <li className="mb-2">
                     <button
                       onClick={() =>
@@ -278,17 +291,6 @@ const Wallet = () => {
                     </button>
                   </li>
                 </ul>
-                {/* <p className="text-gray-700">
-                  If the above links do not work, you can use the general
-                  payment URL:{" "}
-                  <button
-                    onClick={handleShowPaymentUrl}
-                    // onClick={() => handleRedirect(paymentData?.payment_url)}
-                    className="text-blue-500 hover:text-blue-700 cursor-pointer"
-                  >
-                    Pay Now
-                  </button>
-                </p> */}
               </div>
             </div>
           )}

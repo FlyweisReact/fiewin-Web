@@ -203,7 +203,7 @@ const Home = () => {
                     />
                   </div>
                   <div className="w-[60px] mt-2 h-[22px] bg-[#0A436E] flex justify-center items-center text-white text-[12px] rounded-xl">
-                    15 Secs
+                    20 Secs
                   </div>
                   <div className="text-center text-2xl text-white font-bold">
                     ANDAR BAHAR
