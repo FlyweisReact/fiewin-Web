@@ -28,7 +28,7 @@ const Wallet = () => {
 
   const navigationHandler = (res) => {
     const url = res?.data?.data;
-    console.log(url);
+    
     setPaymentData(url);
     setPaymentStatus(true);
     // window.location.href = url;
@@ -57,7 +57,7 @@ const Wallet = () => {
     getProfile();
   }, []);
   const handleRedirect = (url) => {
-    // console.log(url);
+    // 
     window.location.href = url;
   };
   return (

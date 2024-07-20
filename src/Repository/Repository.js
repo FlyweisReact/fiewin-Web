@@ -43,7 +43,7 @@ export const getApi = async ({
       }
     });
   } catch (e) {
-    console.log(e);
+    
   } finally {
     if (setLoading) {
       setLoading(false);

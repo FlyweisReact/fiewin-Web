@@ -54,7 +54,6 @@ const Finicialdetail = () => {
 
     return updatedTimestamp;
   }
-  // console.log(re);
   return (
     <div className=" h-screen flex justify-center">
       <div className="grid place-items-center">

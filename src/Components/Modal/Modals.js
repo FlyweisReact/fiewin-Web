@@ -27,7 +27,7 @@ export const SpinResModal = ({
 
   const [visible, setVisible] = useState(show);
   useEffect(() => {
-    console.log(show);
+    
 
     if (show === "true" || show === "boss") {
       setVisible(true);
