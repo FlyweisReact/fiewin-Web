@@ -1,9 +1,10 @@
 /** @format */
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ComponentHead from "../Components/ComponentHead";
 import { getApi, postApi } from "../Repository/Repository";
 import { RxCross2 } from "react-icons/rx";
+import { Modal } from "antd";
 
 const Withdraw = () => {
   const [addupi, setaddupi] = useState(false);
@@ -21,6 +22,17 @@ const Withdraw = () => {
   const [confirmNumber, setConfirmNumber] = useState("");
   const [ifscCode, setIfscCode] = useState("");
   const [branchName, srtBranchName] = useState("");
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
   const submitUpiData = (e) => {
     e.preventDefault();
@@ -76,6 +88,8 @@ const Withdraw = () => {
       payload,
       additionalFunctions,
       setLoading,
+
+      setIsModalOpen,
     });
   };
 
@@ -91,11 +105,10 @@ const Withdraw = () => {
   }, [type]);
 
   useEffect(() => {
-    const prevData =
-      accountDetail?.userdetails?.[accountDetail.userdetails?.length - 1];
-
     if (accountDetail) {
-      const newDetails = accountDetail?.userdetails?.reverse();
+      const prevData =
+        accountDetail?.userdetail?.[accountDetail?.userdetail?.length - 1];
+      const newDetails = accountDetail?.userdetail?.reverse();
 
       const accountNumber1 = newDetails?.find((item) => item?.type === "Bank");
 
@@ -127,6 +140,21 @@ const Withdraw = () => {
 
   return (
     <>
+      <Modal
+        title=""
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        closable={false}
+        footer={null}
+        style={{ maxWidth: "400px", color: "#2f6fbd" }}
+        bodyStyle={{ textAlign: "center" }}
+      >
+        <div className="flex flex-col gap-3">
+          <h1 style={{ fontSize: "34px", margin: 0 }}>Withdrawal Time:</h1>
+          <h1 style={{ fontSize: "34px", margin: 0 }}>10 AM - 6 PM</h1>
+        </div>
+      </Modal>
       {addupi ? (
         <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
           <div className="w-[400px] h-[auto] bg-white  rounded-lg relative  p-3">
@@ -155,7 +183,7 @@ const Withdraw = () => {
               <div className="flex justify-center mt-5">
                 <button
                   type="submit"
-                  className="w-[200px] h-[40px] bg-[#FFB800] text-white font-bold rounded-lg"
+                  className="w-[200px] h-[40px] bg-[#38B6FF] text-white font-bold rounded-lg"
                 >
                   Submit
                 </button>
@@ -230,7 +258,7 @@ const Withdraw = () => {
                 <div className="flex justify-center mt-5">
                   <button
                     type="submit"
-                    className="w-[200px] h-[40px] bg-[#FFB800] text-white font-bold rounded-lg"
+                    className="w-[200px] h-[40px] bg-[#38B6FF] text-white font-bold rounded-lg"
                   >
                     Submit
                   </button>
@@ -282,7 +310,7 @@ const Withdraw = () => {
                       placeholder="Enter Confirm Account Number"
                     >
                       <option value="">Select</option>
-                      {accountDetail?.userdetails?.map((i, index) => (
+                      {accountDetail?.userdetail?.map((i, index) => (
                         <option
                           value={i?._id}
                         >{`${i?.type} ${i?.accountNumber} ${i?.branchName}`}</option>
@@ -301,7 +329,7 @@ const Withdraw = () => {
                       placeholder="Enter Confirm Account Number"
                     >
                       <option value="">Select</option>
-                      {accountDetail?.userdetails?.map((i, index) => (
+                      {accountDetail?.userdetail?.map((i, index) => (
                         <option
                           value={i?._id}
                         >{`${i?.type} ${i?.upiId}`}</option>
@@ -313,7 +341,7 @@ const Withdraw = () => {
                 <div className="flex justify-center mt-5">
                   <button
                     type="submit"
-                    className="w-[200px] h-[40px] bg-[#FFB800] text-white font-bold rounded-lg"
+                    className="w-[200px] h-[40px] bg-[#38B6FF] text-white font-bold rounded-lg"
                   >
                     Submit
                   </button>
@@ -327,20 +355,27 @@ const Withdraw = () => {
       <div className="h-screen flex justify-center">
         <div className="grid place-items-center ">
           <div className="lg:w-[500px] lg:h-full bg-white flex flex-col ">
-            <ComponentHead title={"Withdraw"} subTitle={"Records"} />
+            <ComponentHead
+              subLink={() => navigate("/Withdraw/record")}
+              title={"Withdraw"}
+              subTitle={"Records"}
+            />
 
             <div className="h-[700px] withdraw-header   mt-5">
               <div className="">
                 <div className="text-center font-bold">Balance</div>
-                <div className="font-bold text-center text-xl">
+                <div
+                  onClick={() => setIsModalOpen(true)}
+                  className="font-bold text-center text-xl"
+                >
                   ₹
                   {profile?.data?.user?.wallet
                     ? profile?.data?.user?.wallet
                     : 0}
                 </div>
                 <div className="flex justify-center flex-col items-center gap-y-2 mt-5  ">
-                  <div className="bg-[#FFEBB9] relative withdraw-card  w-[457px] h-[120px] rounded-lg flex  flex-col justify-center items-center">
-                    <div class="absolute top-0 left-0 w-20  font-bold flex justify-center rounded-lg text-white bg-[#FFB800]">
+                  <div className="bg-[#C1DDFF] relative withdraw-card  w-[457px] h-[120px] rounded-lg flex  flex-col justify-center items-center">
+                    <div className="absolute top-0 left-0 w-20  font-bold flex justify-center rounded-lg text-white bg-[#38B6FF]">
                       UPI
                     </div>
                     <div className="card-font">
@@ -368,8 +403,8 @@ const Withdraw = () => {
                       </p>
                     </div>
                   </div>
-                  <div className="bg-[#FFEBB9] relative withdraw-card  w-[457px] h-[120px] rounded-lg flex  flex-col justify-center items-center">
-                    <div class="absolute top-0 left-0 w-20  font-bold flex justify-center rounded-lg text-white bg-[#FFB800]">
+                  <div className="bg-[#C1DDFF] relative withdraw-card  w-[457px] h-[120px] rounded-lg flex  flex-col justify-center items-center">
+                    <div className="absolute top-0 left-0 w-20  font-bold flex justify-center rounded-lg text-white bg-[#38B6FF]">
                       Bank
                     </div>
                     <div className="card-font">
@@ -443,18 +478,18 @@ const Withdraw = () => {
                     </div>
                     <hr />
 
-                    <div className="flex justify-between">
-                      <div className="flex items-center amount-font">
-                        Amount {">"} 1000, fee ₹ 30{" "}
+                    <div className="flex justify-between text-sm mt-1 ">
+                      <div className="flex items-center amount-font ">
+                        Amount {"<"} 1000, fee ₹ 30{" "}
                       </div>
                       <div className="amount-font">
                         Maximum :{" "}
-                        <span className="text-[#FFB800] "> ₹50000</span>
+                        <span className="text-[#38B6FF] "> ₹50000</span>
                       </div>
                     </div>
-                    <div className="flex justify-between">
+                    <div className="flex justify-between text-sm">
                       <div className="flex items-center amount-font">
-                        Amount {"<"} 1000, fee 3%{" "}
+                        Amount {">"} 1000, fee 3%{" "}
                       </div>
                       <div className="amount-font">
                         Minimum : <span className="font-bold"> ₹40</span>
@@ -464,7 +499,7 @@ const Withdraw = () => {
 
                   <div className="mt-10 flex justify-center ">
                     <button
-                      className="bg-[#ffb800] rounded-xl withdraw-btn w-[450px] h-[48px] text-white text-xl font-bold"
+                      className="bg-[#38B6FF] rounded-xl withdraw-btn w-[450px] h-[48px] text-white text-xl font-bold"
                       type="submit"
                     >
                       Withdrawal

@@ -129,7 +129,7 @@ const Refer = () => {
                   </div>
                   <button
                     type="button"
-                    className="bg-[#FFB800] register-btn rounded w-[174px] h-[48px] text-white font-semibold"
+                    className="bg-[#38B6FF] register-btn rounded w-[174px] h-[48px] text-white font-semibold"
                     onClick={() => sendOtp()}
                   >
                     {" "}
@@ -148,13 +148,12 @@ const Refer = () => {
             <div className="text-center mt-5">
               Already have an account?
               <Link to={"/"}>
-                <span className="text-[#FFB800] font-semibold"> Login</span>
+                <span className="text-[#38B6FF] font-semibold"> Login</span>
               </Link>
             </div>
           </div>
         </div>
       </div>
-  
     </>
   );
 };

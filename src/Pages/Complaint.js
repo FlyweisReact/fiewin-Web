@@ -1,6 +1,5 @@
 /** @format */
-
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import back from "../Assets/back.svg";
 import { GrCompliance } from "react-icons/gr";
@@ -47,7 +46,7 @@ const Complaint = () => {
         <div className=" h-screen flex justify-center">
           <div className="grid place-items-center">
             <div className="lg:w-[500px] lg:h-full complaint-main bg-[#9520FD] md:w-[400px] flex flex-col">
-              <div className="relative bg-[#FFB800] h-[60px] text-xl font-semibold text-white">
+              <div className="relative bg-[#38B6FF] h-[60px] text-xl font-semibold text-white">
                 <div className=" finical-tran flex justify-between items-center mt-4">
                   <div className="w-[100px]">
                     <Link to="/profile">
@@ -64,7 +63,7 @@ const Complaint = () => {
                     className={`w-[225px] h-[50px]  font-semibold flex justify-center items-center rounded-l-lg cursor-pointer
                     ${
                       complainttrack === false
-                        ? "bg-[#FFB800] text-[#fff]"
+                        ? "bg-[#38B6FF] text-[#fff]"
                         : "bg-[#fff] text-[#000]"
                     }
                     `}
@@ -76,7 +75,7 @@ const Complaint = () => {
                     className={`w-[225px] h-[50px]  font-semibold flex justify-center items-center rounded-r-lg cursor-pointer
                     ${
                       complainttrack === true
-                        ? "bg-[#FFB800] text-[#fff]"
+                        ? "bg-[#38B6FF] text-[#fff]"
                         : "bg-[#fff] text-[#000]"
                     }
                     `}
@@ -96,13 +95,20 @@ const Complaint = () => {
                     >
                       <div className="w-[450px] bg-white  rounded-lg p-2 complaint-text ">
                         <div className="flex justify-between">
-                          <div>{i.name} :</div>
+                          {i?.remarks ? (
+                            <div><span className="font-bold">Admin Reply:</span>{" "} {i.remarks}</div>
+                          ) : (
+                            <div></div>
+                          )}
                           <div className="text-[#FFAC33] text-[12px]">
                             {" "}
                             {i.status}{" "}
                           </div>
                         </div>
-                        <div>{i.complainBody}</div>
+                        <div>
+                          <span className="font-bold">User:</span>{" "}
+                          {i.complainBody}
+                        </div>
                       </div>
                     </div>
                   ))}
@@ -163,7 +169,7 @@ const Complaint = () => {
                         <div className="flex justify-center mt-10">
                           <button
                             type="submit"
-                            className=" complaint-btn w-[430px] h-[50px] bg-[#FFB800] text-white font-bold rounded-lg"
+                            className=" complaint-btn w-[430px] h-[50px] bg-[#38B6FF] text-white font-bold rounded-lg"
                           >
                             {loading ? <ClipLoader color="#fff" /> : "Send"}
                           </button>

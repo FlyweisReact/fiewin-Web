@@ -14,7 +14,7 @@ import { SlRefresh } from "react-icons/sl";
 import Footer from "../Components/Footer";
 import { CiGift } from "react-icons/ci";
 import { FaClipboardCheck } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getApi } from "../Repository/Repository";
 import { IoMdClose } from "react-icons/io";
@@ -25,6 +25,7 @@ import { closePopup, showPopup } from "../store/InviteSlice";
 const Home = () => {
   const [profile, setProfile] = useState({});
   const [referData, setReferData] = useState({});
+  const navigate = useNavigate();
   const isShow = useSelector(showPopup);
   const dispatch = useDispatch();
 
@@ -45,6 +46,12 @@ const Home = () => {
       url: "/user/today-referral/data",
       setResponse: setReferData,
     });
+  }, []);
+
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      return navigate("/");
+    }
   }, []);
 
   return (
@@ -95,7 +102,7 @@ const Home = () => {
                   <div className="flex items-center gap-2 font-bold user-balance">
                     ₹
                     {profile?.data?.user?.wallet
-                      ? profile?.data?.user?.wallet
+                      ? Math.floor(profile.data.user.wallet * 100) / 100
                       : 0}{" "}
                     <SlRefresh
                       onClick={() => getProfile()}
@@ -108,12 +115,12 @@ const Home = () => {
                 </div>
                 <div className="flex flex-col gap-2 mr-2">
                   <Link to="/wallet">
-                    <button className="bg-[#FFB800] text-white w-[150px] h-[50px] rounded-lg">
+                    <button className="bg-[#38B6FF] text-white w-[150px] h-[50px] rounded-lg">
                       Recharge
                     </button>
                   </Link>
                   <Link to="/Withdraw">
-                    <button className="bg-[#FFB800] text-white w-[150px] h-[50px] rounded-lg">
+                    <button className="bg-[#38B6FF] text-white w-[150px] h-[50px] rounded-lg">
                       Withdraw
                     </button>
                   </Link>
@@ -149,7 +156,7 @@ const Home = () => {
                       />
                     </div>
                     <div className="w-[60px] mt-2 h-[22px] bg-[#399AAB] flex justify-center items-center text-white text-[12px] rounded-xl">
-                      15 Secs
+                      20 Secs
                     </div>
                     <div className="text-center text-white text-2xl font-bold">
                       circle
@@ -162,7 +169,7 @@ const Home = () => {
                       <img src={coin} alt="" className="" />
                     </div>
                     <div className="w-[60px] mt-2 h-[22px] bg-[#0A436E] flex justify-center items-center text-white text-[12px] rounded-xl">
-                      15 Secs
+                      20 Secs
                     </div>
                     <div className="text-center text-2xl text-white font-bold">
                       HEAD & TAIL

@@ -45,7 +45,7 @@ const Invitetoday = () => {
     <div className="h-screen flex justify-center">
       <div className="grid place-items-center">
         <div className="lg:w-[500px] lg:h-full followus-main bg-white md:w-[400px] flex flex-col">
-          <div className="relative bg-[#FFB800] h-[60px] text-xl font-semibold text-white">
+          <div className="relative bg-[#38B6FF] h-[60px] text-xl font-semibold text-white">
             <div className="flex justify-between items-center mt-4">
               <div className="w-[100px]">
                 <Link to="/Inviteandearn">
@@ -60,7 +60,7 @@ const Invitetoday = () => {
           <div className="p-3">
             <div>
               The total number of invites is{" "}
-              <span className="text-[#FFB800]"> {totalUserCount} </span>
+              <span className="text-[#38B6FF]"> {totalUserCount} </span>
             </div>
             <div className="mt-2">
               <table className="table-fixed border-slate-950 border">
@@ -104,7 +104,7 @@ const Invitetoday = () => {
               </table>
             </div>
             <div className="flex justify-center">Real time Statistics*</div>
-            <div className="bg-[#FFB800] h-[38px] text-xl  text-white flex justify-between items-center pl-2 pr-2 mt-4">
+            <div className="bg-[#38B6FF] h-[38px] text-xl  text-white flex justify-between items-center pl-2 pr-2 mt-4">
               <div>All</div>
             </div>
             <div className="">

@@ -1,6 +1,5 @@
 /** @format */
-
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import back from "../Assets/back.svg";
 import { getApi, postApi } from "../Repository/Repository";
@@ -47,13 +46,13 @@ const Reward = () => {
     if (filteredData?.[0]?.percentage) {
       return (
         <div
-          className="bg-[#FFB800] h-4 rounded-full"
+          className="bg-[#38B6FF] h-4 rounded-full"
           style={{ width: `${filteredData?.[0]?.percentage}%` }}
         ></div>
       );
     } else {
       <div
-        className="bg-[#FFB800] h-4 rounded-full"
+        className="bg-[#38B6FF] h-4 rounded-full"
         style={{ width: "0%" }}
       ></div>;
     }
@@ -62,7 +61,7 @@ const Reward = () => {
   return (
     <div className="flex justify-center ">
       <div className="flex justify-center flex-col reward-header ">
-        <div className="bg-[#FFB800] text-white h-[60px] flex justify-between items-center text-xl font-semibold reward-header ">
+        <div className="bg-[#38B6FF] text-white h-[60px] flex justify-between items-center text-xl font-semibold reward-header ">
           <div className="ml-2">
             <Link to="/Home">
               <img src={back} alt="" />
@@ -85,17 +84,18 @@ const Reward = () => {
                 <div className="w-full bg-gray-200 rounded-full h-4 dark:bg-gray-700">
                   {progressBar(i?._id)}
                 </div>
-                <div className="text-center text-[12px] font-bold">
+                <div  className="text-center text-[12px] font-bold">
                   {i?.description}
                 </div>
                 <div className="flex justify-center">
                   {isRewardClaimable(i?._id) ? (
                     <button
                       className={`w-[150px] h-[40px] text-white rounded-xl font-semibold text-xl`}
-                      style={{ backgroundColor: "#FFB800" }}
+                      style={{ backgroundColor: "#38B6FF" }}
                       onClick={() => claimReward(i._id)}
                     >
-                      Collect
+                      
+                      {i?.percentage === 100 ? "Collected" : "Collect"}
                     </button>
                   ) : (
                     <button

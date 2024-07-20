@@ -17,9 +17,9 @@ export const countDown_func = ({ setValue, setIsActive }) => {
     setValue((prevCountdown) => {
       if (prevCountdown <= 1) {
         setIsActive(true);
-        return 30;
+        return 20;
       }
-      if (prevCountdown <= 8) {
+      if (prevCountdown <= 7) {
         setIsActive(false);
       }
       return prevCountdown - 1;
@@ -35,6 +35,15 @@ export const formatCountDown = (count) => {
     .padStart(2, "0");
   const seconds = (count % 60).toString().padStart(2, "0");
   return `${minutes}:${seconds}`;
+};
+
+export const AmountDisplay = ({ amount, withdrawFee }) => {
+  
+  const sum = +amount + +withdrawFee;
+
+  return (
+    <p>₹{sum}</p>
+  );
 };
 
 // Check Color

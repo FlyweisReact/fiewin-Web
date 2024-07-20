@@ -57,6 +57,7 @@ export const postApi = async ({
   setLoading,
   additionalFunctions = [],
   successMsg,
+  setIsModalOpen,
 }) => {
   if (setLoading) {
     setLoading(true);
@@ -84,7 +85,18 @@ export const postApi = async ({
     }
   } catch (e) {
     const msg = e?.response?.data?.message || "Something went worng !";
-    showNotification({ message: msg, type: "danger" });
+    if (
+      setIsModalOpen &&
+      msg === "Withdrawal requests are allowed only between 10 AM and 6 PM IST"
+    ) {
+      setIsModalOpen(true);
+
+      setTimeout(() => {
+        setIsModalOpen(false);
+      }, 2000);
+    } else {
+      showNotification({ message: msg, type: "danger" });
+    }
   } finally {
     if (setLoading) {
       setLoading(false);
@@ -170,4 +182,32 @@ export const user_login = ({
       }
     }
   };
+};
+
+export const checkWalletBalance = async ({
+  userProfile,
+  amount,
+  setIsBtn,
+  fun2,
+}) => {
+  if (userProfile?.data?.user?.wallet < amount) {
+    setIsBtn(true);
+    Store.addNotification({
+      title: "",
+      message: "Insufficient funds in wallet",
+      type: "danger",
+      insert: "top",
+      container: "top-center",
+      animationIn: ["animate__animated", "animate__fadeIn"],
+      animationOut: ["animate__animated", "animate__fadeOut"],
+      dismiss: {
+        duration: 3000,
+        onScreen: true,
+      },
+    });
+    return;
+  } else {
+    setIsBtn(false);
+    fun2();
+  }
 };

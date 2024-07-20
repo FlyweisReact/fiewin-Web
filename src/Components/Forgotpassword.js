@@ -139,7 +139,7 @@ const Forgotpassword = () => {
                 </div>
                 <button
                   type="button"
-                  className="bg-[#FFB800] register-btn rounded w-[174px] h-[48px] text-white font-semibold"
+                  className="bg-[#38B6FF] register-btn rounded w-[174px] h-[48px] text-white font-semibold"
                   onClick={() => sendOtp()}
                 >
                   {otpLoader

@@ -1,12 +1,15 @@
 /** @format */
-
 import { Link } from "react-router-dom";
 import back from "../../Assets/back.svg";
 import cointail from "../../Assets/cointail.svg";
 import coinhead from "../../Assets/coinhead.svg";
 import coinbg from "../../Assets/coinbg.svg";
 import React, { useEffect, useState } from "react";
-import { getApi, postApi } from "../../Repository/Repository";
+import {
+  checkWalletBalance,
+  getApi,
+  postApi,
+} from "../../Repository/Repository";
 import { ClipLoader } from "react-spinners";
 import { countDown_func, formatCountDown } from "../../utils/utils";
 import TableLayout from "../../Components/TableLayout";
@@ -14,6 +17,7 @@ import {
   HeadResModal,
   HeadTailRulesPopup,
 } from "../../Components/Modal/Modals";
+import { Modal } from "antd";
 
 const isWinLoss = (winAmount, amount) => {
   if (winAmount === 0) {
@@ -35,10 +39,22 @@ const Headandtail = () => {
   const [countDownTime, setCountDownTime] = useState(0);
   const [lastTenOrder, setLastTenOrder] = useState({});
   const [currentOrder, setCurrentOrder] = useState({});
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState("false");
   const [gameRes, setGameRes] = useState({});
   const [isBtn, setIsBtn] = useState(true);
-
+  const [userProfile, setUserProfile] = useState({});
+  const [showUserModal, setShowUserModal] = useState(false);
+  const [isResultData, setIsResultData] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
   useEffect(() => {
     if (currentGame?.game?.currentCount !== undefined) {
       setCountDownTime(currentGame.game.currentCount);
@@ -76,6 +92,13 @@ const Headandtail = () => {
     });
   };
 
+  const getResultData = () => {
+    getApi({
+      url: "/user/current-game/head-tail/before5sec",
+      setResponse: setIsResultData,
+    });
+  };
+
   useEffect(() => {
     getApi({
       url: "/user/current-game/head-tail",
@@ -95,8 +118,16 @@ const Headandtail = () => {
   }, []);
 
   useEffect(() => {
-    if (countDownTime === 0 || countDownTime === 30) {
+    if (countDownTime === 5) {
+      getResultData();
+    }
+
+    if (countDownTime === 5 || countDownTime === 20) {
+      setIsResultData({});
       getLastOrder();
+    }
+    if (countDownTime <= 2 && isBtn && countDownTime > 0) {
+      setOpen("boss");
     }
   }, [countDownTime]);
 
@@ -107,26 +138,38 @@ const Headandtail = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setIsBtn(false);
 
     const countFunction = () => {
+      setIsModalOpen(true);
+      setTimeout(() => {
+        setIsModalOpen(false);
+      }, 2000);
       if (countDownTime === 0) {
-        setOpen(true);
+        setOpen("true");
         setIsBtn(true);
       } else {
         setTimeout(() => {
-          setOpen(true);
+          setOpen("true");
           setIsBtn(true);
-        }, countDownTime * 1000);
+        }, countDownTime * 900);
       }
     };
 
     const additionalFunctions = [(res) => setGameRes(res), countFunction];
-    postApi({
-      url: "/user/join/game",
-      payload,
-      setLoading,
-      additionalFunctions,
+
+    const fun2 = () => {
+      postApi({
+        url: "/user/join/game",
+        payload,
+        setLoading,
+        additionalFunctions,
+      });
+    };
+    checkWalletBalance({
+      userProfile,
+      amount,
+      setIsBtn,
+      fun2,
     });
   };
 
@@ -166,19 +209,45 @@ const Headandtail = () => {
     }
   }, [lastTenOrder]);
 
+  const getProfile = () => {
+    getApi({
+      url: "/user/profile",
+      setResponse: setUserProfile,
+    });
+  };
+
+  useEffect(() => {
+    getProfile();
+  }, []);
   return (
     <>
+      <Modal
+        title=""
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        closable={false}
+        footer={null}
+        style={{ maxWidth: "400px", color: "#2f6fbd" }}
+        bodyStyle={{ textAlign: "center" }}
+      >
+        <div className="flex flex-col gap-3">
+          <h1 style={{ fontSize: "34px", margin: 0 }}>Beat Placed</h1>
+        </div>
+      </Modal>
       <HeadResModal
         data={gameRes}
         show={open}
-        handleClose={() => setOpen(false)}
+        handleClose={() => setOpen("false")}
         fetchHandler={getOrders}
         getLastOrder={getLastOrder}
+        setOpenUserModal={setOpen}
+        resultData={isResultData}
       />
       <div className="h-screen flex justify-center ">
         <div className="grid place-items-center ">
           <div className="lg:w-[500px] lg:h-full bg-white md:w-[400px] headtail-main flex flex-col ">
-            <div className="bg-[#FFB800] text-white h-[50px] flex justify-between items-center text-xl font-semibold p-2 sticky">
+            <div className="bg-[#38B6FF] text-white h-[50px] flex justify-between items-center text-xl font-semibold p-2 sticky">
               <div className="w-[100px]">
                 <Link to="/Home">
                   <img src={back} alt="" className="ml-2" />
@@ -288,7 +357,10 @@ const Headandtail = () => {
               <form onSubmit={handleSubmit}>
                 <div className="bg-white border-t-2 rounded-t-xl relative mt-5">
                   <div className="absolute top-[-10px] left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col gap-1 items-center">
-                    <span className="text-white text-[12px] ">CountDown</span>
+                    <span className="text-white text-[12px] ">
+                      {" "}
+                      {countDownTime <= 7 ? "Showing Result" : "CountDown"}
+                    </span>
                     <div className="bg-[#9EBFFF] w-[82px] h-[30px] rounded-3xl flex justify-center items-center text-xl font-semibold ">
                       {formatCountDown(countDownTime)}
                     </div>

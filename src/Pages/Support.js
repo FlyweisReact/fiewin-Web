@@ -36,7 +36,7 @@ const Support = () => {
     <div className=" h-screen flex justify-center">
       <div className="grid place-items-center">
         <div className="lg:w-[500px] lg:h-full support-main bg-[#9520FD] md:w-[400px] flex flex-col">
-          <div className="relative bg-[#FFB800] h-[60px] text-xl font-semibold text-white">
+          <div className="relative bg-[#38B6FF] h-[60px] text-xl font-semibold text-white">
             <div className=" finical-tran flex justify-between items-center mt-4">
               <div className="w-[100px]">
                 <Link to="/profile">
@@ -60,9 +60,7 @@ const Support = () => {
                 <img src={mail} alt="" className="ml-2" />
                 <div className="flex flex-col">
                   <span>Write Us</span>
-                  <span className="text-[#FFB800]">
-                    support@fiewin.org
-                  </span>
+                  <span className="text-[#38B6FF]">support@fiewin.org</span>
                 </div>
               </div>
               <div className="mr-5">
@@ -134,7 +132,7 @@ const Support = () => {
                     <div className="flex justify-center mt-10">
                       <button
                         type="submit"
-                        className=" complaint-btn w-[430px] h-[50px] bg-[#FFB800] text-white font-bold rounded-lg"
+                        className=" complaint-btn w-[430px] h-[50px] bg-[#38B6FF] text-white font-bold rounded-lg"
                       >
                         {loading ? <ClipLoader color="#fff" /> : "Send"}
                       </button>

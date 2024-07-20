@@ -41,7 +41,7 @@ const KnowMore = () => {
     <div className=" h-screen flex justify-center">
       <div className="grid place-items-center">
         <div className="lg:w-[500px] lg:h-full bg-white md:w-[400px] profile-div-main">
-          <div className="relative bg-[#FFB800] h-[80px] flex justify-center items-center text-xl font-semibold"></div>
+          <div className="relative bg-[#38B6FF] h-[80px] flex justify-center items-center text-xl font-semibold"></div>
           <div>
             <div className="m-5 profile-menus">
               {data?.map((i, index) => (

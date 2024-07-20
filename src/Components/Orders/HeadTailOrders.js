@@ -38,8 +38,7 @@ const HeadTailOrders = ({
         <div> {gameId} </div>
         <div>
           {" "}
-          {createdDate?.slice(0, 10)}{" "}
-          {updateTime(createdDate)}
+          {createdDate?.slice(0, 10)} {updateTime(createdDate)}
           {/* {createdDate?.split("T")?.[1]?.slice(0, 8)}{" "} */}
         </div>
       </div>
@@ -49,7 +48,7 @@ const HeadTailOrders = ({
           <span className="font-bold">Select</span>
           <span
             className={`w-[30px] h-[20px] flex justify-center items-center rounded text-white ${
-              choice === "head" ? "bg-[#a5814f]" : "bg-[#ffb800]"
+              choice === "head" ? "bg-[#a5814f]" : "bg-[#38B6FF]"
             }  `}
           >
             {choice === "head" ? "H" : "T"}
@@ -60,7 +59,7 @@ const HeadTailOrders = ({
           <span className="font-bold">Result</span>
           <span
             className={`w-[30px] h-[20px] flex justify-center items-center rounded text-white ${
-              result === "head" ? "bg-[#a5814f]" : "bg-[#ffb800]"
+              result === "head" ? "bg-[#a5814f]" : "bg-[#38B6FF]"
             }  `}
           >
             {result === "head" ? "H" : "T"}

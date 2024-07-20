@@ -128,10 +128,10 @@
 }
 
 .min-rotation {
-  /* transition: 1s; */
+  /* transition: 1s ease-in-out; */
 }
 .yellow-lion {
-  transform: rotate(76deg);
+  transform:  rotate(76deg);
 }
 .red-lion {
   transform: rotate(43deg);
@@ -213,4 +213,79 @@
 
 .stop-spin {
   animation: none;
+}
+
+
+.recharge-card-transaction{
+  border: 1px solid #ccddee;
+  height: auto;
+  width: 97%;
+  border-radius: 5px;
+  padding-bottom: .5rem;
+  background-color: rgb(213, 226, 241);
+}
+
+.recharge-card-transaction-primary{
+  display: flex;
+  flex-direction: column;
+  font-weight: 400;
+  font-size:14px;
+}
+
+.recharge-card-transaction-secondary{
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+  font-size: 27px;
+  align-items: center;
+  margin-left: 2rem;
+  margin-right: 2rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.recharge-card-transaction-secondary>p:last-child{
+  
+  color: green;
+}
+
+
+.wallet-card-transaction{
+  border: 1px solid #ccddee;
+  height: auto;
+  width: 97%;
+  border-radius: 5px;
+  padding-bottom: 1rem;
+  background-color: rgb(213, 226, 241);
+}
+
+.withdraw-card__transaction_1{
+  width: 88%;
+  margin: auto  ;
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 0.2rem;
+}
+
+.withdrawRecordUserDetails{
+  border-top: 1px solid #ccddee;
+  padding-top: .5rem;
+}
+
+.withdrawRecordUserDetails>div:first-child{
+  display: flex;
+  gap: .5rem;
+  width: 88%;
+  margin: auto;
+  font-weight: 500;
+}
+
+.withDrawRecordUserDetails_2{
+  border: 1px solid #e2b0bf;
+  border-radius: 5px;
+  font-size: 12px;
+  padding: 0.2rem 0.5rem;
+  background-color: #e2bec9;
+  font-weight: 500;
+  cursor: pointer;
 }

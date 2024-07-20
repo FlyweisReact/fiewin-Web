@@ -5,14 +5,14 @@
 @tailwind utilities;
 
 body {
-  font-family: Quicksand;
+  font-family: "Roboto", sans-serif;
   background-color: #f1f5f9;
 }
 html {
-  font-family: Quicksand;
+  font-family: "Roboto", sans-serif;
 }
 * {
-  font-family: Quicksand;
+  font-family: "Roboto", sans-serif;
 }
 
 .rules-popup {
@@ -585,8 +585,8 @@ html {
   width: 200px;
   padding: 10px;
   font-size: 16px;
-  border: 1px solid #ffb800;
-  background-color: #ffb800;
+  border: 1px solid #38B6FF;
+  background-color: #38B6FF;
   color: #fff;
   border-radius: 10px;
   margin-top: 10px;
@@ -661,7 +661,7 @@ html {
   width: 25px;
 }
 .footer-nav.active {
-  color: rgb(255 184 0) !important;
+  color: #38B6FF !important;
 }
 .footer-nav p {
   margin: 0;
@@ -754,7 +754,8 @@ html {
 
 .coin-tail {
   transform: rotateY(180deg);
-}
+  transition: transform 0.5s ease; }
+
 
 .cross-button {
   display: flex;
@@ -779,4 +780,31 @@ html {
 
 .coin-animation {
   animation: rotateIn 1s cubic-bezier(0.47, 0.1, 0.7, 0.82);
+}
+
+
+@keyframes rotateClockwise {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.circle_animation {
+  animation: rotateClockwise 3s cubic-bezier(0.47, 0.1, 0.7, 0.82) infinite;
+}
+
+
+.coin1 {
+  transition: transform 0.5s ease; /* Adjust the duration and easing function as needed */
+}
+
+.coin-head-unique {
+  transform: rotateY(0deg);
+}
+
+.coin-tail-unique {
+  transform: rotateY(180deg);
 }

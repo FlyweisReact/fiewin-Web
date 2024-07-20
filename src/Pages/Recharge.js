@@ -8,7 +8,7 @@ const Recharge = () => {
   return (
     <div className="flex justify-center  h-[100vh] ">
       <div className="bg-white recharge-main">
-        <div className="bg-[#FFB800] h-[56px] w-[500px] flex justify-between items-center pl-2 pr-2  ">
+        <div className="bg-[#38B6FF] h-[56px] w-[500px] flex justify-between items-center pl-2 pr-2  ">
           <div>
             <Link to="/wallet">
               <img src={back} alt="" />
@@ -17,7 +17,7 @@ const Recharge = () => {
           <div className="text-white font-semibold text-xl">Recharge</div>
           <div className="text-white font-semibold text-l">Help</div>
         </div>
-        <div className="h-[80px] bg-[#FFC83C] p-4 w-[500px]">
+        <div className="h-[80px] bg-[#C1DDFF] p-4 w-[500px]">
           <div className="text-white font-semibold">Recharge Amount</div>
 
           <div>
@@ -31,11 +31,11 @@ const Recharge = () => {
           <div className="flex justify-between">
             <div>
               UPID:{" "}
-              <span className="text-[#FFB800]">
+              <span className="text-[#38B6FF]">
                 bharatpe0123456789@yesbankltd
               </span>
             </div>
-            <div className="w-[61px] h-[24px] bg-[#FFB800] text-white flex justify-center items-center rounded">
+            <div className="w-[61px] h-[24px] bg-[#38B6FF] text-white flex justify-center items-center rounded">
               change
             </div>
           </div>

@@ -28,7 +28,7 @@ const Todaysincome = () => {
       <div className="grid place-items-center">
         <div className="lg:w-[500px] lg:h-full followus-main bg-white md:w-[400px] flex flex-col">
           <div className="relative text-xl font-semibold text-white">
-            <div className="flex justify-between items-center bg-[#FFB800] h-[60px] ">
+            <div className="flex justify-between items-center bg-[#38B6FF] h-[60px] ">
               <div className="w-[100px]">
                 <Link to="/Inviteandearn">
                   <img src={back} alt="" className="ml-2" />

@@ -1,6 +1,4 @@
-/** @format */
-
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import back from "../../Assets/back.svg";
 import pin from "../../Assets/Games/pin.svg";
@@ -10,7 +8,11 @@ import camel from "../../Assets/Games/camel.svg";
 import elephant from "../../Assets/Games/elephant.svg";
 import king from "../../Assets/Games/king.svg";
 import { useState } from "react";
-import { getApi, postApi } from "../../Repository/Repository";
+import {
+  checkWalletBalance,
+  getApi,
+  postApi,
+} from "../../Repository/Repository";
 import { ClipLoader } from "react-spinners";
 import { SpinResModal, SpinRulesModal } from "../../Components/Modal/Modals";
 import {
@@ -20,6 +22,7 @@ import {
   formatCountDown,
 } from "../../utils/utils";
 import TableLayout from "../../Components/TableLayout";
+import { Modal } from "antd";
 
 const GetColorBox = ({ color, setValue, colorCode, probab, className }) => {
   return (
@@ -109,7 +112,7 @@ const isWinLoss = (winAmount, amount) => {
 
 const Circle = () => {
   const [showcircleRules, setShowcircleRules] = useState(false);
-  const [popupwinner, setpopupwinner] = useState(false);
+  const [popupwinner, setpopupwinner] = useState("");
   const [amount, setAmount] = useState(20);
   const [loading, setLoading] = useState(false);
   const [spinData, setSpinData] = useState({});
@@ -124,7 +127,19 @@ const Circle = () => {
   const [currentOrder, setCurrentOrder] = useState({});
   const [isBtn, setIsBtn] = useState(true);
   const [animalResult, setAnimalResult] = useState("");
-
+  const [userProfile, setUserProfile] = useState({});
+const [buttonClicked, setButtonClicked] = useState(false);
+  const [isResultData, setIsResultData] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
   const togglecircleRules = () => {
     setShowcircleRules(!showcircleRules);
   };
@@ -142,26 +157,46 @@ const Circle = () => {
     amount,
   };
 
+  const getResultData = () => {
+    getApi({
+      url: "/user/current-game/spin/before5sec",
+      setResponse: setIsResultData,
+    });
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsBtn(false);
+    setButtonClicked(true);
+    setIsModalOpen(true);
+    setTimeout(() => {
+      setIsModalOpen(false);
+    }, 2000);
     const countFunction = () => {
       if (countDownTime === 0) {
-        setpopupwinner(true);
-        setIsBtn(true);
+        // setpopupwinner("true");
+        setIsBtn(false);
       } else {
         setTimeout(() => {
-          setpopupwinner(true);
-          setIsBtn(true);
-        }, countDownTime * 1000);
+          setpopupwinner("true");
+          setIsBtn(false);
+          setButtonClicked(false);
+        }, countDownTime * 950);
       }
     };
     const additionalFunctions = [(res) => setSpinData(res), countFunction];
-    postApi({
-      url: "/user/spinGame/join/game",
-      payload,
-      setLoading,
-      additionalFunctions,
+    const fun2 = () => {
+      postApi({
+        url: "/user/spinGame/join/game",
+        payload,
+        setLoading,
+        additionalFunctions,
+      });
+    };
+    checkWalletBalance({
+      userProfile,
+      amount,
+      setIsBtn,
+      fun2,
     });
   };
 
@@ -181,11 +216,18 @@ const Circle = () => {
   }, []);
 
   useEffect(() => {
-    if (countDownTime === 0 || countDownTime === 30) {
+    if (countDownTime === 5 ) {
+      getResultData();
+    }
+    if (countDownTime <= 2) {
+      setpopupwinner("boss");
+    }
+    if (countDownTime === 0 || countDownTime === 20) {
       getApi({
         url: "/user/last-ten-games/spin",
         setResponse: setLastTenOrder,
       });
+      setIsBtn(true);
     }
   }, [countDownTime]);
 
@@ -206,7 +248,10 @@ const Circle = () => {
   }, [currentGame]);
 
   useEffect(() => {
-    if (currentGame?.game?.currentCount > 0) {
+    if (
+      currentGame?.game?.currentCount > 0 &&
+      currentGame?.game?.currentCount < 30
+    ) {
       countDown_func({
         setIsActive: setIsActivate,
         setValue: setCountDownTime,
@@ -302,19 +347,45 @@ const Circle = () => {
       customClass = "yellow-lion";
       break;
   }
+  const getProfile = () => {
+    getApi({
+      url: "/user/profile",
+      setResponse: setUserProfile,
+    });
+  };
 
+  useEffect(() => {
+    getProfile();
+  }, []);
   return (
     <>
+    <Modal
+        title=""
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        closable={false}
+        footer={null}
+        style={{ maxWidth: "400px", color: "#2f6fbd" }}
+        bodyStyle={{ textAlign: "center" }}
+      >
+        <div className="flex flex-col gap-3">
+          <h1 style={{ fontSize: "34px", margin: 0 }}>Beat Placed</h1>
+        </div>
+      </Modal>
       <SpinResModal
         data={spinData}
         show={popupwinner}
         handleClose={() => setpopupwinner(false)}
         fetchHandler={fetchAll}
+        animalOptions={animalOptions}
+        resultData={isResultData}
+        buttonClicked={buttonClicked}
       />
       <div className="bg-slate-100 h-screen flex justify-center circle-main-div">
         <div className="grid place-items-center">
           <div className="lg:w-[500px] lg:h-full cicle-div bg-white md:w-[400px] flex flex-col ">
-            <div className="bg-[#FFB800]  text-white h-[50px] flex justify-between items-center text-xl font-semibold p-2 sticky">
+            <div className="bg-[#38B6FF]  text-white h-[50px] flex justify-between items-center text-xl font-semibold p-2 sticky">
               <div className="w-[100px]">
                 <Link to="/Home">
                   <img src={back} alt="" className="ml-2" />
@@ -383,8 +454,25 @@ const Circle = () => {
                     } `}
                   />
                   <div className="countdown-velocity">
-                    <p className="count-down">CountDown</p>
-                    <p className="time"> {formatCountDown(countDownTime)}</p>
+                    {countDownTime <= 7 ? (
+                      <>
+                        {" "}
+                        <p className="count-down">Showing Result</p>
+                        <p className="time">
+                          {" "}
+                          {formatCountDown(countDownTime)}
+                        </p>
+                      </>
+                    ) : (
+                      <>
+                        {" "}
+                        <p className="count-down">CountDown</p>
+                        <p className="time">
+                          {" "}
+                          {formatCountDown(countDownTime)}
+                        </p>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
@@ -405,6 +493,7 @@ const Circle = () => {
                 {animalOptions?.map((i, index) => (
                   <GetAnimalBox
                     ke={`animal${index}`}
+                    key={index}
                     setValue={UserChoice}
                     value={i.name}
                     img={i.img}

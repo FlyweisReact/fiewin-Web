@@ -44,9 +44,7 @@ const Inviteandearn = () => {
     <div className=" flex justify-center">
       <div className="grid place-items-center ">
         <div className="w-[500px]  h-[850px] first-div-main bg-slate-100 ">
-          <div className="relative bg-[#FFB800] text-white h-[80px] flex justify-center items-center text-xl font-semibold">
-            
-          </div>
+          <div className="relative bg-[#38B6FF] text-white h-[80px] flex justify-center items-center text-xl font-semibold"></div>
           <div className="bg-[white] ">
             <img src={invitebg} alt="" className="agent-background" />
             <div className="flex justify-center">
@@ -63,7 +61,7 @@ const Inviteandearn = () => {
                   </div>
                   <div className="mr-5">
                     <Link to="/agent-withdraw">
-                      <button className="bg-[#FFB800] rounded-3xl w-[100px] h-[48px] text-white font-semibold">
+                      <button className="bg-[#38B6FF] rounded-3xl w-[100px] h-[48px] text-white font-semibold">
                         Withdraw
                       </button>
                     </Link>
@@ -147,7 +145,7 @@ const Inviteandearn = () => {
           <div className="bg-white p-4 h-[300px]">
             <div className="flex justify-center mt-2">
               <Link to="/Invitelink">
-                <button className="bg-[#FFB800] w-[150px] h-[50px] text-white rounded-3xl">
+                <button className="bg-[#38B6FF] w-[150px] h-[50px] text-white rounded-3xl">
                   Invite Now
                 </button>
               </Link>

@@ -84,12 +84,12 @@ const Login = () => {
 
             <div className="mt-5 flex justify-center gap-1">
               <Link to="/signup">
-                <button className="text-[#FFB800] rounded-xl w-[210px] h-[48px] border-2 btn-btn">
+                <button className="text-[#38B6FF] rounded-xl w-[210px] h-[48px] border-2 btn-btn">
                   Create an Account
                 </button>
               </Link>
               <Link to="forgotpassword">
-                <button className="text-[#FFB800] rounded-xl w-[210px] h-[48px] border-2  btn-btn">
+                <button className="text-[#38B6FF] rounded-xl w-[210px] h-[48px] border-2  btn-btn">
                   Forgot Password?
                 </button>
               </Link>

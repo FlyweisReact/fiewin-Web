@@ -1,16 +1,16 @@
 /** @format */
 import { useEffect, useState } from "react";
-import rupee from "../Assets/rupee.svg";
 import back from "../Assets/back.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getApi } from "../Repository/Repository";
 
-const Finicialdetail = () => {
+const RechargeRecord = () => {
   const [data, setData] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
     getApi({
-      url: "/payment/recordAll-for-user?type=CheckIn&type=Reward",
+      url: "/payment/recordAll-for-user?type=Recharge",
       setResponse: setData,
     });
   }, []);
@@ -54,7 +54,7 @@ const Finicialdetail = () => {
 
     return updatedTimestamp;
   }
-  // console.log(re);
+
   return (
     <div className=" h-screen flex justify-center">
       <div className="grid place-items-center">
@@ -62,18 +62,60 @@ const Finicialdetail = () => {
           <div className="relative bg-[#38B6FF] h-[60px] text-xl font-semibold text-white">
             <div className=" finical-tran flex justify-between items-center mt-4">
               <div className="w-[100px]">
-                <Link to="/profile">
+                <Link to="/">
                   <img src={back} alt="" className="ml-2" />
                 </Link>
               </div>
-              <div className="w-[100px] text-center">Transactions</div>
+              <div className="w-[250px] text-center">Recharge Records</div>
               <div className="w-[100px]"></div>
             </div>
           </div>
           <div className="flex flex-col gap-2 items-center justify-center mt-5 finical-card-main">
-            {data?.transactions?.map(
-              (i, index) =>
-                <div
+            {data?.transactions
+              ?.filter((i) => i.transactionType !== "agentWallet")
+              ?.map((i, index) => (
+                <>
+                  <div className="recharge-card-transaction">
+                    <div className="flex justify-between  pr-2">
+                      <p
+                        style={{
+                          padding: "0.1rem 0.4rem",
+                          backgroundColor:
+                            i?.status === "pending"
+                              ? "yellow"
+                              : i?.status === "failed"
+                              ? "red"
+                              : "green",
+                          color: i?.status === "pending" ? "black" : "white",
+                          borderRadius: "8px",
+                        }}
+                      >
+                        {i.status}
+                      </p>
+                      <p>{addTime(i?.timestamp)}</p>
+                    </div>
+                    <div className="recharge-card-transaction-secondary">
+                      <p className="recharge-card-transaction-primary">
+                        {/* <span>BY: </span> */}
+                        <span>
+                          To: <span>FIEWINGAMES.36088285@HDFCBANK</span>
+                        </span>
+                      </p>
+                      <p>₹{i.amount}</p>
+                    </div>
+                    {/* {i?.status === "failed" && ( */}
+                    <div className="flex justify-between pr-2 ">
+                      <p></p>
+                      <p
+                        onClick={() => navigate(`/Complaint`)}
+                        className="withDrawRecordUserDetails_2"
+                      >
+                        Complaint {">"}
+                      </p>
+                    </div>
+                    {/* )} */}
+                  </div>
+                  {/* <div
                     key={index}
                     className="bg-[#FFF3D5] finical-card w-[450px] h-[68px] rounded-lg flex items-center justify-between "
                   >
@@ -84,10 +126,10 @@ const Finicialdetail = () => {
                         <div>{addTime(i?.timestamp)}</div>
                       </div>
                     </div>
-                    <div className="font-bold mr-2">₹{i.amount} </div>
-                  </div>
-                
-            )}
+                    <div className="font-bold text-md">₹{i.amount} </div>
+                  </div> */}
+                </>
+              ))}
           </div>
         </div>
       </div>
@@ -95,4 +137,4 @@ const Finicialdetail = () => {
   );
 };
 
-export default Finicialdetail;
+export default RechargeRecord;

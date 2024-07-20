@@ -32,7 +32,7 @@ const Orderrecord = () => {
     <div className=" h-screen flex justify-center">
       <div className="grid place-items-center">
         <div className="lg:w-[500px] lg:h-full order-div bg-white md:w-[400px] flex flex-col">
-          <div className="relative bg-[#FFB800] h-[60px] text-xl font-semibold text-white">
+          <div className="relative bg-[#38B6FF] h-[60px] text-xl font-semibold text-white">
             <div className="order-main flex justify-between items-center mt-4">
               <div className="w-[100px]">
                 <Link to="/profile">
@@ -45,7 +45,7 @@ const Orderrecord = () => {
             </div>
           </div>
 
-          <div className="flex gap-2 order-games overflow-x-hidden w-[500px] pt-2 justify-center items-center text-white bg-[#FFC83C]">
+          <div className="flex gap-2 order-games overflow-x-hidden w-[500px] pt-2 justify-center items-center text-white bg-[#C1DDFF]">
             <div
               className="flex flex-col items-center cursor-pointer"
               onClick={() => setType("headTail")}

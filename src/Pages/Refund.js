@@ -10,7 +10,7 @@ const Refund = () => {
     <div className="h-screen flex justify-center">
       <div className="grid place-items-center">
         <div className="lg:w-[500px] lg:h-full support-main bg-[#fff] md:w-[400px] flex flex-col">
-          <div className="relative bg-[#FFB800] h-[60px] text-xl font-semibold text-white">
+          <div className="relative bg-[#38B6FF] h-[60px] text-xl font-semibold text-white">
             <div className=" finical-tran flex justify-between items-center mt-4">
               <div className="w-[100px]">
                 <Link to={-1}>
@@ -22,7 +22,7 @@ const Refund = () => {
             </div>
           </div>
           <div>
-            <div className="m-5 p-2" style={{marginBottom : '100px'}}>
+            <div className="m-5 p-2" style={{ marginBottom: "100px" }}>
               <p style={{ fontWeight: "900" }}>Return & Refund Policy</p> Thank
               you for shopping at FieWin. We value your satisfaction and aim to
               provide you with the best possible shopping experience. If you are

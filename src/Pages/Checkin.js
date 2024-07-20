@@ -44,7 +44,7 @@ const Checkin = () => {
       <div className=" h-screen flex justify-center">
         <div className="grid place-items-center">
           <div className="lg:w-[500px] lg:h-full check-main-div bg-white md:w-[400px] flex flex-col">
-            <div className="relative bg-[#FFB800] h-[60px] text-xl font-semibold text-white">
+            <div className="relative bg-[#38B6FF] h-[60px] text-xl font-semibold text-white">
               <div className="h-[60px] check-header flex justify-between items-center ">
                 <div className="w-[100px]">
                   <Link to="/Home">
@@ -56,7 +56,7 @@ const Checkin = () => {
               </div>
             </div>
 
-            <div className="bg-[#FFEBB9] h-[100%]">
+            <div className="bg-[#C1DDFF] h-[100%]">
               <div className="flex justify-center mt-10">
                 <div className="w-[450px] checkin-card h-[300px] bg-white rounded-lg">
                   <div className="flex flex-wrap justify-center gap-12 m-5">
@@ -82,7 +82,7 @@ const Checkin = () => {
               <div className="flex justify-center mt-2">
                 {profile?.data?.user?.isEligibleForCheckIn ? (
                   <button
-                    className="w-[150px] h-[40px] bg-[#FFB800] text-white rounded-xl  font-semibold text-xl"
+                    className="w-[150px] h-[40px] bg-[#38B6FF] text-white rounded-xl  font-semibold text-xl"
                     onClick={() => redeemReward()}
                   >
                     Check in

@@ -40,6 +40,9 @@ import AboutUs from "./Pages/AboutUs";
 import ContactUs from "./Pages/ContactUs";
 import TermCondition from "./Pages/TermCondition";
 import Refund from "./Pages/Refund";
+import RechargeRecord from "./Pages/RechargeRecords";
+import WithdrawRecord from "./Pages/WithdrawRecord";
+import AgentWithdrawRecord from "./Pages/AgentWithdrawRecord";
 
 const router = createBrowserRouter([
   {
@@ -82,6 +85,10 @@ const router = createBrowserRouter([
   {
     path: "/Recharge",
     element: <Recharge />,
+  },
+  {
+    path: "/Recharge/record",
+    element: <RechargeRecord />,
   },
   {
     path: "/Profile",
@@ -139,6 +146,14 @@ const router = createBrowserRouter([
   {
     path: "/Withdraw",
     element: <Withdraw />,
+  },
+  {
+    path: "/agent-withdraw/record",
+    element: <AgentWithdrawRecord />,
+  },
+  {
+    path: "/Withdraw/record",
+    element: <WithdrawRecord />,
   },
   {
     path: "/Circle",
