@@ -232,7 +232,7 @@ const Headandtail = () => {
         bodyStyle={{ textAlign: "center" }}
       >
         <div className="flex flex-col gap-3">
-          <h1 style={{ fontSize: "34px", margin: 0 }}>Beat Placed</h1>
+          <h1 style={{ fontSize: "34px", margin: 0 }}>Bet Placed</h1>
         </div>
       </Modal>
       <HeadResModal
