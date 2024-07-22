@@ -23,6 +23,7 @@ import {
 } from "../../utils/utils";
 import TableLayout from "../../Components/TableLayout";
 import { Modal } from "antd";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 const GetColorBox = ({ color, setValue, colorCode, probab, className }) => {
   return (
@@ -128,7 +129,7 @@ const Circle = () => {
   const [isBtn, setIsBtn] = useState(true);
   const [animalResult, setAnimalResult] = useState("");
   const [userProfile, setUserProfile] = useState({});
-const [buttonClicked, setButtonClicked] = useState(false);
+  const [buttonClicked, setButtonClicked] = useState(false);
   const [isResultData, setIsResultData] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
@@ -216,7 +217,7 @@ const [buttonClicked, setButtonClicked] = useState(false);
   }, []);
 
   useEffect(() => {
-    if (countDownTime === 5 ) {
+    if (countDownTime === 5) {
       getResultData();
     }
     if (countDownTime <= 2) {
@@ -311,8 +312,11 @@ const [buttonClicked, setButtonClicked] = useState(false);
   }, [lastTenOrder]);
 
   let customClass;
+  // console.log(animalResult);
+  const combineAnimalandColor =
+    isResultData?.game?.animalResult + "-" + isResultData?.game?.colourResult;
 
-  switch (animalResult) {
+  switch (combineAnimalandColor) {
     case "lion-yellow":
       customClass = "yellow-lion";
       break;
@@ -359,7 +363,7 @@ const [buttonClicked, setButtonClicked] = useState(false);
   }, []);
   return (
     <>
-    <Modal
+      <Modal
         title=""
         open={isModalOpen}
         onOk={handleOk}
@@ -370,7 +374,17 @@ const [buttonClicked, setButtonClicked] = useState(false);
         bodyStyle={{ textAlign: "center" }}
       >
         <div className="flex flex-col gap-3">
-          <h1 style={{ fontSize: "34px", margin: 0 }}>Bet Placed</h1>
+          <h1 style={{ fontSize: "24px", margin: 0 }}>
+            Bet Placed Successfully
+          </h1>
+          <p style={{ display: "flex", justifyContent: "center" }}>
+            <Icon
+              icon="teenyicons:tick-circle-solid"
+              width="2.2rem"
+              height="2.2rem"
+              style={{ color: "#008000" }}
+            />
+          </p>
         </div>
       </Modal>
       <SpinResModal
@@ -450,7 +464,11 @@ const [buttonClicked, setButtonClicked] = useState(false);
                     src={circle}
                     alt=""
                     className={`w-[400px] rotating-wheel ${customClass} ${
-                      isActivated ? `min-rotation` : `animate-spin`
+                      countDownTime <= 2
+                        ? `min-rotation`
+                        : countDownTime <= 7
+                        ? `circle_animation`
+                        : `min-rotation`
                     } `}
                   />
                   <div className="countdown-velocity">

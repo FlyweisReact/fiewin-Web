@@ -58,6 +58,13 @@ const Reward = () => {
     }
   };
 
+  const isRewardCompleted = (id) => {
+    const NotPresent = eligibleRewards?.rewardsProgress?.some(
+      (i) => i?.rewardId === id && i?.percentage === 100
+    );
+    return NotPresent;
+  };
+
   return (
     <div className="flex justify-center ">
       <div className="flex justify-center flex-col reward-header ">
@@ -84,7 +91,7 @@ const Reward = () => {
                 <div className="w-full bg-gray-200 rounded-full h-4 dark:bg-gray-700">
                   {progressBar(i?._id)}
                 </div>
-                <div  className="text-center text-[12px] font-bold">
+                <div className="text-center text-[12px] font-bold">
                   {i?.description}
                 </div>
                 <div className="flex justify-center">
@@ -94,15 +101,15 @@ const Reward = () => {
                       style={{ backgroundColor: "#38B6FF" }}
                       onClick={() => claimReward(i._id)}
                     >
-                      
-                      {i?.percentage === 100 ? "Collected" : "Collect"}
+                      Collect
                     </button>
                   ) : (
                     <button
                       className={`w-[150px] h-[40px] text-white rounded-xl font-semibold text-xl`}
                       style={{ backgroundColor: "#E5E5E5" }}
                     >
-                      Collect
+                      {console.log(isRewardCompleted(i?._id))}
+                      {isRewardCompleted(i?._id) ? "Collected" : "Collect"}
                     </button>
                   )}
                 </div>

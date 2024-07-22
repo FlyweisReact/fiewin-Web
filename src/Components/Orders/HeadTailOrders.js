@@ -1,7 +1,5 @@
 /** @format */
 
-import React from "react";
-
 const HeadTailOrders = ({
   gameId,
   createdDate,
@@ -48,7 +46,7 @@ const HeadTailOrders = ({
           <span className="font-bold">Select</span>
           <span
             className={`w-[30px] h-[20px] flex justify-center items-center rounded text-white ${
-              choice === "head" ? "bg-[#a5814f]" : "bg-[#38B6FF]"
+              choice === "head" ? "bg-[#a5814f]" : "bg-[#FFD958]"
             }  `}
           >
             {choice === "head" ? "H" : "T"}
@@ -59,7 +57,7 @@ const HeadTailOrders = ({
           <span className="font-bold">Result</span>
           <span
             className={`w-[30px] h-[20px] flex justify-center items-center rounded text-white ${
-              result === "head" ? "bg-[#a5814f]" : "bg-[#38B6FF]"
+              result === "head" ? "bg-[#a5814f]" : "bg-[#FFD958]"
             }  `}
           >
             {result === "head" ? "H" : "T"}

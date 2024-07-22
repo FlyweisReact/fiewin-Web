@@ -793,7 +793,7 @@ html {
 }
 
 .circle_animation {
-  animation: rotateClockwise 3s cubic-bezier(0.47, 0.1, 0.7, 0.82) infinite;
+  animation: rotateClockwise 1s linear infinite;
 }
 
 

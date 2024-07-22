@@ -132,7 +132,7 @@ export const SpinResModal = ({
           <div className="flex justify-center">
             <div
               className="w-[55px] h-[35px] rounded-[10px]"
-              style={{ backgroundColor: colorResult }}
+              style={{ backgroundColor: colorResult==="yellow"?"#FFD958":colorResult==="red"?"red": "#1D9377" }}
             ></div>
             <div className="w-[55px] h-[35px] rounded-[10px] bg-gray-200 ml-2">
               <img

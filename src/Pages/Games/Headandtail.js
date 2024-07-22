@@ -19,6 +19,8 @@ import {
 } from "../../Components/Modal/Modals";
 import { Modal } from "antd";
 
+import { Icon } from "@iconify/react/dist/iconify.js";
+
 const isWinLoss = (winAmount, amount) => {
   if (winAmount === 0) {
     return <span style={{ color: "#fa3c09" }}>-₹{amount}</span>;
@@ -231,8 +233,18 @@ const Headandtail = () => {
         style={{ maxWidth: "400px", color: "#2f6fbd" }}
         bodyStyle={{ textAlign: "center" }}
       >
-        <div className="flex flex-col gap-3">
-          <h1 style={{ fontSize: "34px", margin: 0 }}>Bet Placed</h1>
+       <div className="flex flex-col gap-3">
+          <h1 style={{ fontSize: "24px", margin: 0 }}>
+            Bet Placed Successfully
+          </h1>
+          <p style={{ display: "flex", justifyContent: "center" }}>
+            <Icon
+              icon="teenyicons:tick-circle-solid"
+              width="2.2rem"
+              height="2.2rem"
+              style={{ color: "#008000" }}
+            />
+          </p>
         </div>
       </Modal>
       <HeadResModal
@@ -311,20 +323,27 @@ const Headandtail = () => {
                   style={{ zIndex: 1 }}
                 />
 
-                {isActivated ? (
+                { countDownTime <= 2 ? (
                   <img
-                    src={guess === "head" ? coinhead : cointail}
+                    src={isResultData?.game?.result === "head" ? coinhead : cointail}
                     alt=""
                     className="w-28 h-auto"
                     style={{ zIndex: 2 }}
                   />
-                ) : (
+                ) :countDownTime <= 7? (
                   <div className="coin">
                     <div className="coin-inner">
                       <img src={coinhead} alt="" className="coin-head" />
                       <img src={cointail} alt="" className="coin-tail" />
                     </div>
                   </div>
+                ):(
+                  <img
+                    src={isResultData?.game?.result === "head" ? coinhead : cointail}
+                    alt=""
+                    className="w-28 h-auto"
+                    style={{ zIndex: 2 }}
+                  />
                 )}
               </div>
 
