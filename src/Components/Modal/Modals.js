@@ -27,8 +27,6 @@ export const SpinResModal = ({
 
   const [visible, setVisible] = useState(show);
   useEffect(() => {
-    
-
     if (show === "true" || show === "boss") {
       setVisible(true);
       const timer = setTimeout(() => {
@@ -132,7 +130,14 @@ export const SpinResModal = ({
           <div className="flex justify-center">
             <div
               className="w-[55px] h-[35px] rounded-[10px]"
-              style={{ backgroundColor: colorResult==="yellow"?"#FFD958":colorResult==="red"?"red": "#1D9377" }}
+              style={{
+                backgroundColor:
+                  colorResult === "yellow"
+                    ? "#FFD958"
+                    : colorResult === "red"
+                    ? "red"
+                    : "#1D9377",
+              }}
             ></div>
             <div className="w-[55px] h-[35px] rounded-[10px] bg-gray-200 ml-2">
               <img
@@ -553,6 +558,7 @@ export const HeadResModal = ({
   getLastOrder,
   setOpenUserModal,
   resultData,
+  countDownTime
 }) => {
   const [visible, setVisible] = useState(show);
   const closeBtn = () => {
@@ -583,7 +589,7 @@ export const HeadResModal = ({
     }
   }, [show]);
 
-  return visible && show === "true" ? (
+  return visible && show === "true" && countDownTime<3 && countDownTime>=0 ? (
     <div
       className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50"
       style={{
@@ -593,10 +599,10 @@ export const HeadResModal = ({
       <div className="w-[300px] h-[350px] bg-white  rounded-lg relative ">
         <div
           className={`bg-[${
-            resultData?.game?.status === "Loss" ? "red" : "#1D9377"
+            data?.result?.status === "Loss" ? "red" : "#1D9377"
           }] w-full h-[50px] rounded-t text-white font-bold text-xl flex justify-center items-center`}
         >
-          {resultData?.game?.status === "Loss" ? "Loss" : "Win"}
+          {data?.result?.status === "Loss" ? "Loss" : "Win"}
         </div>
         <div
           className="absolute top-0 right-0 mr-[-.5rem] mt-[-1rem] cursor-pointer"

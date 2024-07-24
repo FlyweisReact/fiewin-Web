@@ -27,13 +27,10 @@ const Inviteandearn = () => {
   }, []);
 
   const data = response?.referralCounts?.flatMap((i) =>
-    i?.earnings?.map((item) => [
-      item?.createdAt?.slice(0, 10),
-      `***${item?.user?.userId?.slice(-3)}`,
-      `₹${item?.amount}`,
-    ])
+    i?.earnings?.map((item) => {
+      return {item,level:i.level};
+    })
   );
-
 
   useEffect(() => {
     getApi({
@@ -160,29 +157,69 @@ const Inviteandearn = () => {
               </div>
             </div>
           </div>
-          <div className="bg-white p-4 h-[300px]">
-          <div className="flex justify-center mt-2">
+          <div >
+            <div className="flex justify-center mt-2">
               <Link to="/Invitelink">
-                <button className="bg-[#38B6FF] w-[150px] h-[50px] text-white rounded-3xl">
+                <button className="bg-[#38B6FF] w-[120px] h-[40px] text-white rounded-3xl">
                   Invite Now
                 </button>
               </Link>
             </div>
-          <div className="flex flex-col gap-2 items-center justify-center mt-10 overflow-auto">
+            <div className="text-xl font-semibold">Recent Income</div>
+            <div
+            // className="flex flex-col gap-2 items-center justify-center mt-10 overflow-auto"
+            >
               {data?.slice(0, 15)?.map((rowData, rowIndex) => (
-                <div
-                  className="bg-[#FFF1CC] w-[450px] h-[56px] income-card  rounded-lg flex items-center justify-between text-black pl-2 pr-2"
-                  key={`row${rowIndex}`}
-                >
-                  {rowData?.map((cellData, cellIndex) => (
-                    <div className="text-[15px]" key={`cell${cellIndex}`}>
-                      {cellData}
-                    </div>
-                  ))}
+                <div key={`row${rowIndex}`}>
+                  {console.log(rowData)}
+                  <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          width: "90%",
+                          margin: "0 auto",
+                          marginBottom: "0.5rem",
+                          paddingBottom: "0.5rem",
+                        }}
+                      >
+                        <div style={{ display: "flex", gap: "1rem" }}>
+                          <div
+                            style={{
+                              display: "grid",
+                              placeItems: "center",
+                              textAlign: "center",
+                              padding: "0.4rem",
+                              borderRadius: "50%",
+                              backgroundColor: "#1D4175",
+                              color: "white",
+                              width: "3rem",
+                              height: "3rem",
+                            }}
+                          >
+                            <p>Lv{rowData?.level}</p>
+                          </div>
+                          <div>
+                            <p>Level-{rowData?.level} Commission</p>
+                            <p className="flex flex-row gap-5">
+                              <span>{rowData?.item?.timestamps?.slice(0, 10)?.split("-").reverse().join("-")} {rowData?.item?.timestamps?.slice(11, 19)}</span>
+                              <span>from {rowData?.item?.from || ""}</span>
+                            </p>
+                          </div>
+                        </div>
+                        <div>
+                          <p>+₹{rowData?.item?.amount}</p>
+                        </div>
+                      </div>
+                  {/* {rowData?.map((cellData, cellIndex) => (
+                    <>
+                      {console.log(cellData)}
+                      
+                    </>
+                  ))} */}
                 </div>
               ))}
+              <div></div>
             </div>
-           
           </div>
           <Footer />
         </div>

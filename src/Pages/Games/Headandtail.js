@@ -264,6 +264,7 @@ const Headandtail = () => {
         getLastOrder={getLastOrder}
         setOpenUserModal={setOpen}
         resultData={isResultData}
+        countDownTime={countDownTime}
       />
       <div className="h-screen flex justify-center ">
         <div className="grid place-items-center ">

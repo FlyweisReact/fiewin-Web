@@ -10,18 +10,13 @@ const Todaysincome = () => {
 
   useEffect(() => {
     getApi({
-      url: "/user/allday-referral/data",
+      url: "/user/allday-referral/data-by-date-wise",
       setResponse,
     });
   }, []);
 
-  const data = response?.referralCounts?.flatMap((i) =>
-    i?.earnings?.map((item) => [
-      item?.createdAt?.slice(0, 10),
-      `***${item?.user?.userId?.slice(-3)}`,
-      `₹${item?.amount}`,
-    ])
-  );
+  const data = response?.data;
+  console.log(data?.data, "data");
 
   return (
     <div className=" h-screen flex justify-center">
@@ -41,14 +36,23 @@ const Todaysincome = () => {
             <div className="flex flex-col gap-2 items-center justify-center mt-10">
               {data?.map((rowData, rowIndex) => (
                 <div
-                  className="bg-[#FFF1CC] w-[450px] h-[56px] income-card  rounded-lg flex items-center justify-between text-black pl-2 pr-2"
+                  className="bg-[#FFF1CC] w-[450px] h-[56px] income-card  rounded-lg pl-2 pr-2 pt-2"
                   key={`row${rowIndex}`}
                 >
-                  {rowData?.map((cellData, cellIndex) => (
-                    <div className="text-[15px]" key={`cell${cellIndex}`}>
-                      {cellData}
+                  <div className="flex justify-between items-center text-md font-normal text-black ">
+                    <div>
+                      {rowData?.date
+                        ?.slice(0, 10)
+                        ?.split("-")
+                        ?.reverse()
+                        ?.join("-") || "No date available"}
                     </div>
-                  ))}
+                    <div>
+                      ₹{rowData?.totalEarnings || "No earnings available"}
+                    </div>
+                  </div>
+
+                  {/* ))} */}
                 </div>
               ))}
             </div>

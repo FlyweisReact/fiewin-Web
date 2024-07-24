@@ -35,7 +35,7 @@ const Invitetoday = () => {
 
   const RefersData = profile?.data?.user?.referralLevels?.flatMap((i) =>
     i?.users?.map((item) => [
-      `****${item?.user?.userId?.slice(-3)}`,
+      `****${item?.user?.userId?.slice(-3) || ""}`,
       i?.level,
       item?.dateJoined?.slice(0, 10),
     ])
