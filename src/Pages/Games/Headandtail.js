@@ -48,6 +48,7 @@ const Headandtail = () => {
   const [showUserModal, setShowUserModal] = useState(false);
   const [isResultData, setIsResultData] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [buttonClicked, setButtonClicked] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -130,6 +131,14 @@ const Headandtail = () => {
     }
     if (countDownTime <= 2 && isBtn && countDownTime > 0) {
       setOpen("boss");
+    }
+    if (countDownTime <= 2 && !isBtn && countDownTime > 0) {
+      setOpen("true");
+    }
+
+    if (countDownTime === 0) {
+      setButtonClicked(false);
+      setIsBtn(true);
     }
   }, [countDownTime]);
 
@@ -233,7 +242,7 @@ const Headandtail = () => {
         style={{ maxWidth: "400px", color: "#2f6fbd" }}
         bodyStyle={{ textAlign: "center" }}
       >
-       <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3">
           <h1 style={{ fontSize: "24px", margin: 0 }}>
             Bet Placed Successfully
           </h1>
@@ -323,23 +332,31 @@ const Headandtail = () => {
                   style={{ zIndex: 1 }}
                 />
 
-                { countDownTime <= 2 ? (
+                {countDownTime <= 2 ? (
                   <img
-                    src={isResultData?.game?.result === "head" ? coinhead : cointail}
+                    src={
+                      isResultData?.game?.result === "head"
+                        ? coinhead
+                        : cointail
+                    }
                     alt=""
                     className="w-28 h-auto"
                     style={{ zIndex: 2 }}
                   />
-                ) :countDownTime <= 7? (
+                ) : countDownTime <= 7 ? (
                   <div className="coin">
                     <div className="coin-inner">
                       <img src={coinhead} alt="" className="coin-head" />
                       <img src={cointail} alt="" className="coin-tail" />
                     </div>
                   </div>
-                ):(
+                ) : (
                   <img
-                    src={isResultData?.game?.result === "head" ? coinhead : cointail}
+                    src={
+                      isResultData?.game?.result === "head"
+                        ? coinhead
+                        : cointail
+                    }
                     alt=""
                     className="w-28 h-auto"
                     style={{ zIndex: 2 }}

@@ -593,10 +593,10 @@ export const HeadResModal = ({
       <div className="w-[300px] h-[350px] bg-white  rounded-lg relative ">
         <div
           className={`bg-[${
-            data?.result?.status === "Loss" ? "red" : "#1D9377"
+            resultData?.game?.status === "Loss" ? "red" : "#1D9377"
           }] w-full h-[50px] rounded-t text-white font-bold text-xl flex justify-center items-center`}
         >
-          {data?.result?.status === "Loss" ? "Loss" : "Win"}
+          {resultData?.game?.status === "Loss" ? "Loss" : "Win"}
         </div>
         <div
           className="absolute top-0 right-0 mr-[-.5rem] mt-[-1rem] cursor-pointer"
@@ -607,11 +607,11 @@ export const HeadResModal = ({
         <div className="flex justify-center mt-2">
           <div
             className={`headandTail  ${
-              data?.game?.result === "head" ? "H" : "T"
+              resultData?.game?.status === "head" ? "H" : "T"
             } `}
             style={{ margin: 0 }}
           >
-            {data?.game?.result === "head" ? "H" : "T"}
+            {resultData?.game?.status === "head" ? "H" : "T"}
           </div>
         </div>
         <div className="">

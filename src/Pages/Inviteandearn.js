@@ -17,6 +17,24 @@ const Inviteandearn = () => {
   const [referData, setReferData] = useState({});
   const [totalRefer, setTotalRefer] = useState({});
 
+  const [response, setResponse] = useState({});
+
+  useEffect(() => {
+    getApi({
+      url: "/user/allday-referral/data",
+      setResponse,
+    });
+  }, []);
+
+  const data = response?.referralCounts?.flatMap((i) =>
+    i?.earnings?.map((item) => [
+      item?.createdAt?.slice(0, 10),
+      `***${item?.user?.userId?.slice(-3)}`,
+      `₹${item?.amount}`,
+    ])
+  );
+
+
   useEffect(() => {
     getApi({
       url: "/user/profile",
@@ -143,13 +161,28 @@ const Inviteandearn = () => {
             </div>
           </div>
           <div className="bg-white p-4 h-[300px]">
-            <div className="flex justify-center mt-2">
+          <div className="flex justify-center mt-2">
               <Link to="/Invitelink">
                 <button className="bg-[#38B6FF] w-[150px] h-[50px] text-white rounded-3xl">
                   Invite Now
                 </button>
               </Link>
             </div>
+          <div className="flex flex-col gap-2 items-center justify-center mt-10 overflow-auto">
+              {data?.slice(0, 15)?.map((rowData, rowIndex) => (
+                <div
+                  className="bg-[#FFF1CC] w-[450px] h-[56px] income-card  rounded-lg flex items-center justify-between text-black pl-2 pr-2"
+                  key={`row${rowIndex}`}
+                >
+                  {rowData?.map((cellData, cellIndex) => (
+                    <div className="text-[15px]" key={`cell${cellIndex}`}>
+                      {cellData}
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+           
           </div>
           <Footer />
         </div>

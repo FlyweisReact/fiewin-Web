@@ -167,12 +167,13 @@ const Circle = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsBtn(false);
-    setButtonClicked(true);
-    setIsModalOpen(true);
-    setTimeout(() => {
-      setIsModalOpen(false);
-    }, 2000);
+
     const countFunction = () => {
+      setButtonClicked(true);
+      setIsModalOpen(true);
+      setTimeout(() => {
+        setIsModalOpen(false);
+      }, 2000);
       if (countDownTime === 0) {
         // setpopupwinner("true");
         setIsBtn(false);
@@ -180,7 +181,7 @@ const Circle = () => {
         setTimeout(() => {
           setpopupwinner("true");
           setIsBtn(false);
-          setButtonClicked(false);
+          // setButtonClicked(true);
         }, countDownTime * 950);
       }
     };
@@ -228,6 +229,7 @@ const Circle = () => {
         url: "/user/last-ten-games/spin",
         setResponse: setLastTenOrder,
       });
+      setButtonClicked(false);
       setIsBtn(true);
     }
   }, [countDownTime]);
@@ -558,7 +560,7 @@ const Circle = () => {
                   </div>
 
                   <div className="mt-2 flex justify-center">
-                    {isButtonActive ? (
+                    {countDownTime >= 7 && !buttonClicked ? (
                       <button
                         type="submit"
                         className="bg-[#ED1B24] head-tail-confirm-btn w-[450px] h-[50px] rounded-lg font-bold text-white  "
