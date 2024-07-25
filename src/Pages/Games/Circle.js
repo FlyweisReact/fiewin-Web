@@ -372,16 +372,11 @@ const Circle = () => {
         onCancel={handleCancel}
         closable={false}
         footer={null}
-        style={{
-          maxWidth: "350px",
-          color: "#2f6fbd",
-          width: "auto",
-          textAlign: "center",
-        }}
+        style={{ maxWidth: "350px", color: "#2f6fbd", textAlign: "center" }}
         // bodyStyle={{ textAlign: "center" }}
       >
         <div className="flex flex-col gap-3">
-          <h1 style={{ fontSize: "24px", margin: 0 }}>
+          <h1 style={{ fontSize: "18px", margin: 0 }}>
             Bet Placed Successfully
           </h1>
           <p style={{ display: "flex", justifyContent: "center" }}>
