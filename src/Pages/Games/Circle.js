@@ -372,8 +372,8 @@ const Circle = () => {
         onCancel={handleCancel}
         closable={false}
         footer={null}
-        style={{ maxWidth: "400px", color: "#2f6fbd" }}
-        bodyStyle={{ textAlign: "center" }}
+        style={{ maxWidth: "300px", color: "#2f6fbd" }}
+        // bodyStyle={{ textAlign: "center" }}
       >
         <div className="flex flex-col gap-3">
           <h1 style={{ fontSize: "24px", margin: 0 }}>

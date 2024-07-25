@@ -1,6 +1,5 @@
 /** @format */
-
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Footer from "../Components/Footer";
 import invitebg from "../Assets/invitebg.svg";
 import diamond from "../Assets/daimond.svg";
@@ -28,7 +27,7 @@ const Inviteandearn = () => {
 
   const data = response?.referralCounts?.flatMap((i) =>
     i?.earnings?.map((item) => {
-      return {item,level:i.level};
+      return { item, level: i.level };
     })
   );
 
@@ -157,7 +156,7 @@ const Inviteandearn = () => {
               </div>
             </div>
           </div>
-          <div >
+          <div>
             <div className="flex justify-center mt-2">
               <Link to="/Invitelink">
                 <button className="bg-[#38B6FF] w-[120px] h-[40px] text-white rounded-3xl">
@@ -166,59 +165,47 @@ const Inviteandearn = () => {
               </Link>
             </div>
             <div className="text-xl font-semibold">Recent Income</div>
-            <div
-            // className="flex flex-col gap-2 items-center justify-center mt-10 overflow-auto"
-            >
+            <div>
               {data?.slice(0, 15)?.map((rowData, rowIndex) => (
-                <div key={`row${rowIndex}`}>
-                  {console.log(rowData)}
-                  <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          width: "90%",
-                          margin: "0 auto",
-                          marginBottom: "0.5rem",
-                          paddingBottom: "0.5rem",
-                        }}
-                      >
-                        <div style={{ display: "flex", gap: "1rem" }}>
-                          <div
-                            style={{
-                              display: "grid",
-                              placeItems: "center",
-                              textAlign: "center",
-                              padding: "0.4rem",
-                              borderRadius: "50%",
-                              backgroundColor: "#1D4175",
-                              color: "white",
-                              width: "3rem",
-                              height: "3rem",
-                            }}
-                          >
-                            <p>Lv{rowData?.level}</p>
-                          </div>
-                          <div>
-                            <p>Level-{rowData?.level} Commission</p>
-                            <p className="flex flex-row gap-5">
-                              <span>{rowData?.item?.timestamps?.slice(0, 10)?.split("-").reverse().join("-")} {rowData?.item?.timestamps?.slice(11, 19)}</span>
-                              <span>from {rowData?.item?.from || ""}</span>
-                            </p>
-                          </div>
-                        </div>
-                        <div>
-                          <p>+₹{rowData?.item?.amount}</p>
-                        </div>
+                <div key={`row${rowIndex}`} className="mb-2 pb-2">
+                  <div className="flex flex-wrap md:flex-nowrap justify-between w-11/12 mx-auto mb-2 pb-2 items-center">
+                    <div className="flex gap-2 md:gap-4 items-center">
+                      <div className="grid place-items-center text-center p-1.5 md:p-2 rounded-full bg-blue-900 text-white w-10 h-10 md:w-12 md:h-12">
+                        <p className="text-xs md:text-base">
+                          Lv{rowData?.level}
+                        </p>
                       </div>
-                  {/* {rowData?.map((cellData, cellIndex) => (
-                    <>
-                      {console.log(cellData)}
-                      
-                    </>
-                  ))} */}
+                      <div>
+                        <p className="text-xs md:text-base">
+                          Level-{rowData?.level} Commission
+                        </p>
+                        <p className="flex flex-col md:flex-row gap-2 md:gap-5 text-xs md:text-sm">
+                          <span>
+                            {rowData?.item?.timestamps
+                              ?.slice(0, 10)
+                              ?.split("-")
+                              .reverse()
+                              .join("-")}{" "}
+                            {rowData?.item?.timestamps?.slice(11, 19)}
+                          </span>
+                          <span>
+                            from{" "}
+                            {rowData?.item?.product?.description?.split(
+                              "UserId"
+                            )?.[1] || ""}
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                    <div className="text-xs md:text-base">
+                      <p>+₹{rowData?.item?.amount}</p>
+                    </div>
+                  </div>
                 </div>
               ))}
-              <div></div>
+              <div style={{ marginTop: data?.length > 3 ? "80px" : "0" }}>
+                .
+              </div>
             </div>
           </div>
           <Footer />

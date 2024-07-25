@@ -537,7 +537,7 @@ export const RewardClamedModal = ({ show, handleClose }) => {
   return (
     show && (
       <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
-        <div className="w-[380px] h-[270px] bg-white  rounded-lg relative p-5 reward-claimed-modal">
+        <div className="w-[300px] h-[200px] bg-white  rounded-lg relative p-5 reward-claimed-modal">
           <div className="close_btn">
             <IoMdClose onClick={() => handleClose()} />
           </div>
