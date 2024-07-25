@@ -60,6 +60,12 @@ const Wallet = () => {
     // 
     window.location.href = url;
   };
+
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      return navigate("/");
+    }
+  }, []);
   return (
     <div className="bg-slate-100 h-screen flex justify-center">
       <div className="grid place-items-center">

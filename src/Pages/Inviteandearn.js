@@ -53,6 +53,11 @@ const Inviteandearn = () => {
       totalUserCount += level.users.length;
     });
   }
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      return navigate("/");
+    }
+  }, []);
 
   return (
     <div className=" flex justify-center">

@@ -239,7 +239,7 @@ const Headandtail = () => {
         onCancel={handleCancel}
         closable={false}
         footer={null}
-        style={{ maxWidth: "300px", color: "#2f6fbd" }}
+        style={{ maxWidth: "350px", color: "#2f6fbd" }}
         // bodyStyle={{ textAlign: "center" }}
       >
         <div className="flex flex-col gap-3">

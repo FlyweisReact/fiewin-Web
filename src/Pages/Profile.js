@@ -1,6 +1,5 @@
 /** @format */
-
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Footer from "../Components/Footer";
 import orderrecord from "../Assets/Profile/orderrecord.svg";
 import arrow from "../Assets/Profile/arrow.svg";
@@ -42,6 +41,11 @@ const Profile = () => {
   const log_out = () => {
     dispatch(signOut(navigate));
   };
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      return navigate("/");
+    }
+  }, []);
 
   return (
     <>
