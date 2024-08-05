@@ -178,13 +178,16 @@ const Wallet = () => {
                     </div>
                   </div>
                 </div>
-                <div className="flex justify-center mt-20 mb-10">
+                <div className="flex justify-center mt-20 wallet-btn">
                   <button
                     type="submit"
                     className="bg-[#38B6FF] rounded-xl recharge-btn w-[430px] h-[48px] text-white text-xl font-bold"
                   >
                     {loading ? <ClipLoader color="#fff" /> : "Recharge"}
                   </button>
+                </div>
+                <div className="text-center font-bold mb-2 ">
+                  <p>Use QR for convenient way to recharge.</p>
                 </div>
               </div>
             </form>

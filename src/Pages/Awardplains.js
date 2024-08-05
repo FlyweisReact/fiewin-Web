@@ -1,4 +1,4 @@
-/** @format */
+
 import { Collapse } from "antd";
 import back from "../Assets/back.svg";
 import level1 from "../Assets/level1.svg";
@@ -52,19 +52,27 @@ const Awardplains = () => {
     return {
       key: index + 1,
       label: (
-        <div className="border p-4 rounded-lg flex items-center justify-between bg-[#FFB800] award-card_text">
-          <div className="flex  award-card_text1">
+        <div className="award-card1">
+          <div className="award-card-text1">
             <img
-              className="w-24 -ml-7 -mt-7 sm:ml-0 sm:-ml-5 sm:-mt-5"
+              className={`award-card-img1 ${
+                index === 0 ? "award-card-img-sm1" : ""
+              }`}
               src={levelImages[index + 1]}
               alt="level1"
             />
-            <p className="-ml-2 sm:ml-0">{i?.name}</p>
+            <p
+              className={`award-card-text-inner1 ${
+                index === 0 ? "award-card-text-inner-sm1" : ""
+              }`}
+            >
+              {i?.name}
+            </p>
           </div>
-          <div className="flex items-center gap-4">
-            <p className="font-bold text-red-500 ">₹{i?.reward}</p>
-            <p className="flex items-center">
-              <Link className="p-1 rounded-full bg-[#737D89]">
+          <div className="reward-info1">
+            <p className="reward-amount1">₹{i?.reward}</p>
+            <p className="icon-link1">
+              <Link className="icon-link1">
                 <Icon
                   icon="iconamoon:arrow-down-2"
                   width="1.2rem"
@@ -79,52 +87,61 @@ const Awardplains = () => {
       children: (
         <>
           {i?.conditions?.length > 0 &&
-            i?.conditions?.map((i, index) => (
-              <div>
-                <div
-                  className="reward-card w-full h-[200px] flex flex-col p-5 gap-4 rounded-lg"
-                  key={index}
-                >
-                  <div className="flex flex-col h-4 dark:bg-gray-700 award-bar-container">
-                    <div className="bg-gray-300 h-4 rounded-full">
+            i?.conditions?.map((item, index) => (
+              <div key={index}>
+                <div className="reward-card-children1">
+                  <div className="award-bar-container1">
+                    {console.log(i)}
+                    {i?.conditions?.length > 1 && (
+                      <div className="award-bar-labels1">
+                        <span className="text-[#FFB800] font-bold">
+                          Level {index + 1}
+                        </span>
+                        <span className="text-[#ED1B24] font-bold">
+                          ₹{item?.amount}
+                        </span>
+                      </div>
+                    )}
+                    <div className="award-bar1">
                       <div
-                        className="bg-[#38B6FF] h-4 rounded-full"
+                        className="award-bar-progress1"
                         style={{
-                          width: i?.percentage ? i?.percentage + "%" : "0%",
+                          width: item?.percentage ? i?.percentage + "%" : "0%",
                         }}
                       ></div>
                     </div>
-                    <div className="flex justify-between mt-1">
-                      <span className="font-bold text-xs">0%</span>
-                      <span className="font-bold text-xs">100%</span>
+                    <div className="award-bar-labels1">
+                      <span className="award-bar-label1">0%</span>
+                      <span className="award-bar-label1">100%</span>
                     </div>
                   </div>
-                  <div className="text-left mb-2">
-                    <p className="text-xl font-bold">Reward condition:</p>
-                    <p className="flex flex-col text-sm">
-                      <span>{i?.title}</span>
+                  <div
+                    style={{ marginTop: i?.conditions?.length > 1 && "1.5rem" }}
+                    className="reward-condition1"
+                  >
+                    <p className="reward-condition-title1">Reward condition:</p>
+                    <p className="reward-condition-text1">
+                      <span>{item?.title}</span>
                     </p>
                   </div>
                   <div className="flex justify-center">
                     <button
-                      className={`w-[120px] h-[40px] text-white rounded-xl font-semibold text-md`}
+                      className={`reward-claim-button1 ${
+                        item?.isClaim ||
+                        (item?.isEligible === false && item?.percentage !== 100)
+                          ? "reward-claim-button-disabled1"
+                          : ""
+                      }`}
                       onClick={() => {
                         console.log(i);
                         claimReward(mainId);
                       }}
-                      style={{
-                        backgroundColor:
-                          i?.isClaim ||
-                          (i?.isEligible === false && i?.percentage !== 100)
-                            ? "#808080"
-                            : "#38B6FF",
-                      }}
                       disabled={
-                        i?.isClaim ||
-                        (i?.isEligible === false && i?.percentage !== 100)
+                        item?.isClaim ||
+                        (item?.isEligible === false && item?.percentage !== 100)
                       }
                     >
-                      {i?.isClaim ? "Claimed" : "Claim"}
+                      {item?.isClaim ? "Claimed" : "Claim"}
                     </button>
                   </div>
                 </div>
@@ -149,16 +166,11 @@ const Awardplains = () => {
             <div></div>
           </div>
           <div className="award-main-div">
-            <div className="agentMillionaireClass">
-              <div></div>
-              <p className="w-85 m-auto text-center text-white font-normal text-2xl">
-                The FieWin Agent Millionaire award plan is divided into 7
-                levels, and each level has generous rewards.
-              </p>
-            </div>
-            <div>
+            <div className="agentMillionaireClass"></div>
+            <div className="rewards_div_agent_container">
               <div className="rewards_div_agent">
                 <Collapse
+                accordion 
                   expandIcon={() => null}
                   className="rewards_div_agent1"
                   ghost

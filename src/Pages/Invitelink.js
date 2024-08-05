@@ -1,6 +1,5 @@
 /** @format */
-
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import back from "../Assets/back.svg";
 import { getApi } from "../Repository/Repository";
@@ -37,7 +36,7 @@ const Invitelink = () => {
           </div>
           <div className="flex justify-center items-center flex-col gap-5 mt-10">
             <div className="text-center text-white">
-              *The invitee will get Rs.40 reward
+              Invite more to get more commission
             </div>
             <div className="text-white">My invite link</div>
             <div className="">

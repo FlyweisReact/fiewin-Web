@@ -1,4 +1,3 @@
-/** @format */
 import { useState, useEffect } from "react";
 import Footer from "../Components/Footer";
 import invitebg from "../Assets/invitebg.svg";
@@ -25,11 +24,13 @@ const Inviteandearn = () => {
     });
   }, []);
 
-  const data = response?.referralCounts?.flatMap((i) =>
-    i?.earnings?.map((item) => {
-      return { item, level: i.level };
-    })
-  );
+  const data = response?.referralCounts
+    ?.flatMap((i) =>
+      i?.earnings?.map((item) => {
+        return { ...item, level: i.level };
+      })
+    )
+    ?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
   useEffect(() => {
     getApi({
@@ -59,6 +60,20 @@ const Inviteandearn = () => {
     }
   }, []);
 
+  function addTimeToTimestamp(timestamp, hoursToAdd, minutesToAdd) {
+    const originalTime = timestamp.slice(11, 19);
+
+    if (originalTime) {
+      const date = new Date(`1970-01-01T${originalTime}Z`);
+
+      date.setUTCHours(date.getUTCHours() + hoursToAdd);
+      date.setUTCMinutes(date.getUTCMinutes() + minutesToAdd);
+
+      return date.toISOString().slice(11, 19);
+    }
+
+    return null;
+  }
   return (
     <div className=" flex justify-center">
       <div className="grid place-items-center ">
@@ -169,10 +184,13 @@ const Inviteandearn = () => {
                 </button>
               </Link>
             </div>
-            <div className="text-xl font-semibold">Recent Income</div>
+            <div className="text-xl font-semibold mb-2">Recent Income</div>
             <div>
               {data?.slice(0, 15)?.map((rowData, rowIndex) => (
-                <div key={`row${rowIndex}`} className="mb-2 pb-2">
+                <div
+                  key={`row${rowIndex}`}
+                  className="mb-2 pb-2 border-b border-gray-300"
+                >
                   <div className="flex flex-wrap md:flex-nowrap justify-between w-11/12 mx-auto mb-2 pb-2 items-center">
                     <div className="flex gap-2 md:gap-4 items-center">
                       <div className="grid place-items-center text-center p-1.5 md:p-2 rounded-full bg-blue-900 text-white w-10 h-10 md:w-12 md:h-12">
@@ -182,20 +200,21 @@ const Inviteandearn = () => {
                       </div>
                       <div>
                         <p className="text-xs md:text-base">
+                          {/* {rowData?.createdAt} */}
                           Level-{rowData?.level} Commission
                         </p>
                         <p className="flex flex-col md:flex-row gap-2 md:gap-5 text-xs md:text-sm">
                           <span>
-                            {rowData?.item?.timestamps
+                            {rowData?.timestamps
                               ?.slice(0, 10)
                               ?.split("-")
                               .reverse()
                               .join("-")}{" "}
-                            {rowData?.item?.timestamps?.slice(11, 19)}
+                            {addTimeToTimestamp(rowData?.timestamps, 5, 27)}
                           </span>
                           <span>
                             from{" "}
-                            {rowData?.item?.product?.description?.split(
+                            {rowData?.product?.description?.split(
                               "UserId"
                             )?.[1] || ""}
                           </span>
@@ -203,7 +222,7 @@ const Inviteandearn = () => {
                       </div>
                     </div>
                     <div className="text-xs md:text-base">
-                      <p>+₹{rowData?.item?.amount}</p>
+                      <p>+₹{rowData?.amount}</p>
                     </div>
                   </div>
                 </div>
