@@ -49,8 +49,8 @@ const Inviteandearn = () => {
 
   let totalUserCount = 0;
 
-  if (referData?.data?.referralLevels) {
-    referData?.data?.referralLevels?.forEach((level) => {
+  if (profile?.data?.user?.referralLevels) {
+    profile?.data?.user?.referralLevels?.forEach((level) => {
       totalUserCount += level.users.length;
     });
   }
